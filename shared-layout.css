@@ -1,6 +1,6 @@
 :root {
-  --gold: #2F5FA5;       /* NEW BLUE */
-  --gold-dark: #244a82;  /* DARKER BLUE */
+  --gold: #3F6FB5;       /* softer blue */
+  --gold-dark: #2F5FA5;  /* keep strong hover */
   --dark: #111111;
   --text: #222222;
   --muted: #666666;
