@@ -1,0 +1,1504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Panel | Industrial Property KL</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f5f5f5;
+      color: #111;
+    }
+
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 24px 16px 40px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 32px;
+    }
+
+    h2, h3 {
+      margin-top: 0;
+    }
+
+    .btn {
+      padding: 12px 16px;
+      border: none;
+      border-radius: 10px;
+      background: #d9a73f;
+      color: #111;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    .btn:hover {
+      opacity: 0.95;
+    }
+
+    .btn:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+    }
+
+    .btn-dark {
+      background: #111;
+      color: #fff;
+    }
+
+    .btn-light {
+      background: #efefef;
+      color: #111;
+    }
+
+    .btn-green {
+      background: #198754;
+      color: #fff;
+    }
+
+    .btn-sm {
+      padding: 8px 12px;
+      font-size: 13px;
+      border-radius: 8px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .tab-btn {
+      padding: 12px 18px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      background: #fff;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .tab-btn.active {
+      background: #d9a73f;
+      border-color: #d9a73f;
+      color: #111;
+    }
+
+    .tab-panel {
+      display: none;
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.07);
+      margin-bottom: 20px;
+    }
+
+    .section-note {
+      color: #666;
+      font-size: 14px;
+      margin-top: -6px;
+      margin-bottom: 16px;
+      line-height: 1.6;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      margin-bottom: 12px;
+      font-size: 15px;
+      font-family: inherit;
+      background: #fff;
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .editor-large {
+      min-height: 220px;
+    }
+
+    .drop-zone {
+      border: 2px dashed #d9a73f;
+      border-radius: 14px;
+      padding: 28px 18px;
+      text-align: center;
+      background: #fffaf0;
+      cursor: pointer;
+      transition: 0.2s ease;
+      margin-bottom: 14px;
+    }
+
+    .drop-zone.dragover {
+      background: #fff1ca;
+      border-color: #c28e1f;
+    }
+
+    .drop-zone strong {
+      display: block;
+      font-size: 16px;
+      margin-bottom: 6px;
+    }
+
+    .muted {
+      color: #666;
+      font-size: 14px;
+    }
+
+    .preview-wrap {
+      display: none;
+      margin-bottom: 14px;
+    }
+
+    .preview-wrap.show {
+      display: block;
+    }
+
+    .preview-image {
+      width: 100%;
+      max-width: 340px;
+      border-radius: 12px;
+      border: 1px solid #ddd;
+      display: block;
+      margin-bottom: 10px;
+      background: #fafafa;
+    }
+
+    .preview-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .status-text {
+      min-height: 20px;
+      margin-top: 12px;
+      font-weight: 700;
+    }
+
+    .progress-text {
+      min-height: 18px;
+      margin-bottom: 12px;
+      color: #666;
+      font-size: 14px;
+    }
+
+    .listings-wrap,
+    .blogs-wrap {
+      display: grid;
+      gap: 14px;
+    }
+
+    .listing-row,
+    .blog-row {
+      border: 1px solid #eee;
+      border-radius: 14px;
+      padding: 14px;
+      display: grid;
+      grid-template-columns: 110px 1fr auto;
+      gap: 14px;
+      align-items: start;
+      background: #fff;
+    }
+
+    .listing-row img,
+    .blog-row img {
+      width: 110px;
+      height: 110px;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      background: #fafafa;
+    }
+
+    .listing-title,
+    .blog-title {
+      font-weight: 700;
+      margin-bottom: 6px;
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    .listing-meta,
+    .blog-meta {
+      color: #666;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .listing-actions,
+    .blog-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-width: 110px;
+    }
+
+    .subsection-title {
+      font-size: 18px;
+      margin: 18px 0 10px;
+    }
+
+    .edit-banner {
+      display: none;
+      margin-bottom: 14px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      background: #fff4d6;
+      border: 1px solid #efd189;
+      font-weight: 700;
+    }
+
+    .edit-banner.show {
+      display: block;
+    }
+
+    .inline-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .gallery-note {
+      margin-top: -6px;
+      margin-bottom: 12px;
+      color: #666;
+      font-size: 13px;
+    }
+
+    @media (max-width: 900px) {
+      .grid-3,
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+
+      .listing-row,
+      .blog-row {
+        grid-template-columns: 1fr;
+      }
+
+      .listing-row img,
+      .blog-row img {
+        width: 100%;
+        height: 220px;
+      }
+
+      .listing-actions,
+      .blog-actions {
+        flex-direction: row;
+        min-width: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <h1>Admin Panel</h1>
+      <button class="btn btn-dark" id="logoutBtn" type="button">Logout</button>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="listingsTab">Listings</button>
+      <button class="tab-btn" data-tab="projectsTab">Projects</button>
+      <button class="tab-btn" data-tab="blogTab">Blog</button>
+    </div>
+
+    <div class="tab-panel active" id="listingsTab">
+      <div class="card">
+        <h2 id="formTitle">Add Listing</h2>
+        <div class="section-note">
+          Use this for industrial, commercial, subsale or rent property listings.
+        </div>
+
+        <div id="editBanner" class="edit-banner">
+          Editing existing listing
+        </div>
+
+    <div class="grid-2">
+      <select id="listingType">
+        <option value="sale">For Sale</option>
+        <option value="rent">For Rent</option>
+      </select>
+    
+      <select id="type">
+        <option value="Detached Factory">Detached Factory</option>
+        <option value="Semi-Detached Factory">Semi-Detached Factory</option>
+        <option value="Link Factory">Link Factory</option>
+        <option value="Warehouse">Warehouse</option>
+        <option value="Industrial Land">Industrial Land</option>
+      </select>
+    </div>
+    
+    <input id="title" placeholder="Title" />
+    <input id="price" placeholder="Price (example: 7800000 or 30000)" />
+    
+    <div class="grid-2">
+      <input id="location" placeholder="Short Location / Address" />
+      <input id="address" placeholder="Full Address" />
+    </div>
+    
+    <div class="grid-2">
+      <input id="state" placeholder="State" />
+      <input id="city" placeholder="City" />
+    </div>
+    
+    <input id="status" placeholder="Status (active / sold / rented / available)" value="active" />
+
+        <div class="grid-3">
+          <input id="bua" placeholder="Built-up / Size (sqft)" />
+          <input id="landArea" placeholder="Land Area (sqft)" />
+          <input id="tenure" placeholder="Tenure (Freehold / Leasehold)" />
+        </div>
+
+        <div class="grid-3">
+          <input id="powerSupply" placeholder="Power Supply (e.g. 150 AMP)" />
+          <input id="ceilingHeight" placeholder="Ceiling Height (e.g. 30 ft)" />
+          <input id="floorLoading" placeholder="Floor Loading (e.g. 3 ton/m²)" />
+        </div>
+
+        <input id="features" placeholder="Features (comma separated or normal sentence)" />
+        <input id="googleMapsLink" placeholder="Google Maps Link" />
+        <textarea id="description" placeholder="Description"></textarea>
+
+        <div class="grid-2">
+          <input id="agentName" placeholder="Agent Name" value="Kenneth Lai" />
+          <input id="agentPhone" placeholder="Agent Phone (60123456789)" />
+        </div>
+
+        <div class="grid-2">
+          <input id="agentEmail" placeholder="Agent Email" />
+          <select id="hotOffer">
+            <option value="false">Normal Listing</option>
+            <option value="true">Hot Offer</option>
+          </select>
+        </div>
+
+        <h3 class="subsection-title">Cover Photo</h3>
+        <div class="drop-zone" id="dropZone">
+          <strong>Drag photo here</strong>
+          <span class="muted">or click to choose one cover image</span>
+          <input type="file" id="fileInput" accept="image/*" hidden />
+        </div>
+
+        <div class="preview-wrap" id="previewWrap">
+          <img id="previewImage" class="preview-image" alt="Preview" />
+          <div class="preview-actions">
+            <button class="btn btn-light" id="changeImageBtn" type="button">Choose Another Photo</button>
+            <button class="btn btn-light" id="removeImageBtn" type="button">Remove Photo</button>
+          </div>
+        </div>
+
+        <h3 class="subsection-title">Agent Photo</h3>
+        <input type="file" id="agentImageInput" accept="image/*" />
+
+        <h3 class="subsection-title">Gallery Photos</h3>
+        <input type="file" id="galleryInput" accept="image/*" multiple />
+        <div class="gallery-note">Choose multiple images for detail page gallery.</div>
+
+        <div class="progress-text" id="progressText"></div>
+
+        <div class="inline-actions">
+          <button class="btn" id="saveBtn" type="button">Save Listing</button>
+          <button class="btn btn-light" id="cancelEditBtn" type="button" style="display:none;">Cancel Edit</button>
+        </div>
+
+        <div class="status-text" id="statusText"></div>
+      </div>
+
+      <div class="card">
+        <h2>All Listings</h2>
+        <div class="listings-wrap" id="listingList"></div>
+      </div>
+    </div>
+
+<div class="tab-panel" id="projectsTab">
+  <div class="card">
+    <h2 id="projectFormTitle">Add Project</h2>
+    <div class="section-note">
+      Use this to create new industrial projects and launch pages.
+    </div>
+
+    <input id="projectTitle" placeholder="Project Title" />
+    <input id="projectLocation" placeholder="Location" />
+
+    <textarea id="projectShort" placeholder="Short Description"></textarea>
+    <textarea id="projectContent" class="editor-large" placeholder="Full Content"></textarea>
+
+    <h3 class="subsection-title">Project Cover Image</h3>
+    <input type="file" id="projectCoverInput" accept="image/*" />
+
+    <h3 class="subsection-title">Project Gallery Images</h3>
+    <input type="file" id="projectGalleryInput" accept="image/*" multiple />
+
+    <div class="inline-actions">
+      <button class="btn" id="saveProjectBtn" type="button">Save Project</button>
+    </div>
+
+    <div class="status-text" id="projectStatus"></div>
+  </div>
+
+  <!-- 🔥 ADD THIS -->
+  <div class="card">
+    <h2>All Projects</h2>
+    <div class="listings-wrap" id="projectList"></div>
+  </div>
+</div>
+
+    <div class="tab-panel" id="blogTab">
+      <div class="card">
+        <h2 id="blogFormTitle">Add Blog Post</h2>
+        <div class="section-note">
+          Use this to create industrial news, project previews, market insights and educational blog posts.
+        </div>
+
+        <div id="blogEditBanner" class="edit-banner">
+          Editing existing blog post
+        </div>
+
+        <input id="blogTitle" placeholder="Blog Title" />
+        <input id="blogAuthorName" placeholder="Author Name" value="Kenneth Lai" />
+
+        <div class="grid-2">
+          <input id="blogCategory" placeholder="Category (e.g. Industrial Project Preview)" />
+          <select id="blogStatus">
+            <option value="published">Published</option>
+            <option value="draft">Draft</option>
+          </select>
+        </div>
+
+        <textarea id="blogExcerpt" placeholder="Short excerpt / summary"></textarea>
+        <textarea id="blogContent" class="editor-large" placeholder="Full blog content"></textarea>
+
+        <h3 class="subsection-title">Blog Cover Image</h3>
+        <div class="drop-zone" id="blogDropZone">
+          <strong>Drag blog cover here</strong>
+          <span class="muted">or click to choose one blog cover image</span>
+          <input type="file" id="blogFileInput" accept="image/*" hidden />
+        </div>
+
+        <div class="preview-wrap" id="blogPreviewWrap">
+          <img id="blogPreviewImage" class="preview-image" alt="Blog Preview" />
+          <div class="preview-actions">
+            <button class="btn btn-light" id="blogChangeImageBtn" type="button">Choose Another Photo</button>
+            <button class="btn btn-light" id="blogRemoveImageBtn" type="button">Remove Photo</button>
+          </div>
+        </div>
+
+        <div class="progress-text" id="blogProgressText"></div>
+
+        <div class="inline-actions">
+          <button class="btn" id="saveBlogBtn" type="button">Save Blog</button>
+          <button class="btn btn-light" id="cancelBlogEditBtn" type="button" style="display:none;">Cancel Edit</button>
+        </div>
+
+        <div class="status-text" id="blogStatusText"></div>
+      </div>
+
+      <div class="card">
+        <h2>All Blog Posts</h2>
+        <div class="blogs-wrap" id="blogList"></div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import {
+      getAuth,
+      onAuthStateChanged,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      getDocs,
+      query,
+      orderBy,
+      doc,
+      getDoc,
+      updateDoc
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import {
+      getStorage,
+      ref,
+      uploadBytesResumable,
+      getDownloadURL
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyANrifzDiBgsM8MpFSbe-kxW_e89vKbCZ8",
+      authDomain: "industrialpropertykl.firebaseapp.com",
+      projectId: "industrialpropertykl",
+      storageBucket: "industrialpropertykl.firebasestorage.app",
+      messagingSenderId: "612612953532",
+      appId: "1:612612953532:web:94f956f783cb948db887b9",
+      measurementId: "G-ML49L4TQ29"
+    };
+    const projectFormTitle = document.getElementById("projectFormTitle");
+    const projectList = document.getElementById("projectList");
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const storage = getStorage(app);
+
+    const dropZone = document.getElementById("dropZone");
+    const fileInput = document.getElementById("fileInput");
+    const previewWrap = document.getElementById("previewWrap");
+    const previewImage = document.getElementById("previewImage");
+    const changeImageBtn = document.getElementById("changeImageBtn");
+    const removeImageBtn = document.getElementById("removeImageBtn");
+    const progressText = document.getElementById("progressText");
+    const statusText = document.getElementById("statusText");
+    const saveBtn = document.getElementById("saveBtn");
+    const cancelEditBtn = document.getElementById("cancelEditBtn");
+    const logoutBtn = document.getElementById("logoutBtn");
+    const listingList = document.getElementById("listingList");
+    const formTitle = document.getElementById("formTitle");
+    const editBanner = document.getElementById("editBanner");
+    const agentImageInput = document.getElementById("agentImageInput");
+    const galleryInput = document.getElementById("galleryInput");
+
+    const blogDropZone = document.getElementById("blogDropZone");
+    const blogFileInput = document.getElementById("blogFileInput");
+    const blogPreviewWrap = document.getElementById("blogPreviewWrap");
+    const blogPreviewImage = document.getElementById("blogPreviewImage");
+    const blogChangeImageBtn = document.getElementById("blogChangeImageBtn");
+    const blogRemoveImageBtn = document.getElementById("blogRemoveImageBtn");
+    const blogProgressText = document.getElementById("blogProgressText");
+    const blogStatusText = document.getElementById("blogStatusText");
+    const saveBlogBtn = document.getElementById("saveBlogBtn");
+    const cancelBlogEditBtn = document.getElementById("cancelBlogEditBtn");
+    const blogList = document.getElementById("blogList");
+    const blogFormTitle = document.getElementById("blogFormTitle");
+    const blogEditBanner = document.getElementById("blogEditBanner");
+
+    const projectTitle = document.getElementById("projectTitle");
+    const projectLocation = document.getElementById("projectLocation");
+    const projectShort = document.getElementById("projectShort");
+    const projectContent = document.getElementById("projectContent");
+    const projectCoverInput = document.getElementById("projectCoverInput");
+    const projectGalleryInput = document.getElementById("projectGalleryInput");
+    const saveProjectBtn = document.getElementById("saveProjectBtn");
+    const projectStatus = document.getElementById("projectStatus");
+
+let editingProjectId = null;
+let existingProjectCoverImage = "";
+let existingProjectGalleryImages = [];
+    let selectedFile = null;
+    let selectedAgentFile = null;
+    let selectedGalleryFiles = [];
+    let editingId = null;
+    let existingImageUrl = "";
+    let existingAgentImageUrl = "";
+    let existingGalleryUrls = [];
+
+    let selectedBlogFile = null;
+    let editingBlogId = null;
+    let existingBlogImageUrl = "";
+
+    function setStatus(text, color = "#111") {
+      statusText.textContent = text;
+      statusText.style.color = color;
+    }
+
+    function setBlogStatus(text, color = "#111") {
+      blogStatusText.textContent = text;
+      blogStatusText.style.color = color;
+    }
+
+    function slugify(text) {
+      return (text || "")
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9\s-]/g, "")
+        .replace(/\s+/g, "-")
+        .replace(/-+/g, "-");
+    }
+
+    function formatPostedDate(timestamp) {
+      if (!timestamp) return "Recently";
+      const now = Date.now();
+      const diffMs = now - timestamp;
+      const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+      if (diffDays <= 0) return "Today";
+      if (diffDays === 1) return "1 day ago";
+      if (diffDays < 30) return `${diffDays} days ago`;
+
+      return new Date(timestamp).toLocaleDateString();
+    }
+
+    function clearPreview() {
+      selectedFile = null;
+      fileInput.value = "";
+      previewImage.src = "";
+      previewWrap.classList.remove("show");
+    }
+
+    function showPreviewFromUrl(url) {
+      if (!url) {
+        previewWrap.classList.remove("show");
+        previewImage.src = "";
+        return;
+      }
+      previewImage.src = url;
+      previewWrap.classList.add("show");
+    }
+
+    function showPreview(file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        previewImage.src = e.target.result;
+        previewWrap.classList.add("show");
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function handleSelectedFile(file) {
+      if (!file) return;
+
+      if (!file.type.startsWith("image/")) {
+        setStatus("Please choose an image file only.", "red");
+        return;
+      }
+
+      selectedFile = file;
+      setStatus("");
+      showPreview(file);
+    }
+
+    function clearBlogPreview() {
+      selectedBlogFile = null;
+      blogFileInput.value = "";
+      blogPreviewImage.src = "";
+      blogPreviewWrap.classList.remove("show");
+    }
+
+    function showBlogPreviewFromUrl(url) {
+      if (!url) {
+        blogPreviewWrap.classList.remove("show");
+        blogPreviewImage.src = "";
+        return;
+      }
+      blogPreviewImage.src = url;
+      blogPreviewWrap.classList.add("show");
+    }
+
+    function showBlogPreview(file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        blogPreviewImage.src = e.target.result;
+        blogPreviewWrap.classList.add("show");
+      };
+      reader.readAsDataURL(file);
+    }
+
+function setProjectEditMode(item, id) {
+  editingProjectId = id;
+  existingProjectCoverImage = item.coverImage || "";
+  existingProjectGalleryImages = Array.isArray(item.galleryImages) ? item.galleryImages : [];
+
+  projectTitle.value = item.title || "";
+  projectLocation.value = item.location || "";
+  projectShort.value = item.shortDescription || "";
+  projectContent.value = item.fullContent || "";
+
+  projectCoverInput.value = "";
+  projectGalleryInput.value = "";
+
+  projectStatus.textContent = "Editing project. Change fields and click Save Project.";
+  projectStatus.style.color = "#8a6500";
+
+projectFormTitle.textContent = "Edit Project";
+saveProjectBtn.textContent = "Update Project";
+
+  document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
+  document.querySelectorAll(".tab-panel").forEach(panel => panel.classList.remove("active"));
+  document.querySelector('[data-tab="projectsTab"]').classList.add("active");
+  document.getElementById("projectsTab").classList.add("active");
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+
+
+}
+
+    function handleSelectedBlogFile(file) {
+      if (!file) return;
+
+      if (!file.type.startsWith("image/")) {
+        setBlogStatus("Please choose an image file only.", "red");
+        return;
+      }
+
+      selectedBlogFile = file;
+      setBlogStatus("");
+      showBlogPreview(file);
+    }
+
+    async function uploadImage(file, folder, title, progressTarget = null) {
+      const safeTitle = slugify(title) || "item";
+      const safeFileName = file.name.replace(/\s+/g, "-").toLowerCase();
+      const storageRef = ref(
+        storage,
+        `${folder}/${safeTitle}/${Date.now()}-${safeFileName}`
+      );
+
+      const uploadTask = uploadBytesResumable(storageRef, file);
+
+      return await new Promise((resolve, reject) => {
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            if (progressTarget) {
+              const progress = Math.round(
+                (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+              );
+              progressTarget.textContent = `Uploading... ${progress}%`;
+            }
+          },
+          (error) => reject(error),
+          async () => {
+            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+            resolve(downloadURL);
+          }
+        );
+      });
+    }
+
+    async function uploadOptionalImage(file, folder, title, progressTarget = null) {
+      if (!file) return "";
+      return await uploadImage(file, folder, title, progressTarget);
+    }
+
+    async function uploadGalleryImages(files, title) {
+      if (!files.length) return [];
+      const urls = [];
+
+      for (const file of files) {
+        if (!file.type.startsWith("image/")) continue;
+        const url = await uploadImage(file, "listing-gallery", title, progressText);
+        urls.push(url);
+      }
+
+      return urls;
+    }
+
+    async function uploadProjectGalleryImages(files, title) {
+      if (!files.length) return [];
+      const urls = [];
+    
+      for (const file of files) {
+        if (!file.type.startsWith("image/")) continue;
+        const url = await uploadImage(file, "project-gallery", title, null);
+        urls.push(url);
+      }
+    
+      return urls;
+    }
+
+    function getField(id) {
+      return document.getElementById(id).value.trim();
+    }
+
+    function getFormData(imageUrl, agentImageUrl, galleryUrls, keepCreatedAt = null) {
+      const now = Date.now();
+      const title = getField("title");
+
+      return {
+        contentType: "listing",
+        category: "industrial",
+        listingType: document.getElementById("listingType").value,
+        title,
+        slug: slugify(title),
+        price: getField("price"),
+        location: getField("location"),
+        address: getField("address"),
+        state: getField("state"),
+        city: getField("city"),
+        type: getField("type"),
+        bua: getField("bua"),
+        landArea: getField("landArea"),
+        tenure: getField("tenure"),
+        powerSupply: getField("powerSupply"),
+        ceilingHeight: getField("ceilingHeight"),
+        floorLoading: getField("floorLoading"),
+        features: getField("features"),
+        googleMapsLink: getField("googleMapsLink"),
+        image: imageUrl,
+        gallery: galleryUrls,
+        description: getField("description"),
+        status: getField("status") || "active",
+        hotOffer: document.getElementById("hotOffer").value === "true",
+        agentName: getField("agentName") || "Kenneth Lai",
+        agentPhone: getField("agentPhone"),
+        agentEmail: getField("agentEmail"),
+        agentImage: agentImageUrl,
+        postedAt: keepCreatedAt || now,
+        createdAt: keepCreatedAt || now,
+        updatedAt: now
+      };
+    }
+
+    function getBlogFormData(coverImageUrl, keepCreatedAt = null) {
+      const now = Date.now();
+      const title = getField("blogTitle");
+
+      return {
+        title,
+        slug: slugify(title),
+        excerpt: getField("blogExcerpt"),
+        content: getField("blogContent"),
+        coverImage: coverImageUrl,
+        authorName: getField("blogAuthorName") || "Kenneth Lai",
+        category: getField("blogCategory"),
+        status: document.getElementById("blogStatus").value,
+        publishedAt: keepCreatedAt || now,
+        createdAt: keepCreatedAt || now,
+        updatedAt: now
+      };
+    }
+
+    function resetForm() {
+      editingId = null;
+      existingImageUrl = "";
+      existingAgentImageUrl = "";
+      existingGalleryUrls = [];
+
+      document.getElementById("listingType").value = "sale";
+      document.getElementById("type").value = "Detached Factory";
+      document.getElementById("title").value = "";
+      document.getElementById("price").value = "";
+      document.getElementById("location").value = "";
+      document.getElementById("address").value = "";
+      document.getElementById("state").value = "";
+      document.getElementById("city").value = "";
+      document.getElementById("status").value = "active";
+      document.getElementById("bua").value = "";
+      document.getElementById("landArea").value = "";
+      document.getElementById("tenure").value = "";
+      document.getElementById("powerSupply").value = "";
+      document.getElementById("ceilingHeight").value = "";
+      document.getElementById("floorLoading").value = "";
+      document.getElementById("features").value = "";
+      document.getElementById("googleMapsLink").value = "";
+      document.getElementById("description").value = "";
+      document.getElementById("agentName").value = "Kenneth Lai";
+      document.getElementById("agentPhone").value = "";
+      document.getElementById("agentEmail").value = "";
+      document.getElementById("hotOffer").value = "false";
+
+      agentImageInput.value = "";
+      galleryInput.value = "";
+      selectedAgentFile = null;
+      selectedGalleryFiles = [];
+
+      clearPreview();
+      progressText.textContent = "";
+      setStatus("");
+
+      formTitle.textContent = "Add Listing";
+      saveBtn.textContent = "Save Listing";
+      cancelEditBtn.style.display = "none";
+      editBanner.classList.remove("show");
+    }
+
+    function resetBlogForm() {
+      editingBlogId = null;
+      existingBlogImageUrl = "";
+
+      document.getElementById("blogTitle").value = "";
+      document.getElementById("blogAuthorName").value = "Kenneth Lai";
+      document.getElementById("blogCategory").value = "";
+      document.getElementById("blogStatus").value = "published";
+      document.getElementById("blogExcerpt").value = "";
+      document.getElementById("blogContent").value = "";
+
+      clearBlogPreview();
+      blogProgressText.textContent = "";
+      setBlogStatus("");
+
+      blogFormTitle.textContent = "Add Blog Post";
+      saveBlogBtn.textContent = "Save Blog";
+      cancelBlogEditBtn.style.display = "none";
+      blogEditBanner.classList.remove("show");
+    }
+
+    function setEditMode(item, id) {
+      editingId = id;
+      existingImageUrl = item.image || "";
+      existingAgentImageUrl = item.agentImage || "";
+      existingGalleryUrls = Array.isArray(item.gallery) ? item.gallery : [];
+
+      document.getElementById("type").value = item.type || "Detached Factory";
+      document.getElementById("listingType").value = item.listingType || "sale";
+      document.getElementById("title").value = item.title || "";
+      document.getElementById("price").value = item.price || "";
+      document.getElementById("location").value = item.location || "";
+      document.getElementById("address").value = item.address || "";
+      document.getElementById("state").value = item.state || "";
+      document.getElementById("city").value = item.city || "";
+      document.getElementById("status").value = item.status || "active";
+      document.getElementById("bua").value = item.bua || "";
+      document.getElementById("landArea").value = item.landArea || "";
+      document.getElementById("tenure").value = item.tenure || "";
+      document.getElementById("powerSupply").value = item.powerSupply || "";
+      document.getElementById("ceilingHeight").value = item.ceilingHeight || "";
+      document.getElementById("floorLoading").value = item.floorLoading || "";
+      document.getElementById("features").value = item.features || "";
+      document.getElementById("googleMapsLink").value = item.googleMapsLink || "";
+      document.getElementById("description").value = item.description || "";
+      document.getElementById("agentName").value = item.agentName || "Kenneth Lai";
+      document.getElementById("agentPhone").value = item.agentPhone || "";
+      document.getElementById("agentEmail").value = item.agentEmail || "";
+      document.getElementById("hotOffer").value = item.hotOffer ? "true" : "false";
+
+      selectedFile = null;
+      selectedAgentFile = null;
+      selectedGalleryFiles = [];
+      agentImageInput.value = "";
+      galleryInput.value = "";
+
+      showPreviewFromUrl(existingImageUrl);
+
+      formTitle.textContent = "Edit Listing";
+      saveBtn.textContent = "Update Listing";
+      cancelEditBtn.style.display = "inline-block";
+      editBanner.classList.add("show");
+      setStatus("Editing listing. Change fields and click Update Listing.", "#8a6500");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function setBlogEditMode(item, id) {
+      editingBlogId = id;
+      existingBlogImageUrl = item.coverImage || "";
+
+      document.getElementById("blogTitle").value = item.title || "";
+      document.getElementById("blogAuthorName").value = item.authorName || "Kenneth Lai";
+      document.getElementById("blogCategory").value = item.category || "";
+      document.getElementById("blogStatus").value = item.status || "published";
+      document.getElementById("blogExcerpt").value = item.excerpt || "";
+      document.getElementById("blogContent").value = item.content || "";
+
+      selectedBlogFile = null;
+      blogFileInput.value = "";
+      showBlogPreviewFromUrl(existingBlogImageUrl);
+
+      blogFormTitle.textContent = "Edit Blog Post";
+      saveBlogBtn.textContent = "Update Blog";
+      cancelBlogEditBtn.style.display = "inline-block";
+      blogEditBanner.classList.add("show");
+      setBlogStatus("Editing blog post. Change fields and click Update Blog.", "#8a6500");
+
+      document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
+      document.querySelectorAll(".tab-panel").forEach(panel => panel.classList.remove("active"));
+      document.querySelector('[data-tab="blogTab"]').classList.add("active");
+      document.getElementById("blogTab").classList.add("active");
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    async function loadListings() {
+      listingList.innerHTML = "Loading...";
+
+      try {
+        const q = query(collection(db, "listings"), orderBy("createdAt", "desc"));
+        const snapshot = await getDocs(q);
+
+        if (snapshot.empty) {
+          listingList.innerHTML = "<div class='muted'>No listings yet.</div>";
+          return;
+        }
+
+        listingList.innerHTML = "";
+
+        snapshot.forEach((docSnap) => {
+          const item = docSnap.data();
+          const row = document.createElement("div");
+          row.className = "listing-row";
+
+          row.innerHTML = `
+            <img src="${item.image || ""}" alt="${item.title || "Listing"}" onerror="this.src=''; this.style.background='#f3f3f3';" />
+            <div>
+              <div class="listing-title">${item.title || "-"}</div>
+              <div class="listing-meta">
+                ${item.price || "-"}<br>
+                ${item.location || "-"}, ${item.city || "-"}, ${item.state || "-"}<br>
+                ${item.type || "-"} | ${item.listingType || "-"} | ${item.status || "-"}<br>
+                ${item.agentName || "Kenneth Lai"} • ${formatPostedDate(item.postedAt)}
+              </div>
+            </div>
+            <div class="listing-actions">
+              <button class="btn btn-sm btn-light edit-btn">Edit</button>
+              <a class="btn btn-sm btn-green" href="detail.html?id=${docSnap.id}" target="_blank" style="text-decoration:none; text-align:center;">View</a>
+            </div>
+          `;
+
+          row.querySelector(".edit-btn").addEventListener("click", () => {
+            setEditMode(item, docSnap.id);
+          });
+
+          listingList.appendChild(row);
+        });
+      } catch (error) {
+        console.error(error);
+        listingList.innerHTML = "<div class='muted'>Failed to load listings.</div>";
+      }
+    }
+
+    async function loadBlogs() {
+      blogList.innerHTML = "Loading...";
+
+      try {
+        const q = query(collection(db, "blogs"), orderBy("createdAt", "desc"));
+        const snapshot = await getDocs(q);
+
+        if (snapshot.empty) {
+          blogList.innerHTML = "<div class='muted'>No blog posts yet.</div>";
+          return;
+        }
+
+        blogList.innerHTML = "";
+
+        snapshot.forEach((docSnap) => {
+          const item = docSnap.data();
+          const row = document.createElement("div");
+          row.className = "blog-row";
+
+          row.innerHTML = `
+            <img src="${item.coverImage || ""}" alt="${item.title || "Blog"}" onerror="this.src=''; this.style.background='#f3f3f3';" />
+            <div>
+              <div class="blog-title">${item.title || "-"}</div>
+              <div class="blog-meta">
+                ${item.authorName || "Kenneth Lai"} • ${item.category || "-"} • ${item.status || "-"}<br>
+                ${formatPostedDate(item.createdAt)}<br>
+                ${item.excerpt || "-"}
+              </div>
+            </div>
+            <div class="blog-actions">
+              <button class="btn btn-sm btn-light blog-edit-btn">Edit</button>
+              <a class="btn btn-sm btn-green" href="blog-detail.html?id=${docSnap.id}" target="_blank" style="text-decoration:none; text-align:center;">View</a>
+            </div>
+          `;
+
+          row.querySelector(".blog-edit-btn").addEventListener("click", () => {
+            setBlogEditMode(item, docSnap.id);
+          });
+
+          blogList.appendChild(row);
+        });
+      } catch (error) {
+        console.error(error);
+        blogList.innerHTML = "<div class='muted'>Failed to load blog posts.</div>";
+      }
+    }
+
+async function loadProjects() {
+  projectList.innerHTML = "Loading...";
+
+  try {
+    const q = query(collection(db, "projects"), orderBy("createdAt", "desc"));
+    const snapshot = await getDocs(q);
+
+    if (snapshot.empty) {
+      projectList.innerHTML = "<div class='muted'>No projects yet.</div>";
+      return;
+    }
+
+    projectList.innerHTML = "";
+
+    snapshot.forEach((docSnap) => {
+      const item = docSnap.data();
+      const row = document.createElement("div");
+      row.className = "listing-row";
+
+row.innerHTML = `
+  <img src="${item.coverImage || ""}" 
+       alt="${item.title || "Project"}"
+       onerror="this.src=''; this.style.background='#f3f3f3';" />
+
+  <div>
+    <div class="listing-title">${item.title || "-"}</div>
+    <div class="listing-meta">
+      ${item.location || "-"}<br>
+      ${item.shortDescription || "-"}<br>
+      ${formatPostedDate(item.createdAt)}
+    </div>
+  </div>
+
+  <div class="listing-actions">
+    <button class="btn btn-sm btn-light project-edit-btn">Edit</button>
+    <a class="btn btn-sm btn-green" 
+       href="project-detail.html?id=${docSnap.id}" 
+       target="_blank"
+       style="text-decoration:none; text-align:center;">
+       View
+    </a>
+  </div>
+`;
+
+row.querySelector(".project-edit-btn").addEventListener("click", () => {
+  setProjectEditMode(item, docSnap.id);
+});
+
+      projectList.appendChild(row);
+    });
+
+  } catch (error) {
+    console.error(error);
+    projectList.innerHTML = "<div class='muted'>Failed to load projects.</div>";
+  }
+}
+
+    async function saveListing() {
+      const title = getField("title");
+      const price = getField("price");
+      const location = getField("location");
+
+      if (!title || !price || !location) {
+        setStatus("Please fill in at least title, price, and location.", "red");
+        return;
+      }
+
+      if (!editingId && !selectedFile) {
+        setStatus("Please drag or choose one cover photo first.", "red");
+        return;
+      }
+
+      saveBtn.disabled = true;
+      setStatus(editingId ? "Updating listing..." : "Saving listing...", "#333");
+
+      try {
+        let finalImageUrl = existingImageUrl;
+        let finalAgentImageUrl = existingAgentImageUrl;
+        let finalGalleryUrls = [...existingGalleryUrls];
+        let keepCreatedAt = null;
+
+        if (editingId) {
+          const existingSnap = await getDoc(doc(db, "listings", editingId));
+          if (existingSnap.exists()) {
+            const existingData = existingSnap.data();
+            keepCreatedAt = existingData.createdAt || existingData.postedAt || null;
+          }
+        }
+
+        if (selectedFile) {
+          finalImageUrl = await uploadImage(selectedFile, "listing-images", title, progressText);
+        }
+
+        if (selectedAgentFile) {
+          finalAgentImageUrl = await uploadOptionalImage(selectedAgentFile, "agent-images", title, progressText);
+        }
+
+        if (selectedGalleryFiles.length > 0) {
+          finalGalleryUrls = await uploadGalleryImages(selectedGalleryFiles, title);
+        }
+
+        const data = getFormData(finalImageUrl, finalAgentImageUrl, finalGalleryUrls, keepCreatedAt);
+
+        if (editingId) {
+          await updateDoc(doc(db, "listings", editingId), data);
+          setStatus("Listing updated successfully.", "green");
+        } else {
+          await addDoc(collection(db, "listings"), data);
+          setStatus("Listing saved successfully.", "green");
+        }
+
+        progressText.textContent = "";
+        resetForm();
+        await loadListings();
+      } catch (error) {
+        console.error(error);
+        progressText.textContent = "";
+        setStatus("Failed to save listing. Check Storage rules and setup.", "red");
+      } finally {
+        saveBtn.disabled = false;
+      }
+    }
+
+    async function saveBlog() {
+      const title = getField("blogTitle");
+      const excerpt = getField("blogExcerpt");
+      const content = getField("blogContent");
+
+      if (!title || !excerpt || !content) {
+        setBlogStatus("Please fill in title, excerpt and content.", "red");
+        return;
+      }
+
+      if (!editingBlogId && !selectedBlogFile) {
+        setBlogStatus("Please drag or choose one blog cover image first.", "red");
+        return;
+      }
+
+      saveBlogBtn.disabled = true;
+      setBlogStatus(editingBlogId ? "Updating blog..." : "Saving blog...", "#333");
+
+      try {
+        let finalCoverImage = existingBlogImageUrl;
+        let keepCreatedAt = null;
+
+        if (editingBlogId) {
+          const existingSnap = await getDoc(doc(db, "blogs", editingBlogId));
+          if (existingSnap.exists()) {
+            const existingData = existingSnap.data();
+            keepCreatedAt = existingData.createdAt || null;
+          }
+        }
+
+        if (selectedBlogFile) {
+          finalCoverImage = await uploadImage(selectedBlogFile, "blog-images", title, blogProgressText);
+        }
+
+        const data = getBlogFormData(finalCoverImage, keepCreatedAt);
+
+        if (editingBlogId) {
+          await updateDoc(doc(db, "blogs", editingBlogId), data);
+          setBlogStatus("Blog updated successfully.", "green");
+        } else {
+          await addDoc(collection(db, "blogs"), data);
+          setBlogStatus("Blog saved successfully.", "green");
+        }
+
+        blogProgressText.textContent = "";
+        resetBlogForm();
+        await loadBlogs();
+      } catch (error) {
+        console.error(error);
+        blogProgressText.textContent = "";
+        setBlogStatus("Failed to save blog. Check Storage rules and setup.", "red");
+      } finally {
+        saveBlogBtn.disabled = false;
+      }
+    }
+
+async function saveProject() {
+  const title = projectTitle.value.trim();
+  const location = projectLocation.value.trim();
+  const shortDescription = projectShort.value.trim();
+  const fullContent = projectContent.value.trim();
+
+  if (!title || !location || !shortDescription || !fullContent) {
+    projectStatus.textContent = "Please fill in title, location, short description and full content.";
+    projectStatus.style.color = "red";
+    return;
+  }
+
+  if (!editingProjectId && !projectCoverInput.files[0]) {
+    projectStatus.textContent = "Please choose one project cover image.";
+    projectStatus.style.color = "red";
+    return;
+  }
+
+  saveProjectBtn.disabled = true;
+  projectStatus.textContent = editingProjectId ? "Updating project..." : "Saving project...";
+  projectStatus.style.color = "#333";
+
+  try {
+    let finalCoverImage = existingProjectCoverImage;
+    let finalGalleryImages = [...existingProjectGalleryImages];
+    let createdAt = Date.now();
+
+    if (editingProjectId) {
+      const existingSnap = await getDoc(doc(db, "projects", editingProjectId));
+      if (existingSnap.exists()) {
+        createdAt = existingSnap.data().createdAt || Date.now();
+      }
+    }
+
+    if (projectCoverInput.files[0]) {
+      finalCoverImage = await uploadImage(
+        projectCoverInput.files[0],
+        "project-cover",
+        title,
+        projectStatus
+      );
+    }
+
+    if (projectGalleryInput.files.length > 0) {
+      finalGalleryImages = await uploadProjectGalleryImages(
+        Array.from(projectGalleryInput.files),
+        title
+      );
+    }
+
+    const payload = {
+      title,
+      slug: slugify(title),
+      location,
+      shortDescription,
+      fullContent,
+      coverImage: finalCoverImage,
+      galleryImages: finalGalleryImages,
+      status: "published",
+      createdAt,
+      updatedAt: Date.now()
+    };
+
+    if (editingProjectId) {
+      await updateDoc(doc(db, "projects", editingProjectId), payload);
+      projectStatus.textContent = "Project updated successfully.";
+    } else {
+      await addDoc(collection(db, "projects"), payload);
+      projectStatus.textContent = "Project saved successfully.";
+    }
+
+    projectStatus.style.color = "green";
+
+    editingProjectId = null;
+    existingProjectCoverImage = "";
+    existingProjectGalleryImages = [];
+
+    projectTitle.value = "";
+    projectLocation.value = "";
+    projectShort.value = "";
+    projectContent.value = "";
+    projectCoverInput.value = "";
+    projectGalleryInput.value = "";
+
+    await loadProjects();
+
+projectFormTitle.textContent = "Add Project";
+saveProjectBtn.textContent = "Save Project";
+  } catch (error) {
+    console.error(error);
+    projectStatus.textContent = "Failed to save project. Check Storage rules and setup.";
+    projectStatus.style.color = "red";
+  } finally {
+    saveProjectBtn.disabled = false;
+  }
+
+
+}
+
+    function setupTabs() {
+      const tabButtons = document.querySelectorAll(".tab-btn");
+      const tabPanels = document.querySelectorAll(".tab-panel");
+
+      tabButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const targetId = button.getAttribute("data-tab");
+
+          tabButtons.forEach((btn) => btn.classList.remove("active"));
+          tabPanels.forEach((panel) => panel.classList.remove("active"));
+
+          button.classList.add("active");
+          document.getElementById(targetId).classList.add("active");
+        });
+      });
+    }
+
+onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    window.location.href = "login.html";
+  } else {
+    loadListings();
+    loadBlogs();
+    loadProjects(); // 🔥 THIS LINE
+  }
+});
+
+    logoutBtn.addEventListener("click", async () => {
+      await signOut(auth);
+      window.location.href = "login.html";
+    });
+
+    saveBtn.addEventListener("click", saveListing);
+    cancelEditBtn.addEventListener("click", resetForm);
+
+    dropZone.addEventListener("click", () => fileInput.click());
+    fileInput.addEventListener("change", (e) => {
+      handleSelectedFile(e.target.files[0]);
+    });
+    dropZone.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      dropZone.classList.add("dragover");
+    });
+    dropZone.addEventListener("dragleave", () => {
+      dropZone.classList.remove("dragover");
+    });
+    dropZone.addEventListener("drop", (e) => {
+      e.preventDefault();
+      dropZone.classList.remove("dragover");
+      handleSelectedFile(e.dataTransfer.files[0]);
+    });
+    changeImageBtn.addEventListener("click", () => fileInput.click());
+    removeImageBtn.addEventListener("click", clearPreview);
+
+    agentImageInput.addEventListener("change", (e) => {
+      selectedAgentFile = e.target.files[0] || null;
+    });
+
+    galleryInput.addEventListener("change", (e) => {
+      selectedGalleryFiles = Array.from(e.target.files || []);
+    });
+
+    saveBlogBtn.addEventListener("click", saveBlog);
+    cancelBlogEditBtn.addEventListener("click", resetBlogForm);
+    saveProjectBtn.addEventListener("click", saveProject);
+
+    blogDropZone.addEventListener("click", () => blogFileInput.click());
+    blogFileInput.addEventListener("change", (e) => {
+      handleSelectedBlogFile(e.target.files[0]);
+    });
+    blogDropZone.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      blogDropZone.classList.add("dragover");
+    });
+    blogDropZone.addEventListener("dragleave", () => {
+      blogDropZone.classList.remove("dragover");
+    });
+    blogDropZone.addEventListener("drop", (e) => {
+      e.preventDefault();
+      blogDropZone.classList.remove("dragover");
+      handleSelectedBlogFile(e.dataTransfer.files[0]);
+    });
+    blogChangeImageBtn.addEventListener("click", () => blogFileInput.click());
+    blogRemoveImageBtn.addEventListener("click", clearBlogPreview);
+
+    setupTabs();
+  </script>
+</body>
+</html>

@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>All Listings | Industrial Property KL</title>
+  <meta name="description" content="Browse industrial property listings including factories, warehouses and industrial land in Kuala Lumpur and Selangor." />
+
+  <link rel="stylesheet" href="shared-layout.css" />
+
+  <style>
+    :root {
+      --gold: #d9a73f;
+      --dark: #111111;
+      --text: #222222;
+      --muted: #666666;
+      --bg: #f5f5f5;
+      --card: #ffffff;
+      --border: #e8e8e8;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .page-header {
+      padding: 36px 0 20px;
+    }
+
+    .breadcrumb {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .breadcrumb a {
+      color: #b07c10;
+    }
+
+    .page-title {
+      margin: 0;
+      font-size: 40px;
+      line-height: 1.1;
+      color: var(--dark);
+    }
+
+    .listing-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+      padding-bottom: 50px;
+    }
+
+    .listing-topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .results-text {
+      font-size: 15px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .listing-list {
+      display: grid;
+      gap: 16px;
+    }
+
+    .listing-card {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 16px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .listing-thumb {
+      height: 100%;
+      min-height: 220px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+
+    .listing-labels {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .label {
+      display: inline-block;
+      padding: 5px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #fff;
+      background: #333;
+    }
+
+    .label.hot {
+      background: #e53935;
+    }
+
+    .listing-body {
+      padding: 16px 18px 16px 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .listing-main {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 14px;
+      align-items: start;
+    }
+
+    .listing-price {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--dark);
+      white-space: nowrap;
+    }
+
+    .listing-title {
+      margin: 0 0 10px;
+      font-size: 24px;
+      line-height: 1.25;
+      color: var(--dark);
+    }
+
+    .listing-meta,
+    .listing-info,
+    .listing-agent {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .listing-type {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-top: 4px;
+      text-transform: uppercase;
+    }
+
+    .listing-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn-gold,
+    .btn-outline {
+      display: inline-block;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .btn-gold {
+      background: var(--gold);
+      color: #111;
+    }
+
+    .btn-outline {
+      border: 1px solid #ccc;
+      color: #111;
+      background: #fff;
+    }
+
+    .empty-state {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px;
+      text-align: center;
+      color: var(--muted);
+      display: none;
+    }
+
+    @media (max-width: 860px) {
+      .listing-card {
+        grid-template-columns: 1fr;
+      }
+
+      .listing-thumb {
+        min-height: 220px;
+      }
+
+      .listing-body {
+        padding: 0 16px 16px;
+      }
+
+      .listing-main {
+        grid-template-columns: 1fr;
+      }
+
+      .listing-price {
+        font-size: 24px;
+      }
+
+      .listing-title {
+        font-size: 21px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="site-header"></div>
+
+  <main class="container">
+    <div class="page-header">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a> &nbsp;›&nbsp; <span id="crumbLabel">All Listings</span>
+      </div>
+      <h1 class="page-title" id="pageTitle">All Listings</h1>
+    </div>
+
+    <div class="listing-layout">
+      <div class="listing-topbar">
+        <div class="results-text" id="resultsText">Loading listings...</div>
+      </div>
+
+      <div class="listing-list" id="listingList"></div>
+      <div class="empty-state" id="emptyState">No listings found.</div>
+    </div>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script type="module" src="shared-layout.js"></script>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import {
+      getFirestore,
+      collection,
+      getDocs
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyANrifzDiBgsM8MpFSbe-kxW_e89vKbCZ8",
+      authDomain: "industrialpropertykl.firebaseapp.com",
+      projectId: "industrialpropertykl",
+      storageBucket: "industrialpropertykl.firebasestorage.app",
+      messagingSenderId: "612612953532",
+      appId: "1:612612953532:web:94f956f783cb948db887b9",
+      measurementId: "G-ML49L4TQ29"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const listingList = document.getElementById("listingList");
+    const emptyState = document.getElementById("emptyState");
+    const resultsText = document.getElementById("resultsText");
+    const pageTitle = document.getElementById("pageTitle");
+    const crumbLabel = document.getElementById("crumbLabel");
+
+    function getTypeFilter() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("type");
+    }
+
+    function formatPrice(price, listingType) {
+      if (!price) return listingType === "rent" ? "Price on request" : "Price on request";
+
+      const num = Number(price);
+      if (!Number.isNaN(num) && num > 0) {
+        if (num >= 1000000) return `RM${(num / 1000000).toFixed(num % 1000000 === 0 ? 0 : 1)}M`;
+        if (num >= 1000) return `RM${(num / 1000).toFixed(num % 1000 === 0 ? 0 : 1)}K`;
+        return `RM${num.toLocaleString()}`;
+      }
+
+      return String(price).startsWith("RM") ? String(price) : `RM${price}`;
+    }
+
+    function formatPostedDate(timestamp) {
+      if (!timestamp) return "Recently";
+
+      const now = Date.now();
+      const diffDays = Math.floor((now - timestamp) / (1000 * 60 * 60 * 24));
+
+      if (diffDays <= 0) return "Today";
+      if (diffDays === 1) return "1 day ago";
+      if (diffDays < 30) return `${diffDays} days ago`;
+
+      return new Date(timestamp).toLocaleDateString();
+    }
+
+    function renderListings(items) {
+      listingList.innerHTML = "";
+
+      if (!items.length) {
+        emptyState.style.display = "block";
+        resultsText.textContent = "Showing 0 listings";
+        return;
+      }
+
+      emptyState.style.display = "none";
+      resultsText.textContent = `Showing ${items.length} listing${items.length > 1 ? "s" : ""}`;
+
+      items.forEach((item) => {
+        const card = document.createElement("article");
+        card.className = "listing-card";
+
+        const label1 = item.listingType === "rent" ? "FOR RENT" : "FOR SALE";
+        const hotLabel = item.hotOffer ? `<span class="label hot">HOT OFFER</span>` : "";
+
+        card.innerHTML = `
+          <div class="listing-thumb" style="background-image:url('${item.image || ""}')">
+            <div class="listing-labels">
+              <span class="label">${label1}</span>
+              ${hotLabel}
+            </div>
+          </div>
+
+          <div class="listing-body">
+            <div class="listing-main">
+              <div>
+                <h2 class="listing-title">${item.title || "-"}</h2>
+                <div class="listing-meta">${item.location || "-"}${item.city ? `, ${item.city}` : ""}</div>
+                <div class="listing-info"><strong>Built-up:</strong> ${item.bua || "-"}</div>
+                <div class="listing-type">${item.type || "-"}</div>
+                <div class="listing-agent">${item.agentName || "Kenneth Lai"} • ${formatPostedDate(item.postedAt)}</div>
+              </div>
+              <div class="listing-price">${formatPrice(item.price, item.listingType)}</div>
+            </div>
+
+            <div class="listing-bottom">
+              <a class="btn-outline" href="https://wa.me/60166287357?text=${encodeURIComponent(`Hi Kenneth, I am interested in ${item.title || "this listing"}.`)}" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+              <a class="btn-gold" href="detail.html?id=${item.id}">Details</a>
+            </div>
+          </div>
+        `;
+
+        listingList.appendChild(card);
+      });
+    }
+
+    async function loadListings() {
+      const typeFilter = getTypeFilter();
+
+      if (typeFilter) {
+        pageTitle.textContent = typeFilter;
+        crumbLabel.textContent = typeFilter;
+      } else {
+        pageTitle.textContent = "All Listings";
+        crumbLabel.textContent = "All Listings";
+      }
+
+      try {
+        const snapshot = await getDocs(collection(db, "listings"));
+        const items = [];
+
+        snapshot.forEach((docSnap) => {
+          const data = docSnap.data();
+          items.push({
+            id: docSnap.id,
+            ...data
+          });
+        });
+
+        let filtered = items;
+
+        if (typeFilter) {
+          filtered = items.filter(item => (item.type || "").toLowerCase() === typeFilter.toLowerCase());
+        }
+
+        filtered.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+        renderListings(filtered);
+      } catch (error) {
+        console.error(error);
+        resultsText.textContent = "Failed to load listings";
+        emptyState.style.display = "block";
+        emptyState.textContent = "Unable to load listings.";
+      }
+    }
+
+    loadListings();
+  </script>
+</body>
+</html>

@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog | Industrial Property KL</title>
+  <meta name="description" content="Read the latest industrial property news, market updates, project highlights, and expert insights from Industrial Property KL." />
+
+  <link rel="stylesheet" href="shared-layout.css" />
+
+  <style>
+    :root {
+      --primary: #0f172a;
+      --accent: #d4a017;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --border: #e5e7eb;
+      --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      --radius: 18px;
+      --max-width: 1200px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .page-hero {
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      color: #fff;
+      padding: 72px 20px 56px;
+    }
+
+    .page-hero-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    .page-hero h1 {
+      margin: 0 0 12px;
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.15;
+    }
+
+    .page-hero p {
+      margin: 0;
+      max-width: 760px;
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 1rem;
+    }
+
+    .blog-section {
+      padding: 48px 20px 70px;
+    }
+
+    .blog-section-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    .blog-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+    }
+
+    .blog-toolbar h2 {
+      margin: 0;
+      font-size: 1.7rem;
+      color: var(--primary);
+    }
+
+    .blog-count {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 24px;
+    }
+
+    .blog-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+    }
+
+    .blog-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 36px rgba(15, 23, 42, 0.12);
+    }
+
+    .blog-card-image {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      background: #e5e7eb;
+      overflow: hidden;
+    }
+
+    .blog-card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .blog-card-body {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .blog-card-category {
+      display: inline-block;
+      align-self: flex-start;
+      margin-bottom: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(212, 160, 23, 0.12);
+      color: #946200;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+
+    .blog-card-title {
+      margin: 0 0 12px;
+      font-size: 1.2rem;
+      line-height: 1.35;
+      color: var(--primary);
+    }
+
+    .blog-card-excerpt {
+      margin: 0 0 16px;
+      color: var(--muted);
+      font-size: 0.96rem;
+      flex: 1;
+    }
+
+    .blog-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 14px;
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    .blog-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .blog-card-button {
+      display: inline-block;
+      width: fit-content;
+      padding: 10px 16px;
+      border-radius: 10px;
+      background: var(--primary);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.92rem;
+      transition: background 0.2s ease;
+    }
+
+    .blog-card-button:hover {
+      background: #1e293b;
+    }
+
+    .empty-state,
+    .loading-state,
+    .error-state {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      text-align: center;
+      color: var(--muted);
+      box-shadow: var(--shadow);
+    }
+
+    .loading-state {
+      display: none;
+    }
+
+    .show {
+      display: block !important;
+    }
+
+    @media (max-width: 992px) {
+      .blog-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page-hero {
+        padding: 56px 16px 42px;
+      }
+
+      .blog-section {
+        padding: 32px 16px 56px;
+      }
+
+      .blog-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .blog-card-body {
+        padding: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="site-header"></div>
+
+  <section class="page-hero">
+    <div class="page-hero-inner">
+      <h1>Property News & Insights</h1>
+      <p>
+        Stay updated with industrial property market trends, project highlights,
+        investment insights, and practical real estate knowledge.
+      </p>
+    </div>
+  </section>
+
+  <section class="blog-section">
+    <div class="blog-section-inner">
+      <div class="blog-toolbar">
+        <h2>Latest Articles</h2>
+        <div id="blogCount" class="blog-count">Loading posts...</div>
+      </div>
+
+      <div id="loadingState" class="loading-state show">Loading blog posts...</div>
+      <div id="errorState" class="error-state" style="display:none;">Failed to load blog posts.</div>
+      <div id="emptyState" class="empty-state" style="display:none;">No blog posts available yet.</div>
+
+      <div id="blogGrid" class="blog-grid"></div>
+    </div>
+  </section>
+
+  <div id="site-footer"></div>
+
+  <script type="module" src="shared-layout.js"></script>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+    import {
+      getFirestore,
+      collection,
+      query,
+      where,
+      orderBy,
+      getDocs
+    } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyANrifzDiBgsM8MpFSbe-kxW_e89vKbCZ8",
+  authDomain: "industrialpropertykl.firebaseapp.com",
+  projectId: "industrialpropertykl",
+  storageBucket: "industrialpropertykl.firebasestorage.app",
+  messagingSenderId: "612612953532",
+  appId: "1:612612953532:web:94f956f783cb948db887b9",
+  measurementId: "G-ML49L4TQ29"
+};
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const blogGrid = document.getElementById("blogGrid");
+    const blogCount = document.getElementById("blogCount");
+    const loadingState = document.getElementById("loadingState");
+    const errorState = document.getElementById("errorState");
+    const emptyState = document.getElementById("emptyState");
+
+    function formatDate(value) {
+      if (!value) return "No date";
+
+      try {
+        let date;
+
+        if (typeof value?.toDate === "function") {
+          date = value.toDate();
+        } else if (value?.seconds) {
+          date = new Date(value.seconds * 1000);
+        } else {
+          date = new Date(value);
+        }
+
+        if (isNaN(date.getTime())) return "No date";
+
+        return date.toLocaleDateString("en-MY", {
+          day: "numeric",
+          month: "short",
+          year: "numeric"
+        });
+      } catch {
+        return "No date";
+      }
+    }
+
+    function escapeHtml(str = "") {
+      return str
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function createBlogCard(id, data) {
+      const coverImage = data.coverImage || "https://via.placeholder.com/800x450?text=Blog+Image";
+      const title = escapeHtml(data.title || "Untitled Post");
+      const excerpt = escapeHtml(data.excerpt || "No excerpt available.");
+      const author = escapeHtml(data.authorName || "Admin");
+      const category = escapeHtml(data.category || "General");
+      const date = formatDate(data.createdAt);
+
+      return `
+        <article class="blog-card">
+          <a class="blog-card-image" href="blog-detail.html?id=${id}">
+            <img src="${coverImage}" alt="${title}" loading="lazy" />
+          </a>
+
+          <div class="blog-card-body">
+            <div class="blog-card-category">${category}</div>
+
+            <h3 class="blog-card-title">
+              <a href="blog-detail.html?id=${id}">${title}</a>
+            </h3>
+
+            <p class="blog-card-excerpt">${excerpt}</p>
+
+            <div class="blog-meta">
+              <span>By ${author}</span>
+              <span>${date}</span>
+            </div>
+
+            <a class="blog-card-button" href="blog-detail.html?id=${id}">
+              Read More
+            </a>
+          </div>
+        </article>
+      `;
+    }
+
+    async function loadBlogs() {
+      loadingState.classList.add("show");
+      errorState.style.display = "none";
+      emptyState.style.display = "none";
+      blogGrid.innerHTML = "";
+
+      try {
+        const snapshot = await getDocs(collection(db, "blogs"));
+        
+        const docs = [];
+        snapshot.forEach((doc) => {
+          const data = doc.data();
+          if ((data.status || "").toLowerCase() === "published") {
+            docs.push({
+              id: doc.id,
+              ...data
+            });
+          }
+        });
+        
+        docs.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+
+      if (!docs.length) {
+        blogCount.textContent = "0 posts";
+        emptyState.style.display = "block";
+        return;
+      }
+      
+      const cards = docs.map((item) => createBlogCard(item.id, item));
+      
+      blogGrid.innerHTML = cards.join("");
+      blogCount.textContent = `${docs.length} post${docs.length > 1 ? "s" : ""}`;  
+        
+      } catch (error) {
+        console.error("Error loading blogs:", error);
+        blogCount.textContent = "Unable to load posts";
+        errorState.style.display = "block";
+      } finally {
+        loadingState.classList.remove("show");
+      }
+    }
+
+    loadBlogs();
+  </script>
+</body>
+</html>

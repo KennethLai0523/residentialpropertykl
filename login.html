@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Login | Industrial Property KL</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f3f3f3;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 420px;
+      background: #fff;
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+    }
+
+    h1 {
+      margin: 0 0 24px;
+      font-size: 34px;
+      color: #111;
+    }
+
+    .label {
+      display: block;
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #333;
+    }
+
+    .input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1px solid #d8d8d8;
+      border-radius: 10px;
+      font-size: 16px;
+      margin-bottom: 16px;
+      outline: none;
+    }
+
+    .input:focus {
+      border-color: #d9a73f;
+      box-shadow: 0 0 0 3px rgba(217,167,63,0.12);
+    }
+
+    .btn {
+      width: 100%;
+      border: none;
+      border-radius: 10px;
+      background: #d9a73f;
+      color: #111;
+      font-size: 16px;
+      font-weight: 700;
+      padding: 14px 16px;
+      cursor: pointer;
+    }
+
+    .btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    .msg {
+      margin-top: 16px;
+      font-size: 14px;
+      line-height: 1.5;
+      min-height: 22px;
+    }
+
+    .msg.error { color: #d93025; }
+    .msg.success { color: #188038; }
+
+    .debug {
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: 10px;
+      background: #faf7ef;
+      color: #5f4a15;
+      font-size: 13px;
+      word-break: break-word;
+      display: none;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Admin Login</h1>
+
+    <label class="label" for="email">Email</label>
+    <input class="input" type="email" id="email" placeholder="Enter your email" />
+
+    <label class="label" for="password">Password</label>
+    <input class="input" type="password" id="password" placeholder="Enter your password" />
+
+    <button class="btn" id="loginBtn" type="button">Login</button>
+
+    <div class="msg" id="msg"></div>
+    <div class="debug" id="debugBox"></div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import {
+      getAuth,
+      signInWithEmailAndPassword,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyANrifzDiBgsM8MpFSbe-kxW_e89vKbCZ8",
+      authDomain: "industrialpropertykl.firebaseapp.com",
+      projectId: "industrialpropertykl",
+      storageBucket: "industrialpropertykl.firebasestorage.app",
+      messagingSenderId: "612612953532",
+      appId: "1:612612953532:web:94f956f783cb948db887b9",
+      measurementId: "G-ML49L4TQ29"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+    const loginBtn = document.getElementById("loginBtn");
+    const msg = document.getElementById("msg");
+    const debugBox = document.getElementById("debugBox");
+
+    function setMessage(text, type = "") {
+      msg.textContent = text;
+      msg.className = "msg";
+      if (type) msg.classList.add(type);
+    }
+
+    function showDebug(text) {
+      debugBox.style.display = "block";
+      debugBox.textContent = text;
+    }
+
+    function hideDebug() {
+      debugBox.style.display = "none";
+      debugBox.textContent = "";
+    }
+
+    function friendlyError(err) {
+      switch (err?.code) {
+        case "auth/invalid-email":
+          return "Invalid email format.";
+        case "auth/user-not-found":
+          return "User not found.";
+        case "auth/wrong-password":
+          return "Wrong password.";
+        case "auth/invalid-credential":
+        case "auth/invalid-login-credentials":
+          return "Email or password is incorrect.";
+        case "auth/operation-not-allowed":
+          return "Email/Password sign-in is not enabled.";
+        case "auth/api-key-not-valid":
+          return "Firebase API key is still invalid.";
+        default:
+          return "Login failed.";
+      }
+    }
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        window.location.href = "admin.html";
+      }
+    });
+
+    async function login() {
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
+
+      hideDebug();
+
+      if (!email || !password) {
+        setMessage("Please enter email and password.", "error");
+        return;
+      }
+
+      loginBtn.disabled = true;
+      setMessage("Logging in...", "success");
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        setMessage("Login successful. Redirecting...", "success");
+        window.location.href = "admin.html";
+      } catch (err) {
+        console.error(err);
+        setMessage(friendlyError(err), "error");
+        showDebug(`Error code: ${err.code || "none"}\nMessage: ${err.message || "No message"}`);
+      } finally {
+        loginBtn.disabled = false;
+      }
+    }
+
+    loginBtn.addEventListener("click", login);
+    passwordInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") login();
+    });
+    emailInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") login();
+    });
+  </script>
+</body>
+</html>
