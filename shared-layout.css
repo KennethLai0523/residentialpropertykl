@@ -1,6 +1,6 @@
 :root {
-  --gold: #d9a73f;
-  --gold-dark: #c69329;
+  --gold: #2F5FA5;       /* NEW BLUE */
+  --gold-dark: #244a82;  /* DARKER BLUE */
   --dark: #111111;
   --text: #222222;
   --muted: #666666;
