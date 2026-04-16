@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Property Detail | Industrial Property KL</title>
+  <title>Property Detail | Residential Property KL</title>
   <meta name="theme-color" content="#d9a73f" />
   <link rel="stylesheet" href="shared-layout.css" />
   <style>
@@ -269,7 +269,8 @@ const firebaseConfig = {
   projectId: "residentialpropertykl",
   storageBucket: "residentialpropertykl.firebasestorage.app",
   messagingSenderId: "952845303526",
-  appId: "1:952845303526:web:7b604dca11ad50a93bc527"
+  appId: "1:952845303526:web:7b604dca11ad50a93bc527",
+  measurementId: "G-DV21X2EGJ0"
 };
     
     const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
@@ -363,9 +364,10 @@ const firebaseConfig = {
         const safeBua = escapeHtml(safeText(data.bua));
         const safeLandArea = escapeHtml(safeText(data.landArea));
         const safeTenure = escapeHtml(safeText(data.tenure));
-        const safePowerSupply = escapeHtml(safeText(data.powerSupply));
-        const safeCeilingHeight = escapeHtml(safeText(data.ceilingHeight));
-        const safeFloorLoading = escapeHtml(safeText(data.floorLoading));
+const safeBedrooms = escapeHtml(safeText(data.bedrooms));
+const safeBathrooms = escapeHtml(safeText(data.bathrooms));
+const safeCarparks = escapeHtml(safeText(data.carparks));
+const safeFurnishing = escapeHtml(safeText(data.furnishing));
         const safeFeatures = escapeHtml(safeText(data.features));
         const safeAgentName = escapeHtml(
           data.agentName && data.agentName !== "-" ? data.agentName : "Kenneth Lai"
@@ -376,7 +378,7 @@ const firebaseConfig = {
           ? `https://wa.me/${String(data.agentPhone).replace(/\D/g, "")}?text=${whatsappText}`
           : `https://wa.me/60166287357?text=${whatsappText}`;
 
-        document.title = `${pageTitle} | Industrial Property KL`;
+        document.title = `${pageTitle} | Residential Property KL`;
 
         const thumbsHtml = gallery.map((img, index) => `
           <img
@@ -483,18 +485,25 @@ ${data.googleMapsLink ? `
                     <div class="label">Tenure</div>
                     <div class="value">${safeTenure}</div>
                   </div>
-                  <div class="details-item">
-                    <div class="label">Power Supply</div>
-                    <div class="value">${safePowerSupply}</div>
-                  </div>
-                  <div class="details-item">
-                    <div class="label">Ceiling Height</div>
-                    <div class="value">${safeCeilingHeight}</div>
-                  </div>
-                  <div class="details-item">
-                    <div class="label">Floor Loading</div>
-                    <div class="value">${safeFloorLoading}</div>
-                  </div>
+<div class="details-item">
+  <div class="label">Bedrooms</div>
+  <div class="value">${safeBedrooms}</div>
+</div>
+
+<div class="details-item">
+  <div class="label">Bathrooms</div>
+  <div class="value">${safeBathrooms}</div>
+</div>
+
+<div class="details-item">
+  <div class="label">Car Parks</div>
+  <div class="value">${safeCarparks}</div>
+</div>
+
+<div class="details-item">
+  <div class="label">Furnishing</div>
+  <div class="value">${safeFurnishing}</div>
+</div>
                   <div class="details-item" style="grid-column: 1 / -1;">
                     <div class="label">Features</div>
                     <div class="value">${safeFeatures}</div>
@@ -509,7 +518,7 @@ ${data.googleMapsLink ? `
                   <img src="${data.agentImage || 'https://via.placeholder.com/58x58?text=Agent'}" alt="Agent">
                   <div>
                     <div class="agent-name">${safeAgentName}</div>
-                    <div style="color:#777; font-size:13px;">Industrial Property Specialist</div>
+                    <div style="color:#777; font-size:13px;">Residential Property Specialist</div>
                   </div>
                 </div>
 
