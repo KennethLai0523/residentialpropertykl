@@ -286,19 +286,10 @@ const firebaseConfig = {
     const params = new URLSearchParams(window.location.search);
     const listingId = params.get("id");
 
-    function formatPrice(price, listingType) {
-      if (!price) return "";
-      const clean = String(price).replace(/,/g, "").trim();
-
-      if (!isNaN(clean)) {
-        const num = Number(clean);
-        if (listingType === "rent") return "RM" + num.toLocaleString();
-        if (num >= 1000000) return "RM" + (num / 1000000).toFixed(1).replace(".0", "") + "M";
-        return "RM" + num.toLocaleString();
-      }
-
-      return String(price).startsWith("RM") ? String(price) : "RM" + price;
-    }
+function formatPrice(price) {
+  if (!price) return "";
+  return price;   // 🔥 just return what you typed
+}
 
     function buildBadge(listingType, hotOffer) {
       const saleRent = listingType === "rent" ? "FOR RENT" : "FOR SALE";
