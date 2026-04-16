@@ -358,16 +358,21 @@ const firebaseConfig = {
     async function loadListings() {
       const typeFilter = getTypeFilter();
 
-      if (typeFilter === "Landed") {
-        pageTitle.textContent = "Landed Houses";
-        crumbLabel.textContent = "Landed Houses";
-      } else if (typeFilter) {
-        pageTitle.textContent = typeFilter;
-        crumbLabel.textContent = typeFilter;
-      } else {
-        pageTitle.textContent = "All Listings";
-        crumbLabel.textContent = "All Listings";
-      }
+const typeLabels = {
+  "Condominium": "Condo",
+  "Apartment": "Apartment",
+  "Terrace House": "Terrace House",
+  "Superlink": "Superlink",
+  "Semi-Detached House": "Semi-Detached House",
+  "Bungalow": "Bungalow",
+  "Townhouse": "Townhouse",
+  "Landed": "Landed Houses"
+};
+
+const displayLabel = typeLabels[typeFilter] || "All Listings";
+
+pageTitle.textContent = displayLabel;
+crumbLabel.textContent = displayLabel;
 
       try {
         const snapshot = await getDocs(collection(db, "listings"));
