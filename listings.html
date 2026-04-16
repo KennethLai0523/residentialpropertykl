@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>All Listings | Industrial Property KL</title>
-  <meta name="description" content="Browse industrial property listings including factories, warehouses and industrial land in Kuala Lumpur and Selangor." />
-
+<title>All Listings | Residential Property KL</title>
+  <meta name="description" content="Browse residential property listings including condominiums, terrace houses, semi-detached homes, bungalows and townhouses in Kuala Lumpur and Selangor." />
   <link rel="stylesheet" href="shared-layout.css" />
 
   <style>
@@ -359,7 +358,10 @@ const firebaseConfig = {
     async function loadListings() {
       const typeFilter = getTypeFilter();
 
-      if (typeFilter) {
+      if (typeFilter === "Landed") {
+        pageTitle.textContent = "Landed Houses";
+        crumbLabel.textContent = "Landed Houses";
+      } else if (typeFilter) {
         pageTitle.textContent = typeFilter;
         crumbLabel.textContent = typeFilter;
       } else {
@@ -379,11 +381,30 @@ const firebaseConfig = {
           });
         });
 
-        let filtered = items;
+let filtered = items;
 
-        if (typeFilter) {
-          filtered = items.filter(item => (item.type || "").toLowerCase() === typeFilter.toLowerCase());
-        }
+// ✅ Only show residential
+filtered = filtered.filter(item => item.category === "residential");
+
+// ✅ Type filter
+if (typeFilter) {
+
+  // 🔥 Landed group
+  if (typeFilter === "Landed") {
+    const landedTypes = [
+      "Terrace House",
+      "Superlink",
+      "Semi-Detached House",
+      "Bungalow",
+      "Townhouse"
+    ];
+
+    filtered = filtered.filter(item => landedTypes.includes(item.type));
+
+  } else {
+    filtered = filtered.filter(item => item.type === typeFilter);
+  }
+}
 
         filtered.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
         renderListings(filtered);
