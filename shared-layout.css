@@ -550,7 +550,7 @@ button {
   min-width: 100%;
   margin-top: 0 !important;
 
-  background: #e8c46a;
+  background: var(--gold);   /* your blue */
   border-top: none;
   box-shadow: 0 12px 24px rgba(0,0,0,0.12);
 
@@ -576,7 +576,8 @@ button {
   border-bottom: 1px solid rgba(0,0,0,0.08);
   white-space: normal;
   word-break: break-word;
-  background: #e8c46a;
+  background: var(--gold);
+  color: #fff;               /* optional: better contrast */
 }
 
 .dropdown-menu a:last-child {
