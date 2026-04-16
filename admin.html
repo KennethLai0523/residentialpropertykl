@@ -917,7 +917,7 @@ facilities: getField("facilities"),
       existingGalleryUrls = [];
 
       document.getElementById("listingType").value = "sale";
-      document.getElementById("type").value = "Detached Factory";
+      document.getElementById("type").value = "Condominium";
       document.getElementById("title").value = "";
       document.getElementById("price").value = "";
       document.getElementById("location").value = "";
@@ -983,7 +983,7 @@ document.getElementById("facilities").value = "";
       existingAgentImageUrl = item.agentImage || "";
       existingGalleryUrls = Array.isArray(item.gallery) ? item.gallery : [];
 
-      document.getElementById("type").value = item.type || "Detached Factory";
+      document.getElementById("type").value = item.type || "Condominium";
       document.getElementById("listingType").value = item.listingType || "sale";
       document.getElementById("title").value = item.title || "";
       document.getElementById("price").value = item.price || "";
