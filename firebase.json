@@ -1,0 +1,44 @@
+{
+  "hosting": {
+    "public": ".",
+    "rewrites": [
+      {
+        "source": "/categories/**",
+        "destination": "/listings.html"
+      },
+      {
+        "source": "/project/**",
+        "destination": "/project-detail.html"
+      },
+      {
+        "source": "/*-for-**",
+        "destination": "/listings.html"
+      },
+      {
+        "source": "/listing/**",
+        "destination": "/detail.html"
+      },
+      {
+        "source": "/sitemap.xml",
+        "function": "sitemap"
+      }
+    ]
+  },
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "disallowLegacyRuntimeConfig": true,
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ],
+      "predeploy": [
+        "npm --prefix \"$RESOURCE_DIR\" run lint"
+      ]
+    }
+  ]
+}

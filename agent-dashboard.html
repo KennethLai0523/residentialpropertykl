@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Agent Dashboard | Residential Property KL</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/shared-layout.css?v=12" />
+
+  <style>
+    body { background:#f5f5f5; }
+    .dashboard {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 30px 20px;
+    }
+
+    .card {
+      background:#fff;
+      border-radius:16px;
+      padding:22px;
+      box-shadow:0 8px 24px rgba(0,0,0,0.07);
+      margin-bottom:24px;
+    }
+
+    .grid-2 {
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+
+    .grid-3 {
+      display:grid;
+      grid-template-columns:1fr 1fr 1fr;
+      gap:12px;
+    }
+
+    input, textarea, select {
+      width:100%;
+      padding:12px 14px;
+      border:1px solid #ddd;
+      border-radius:10px;
+      margin-bottom:12px;
+      font-size:15px;
+      font-family:inherit;
+    }
+
+    textarea {
+      min-height:120px;
+      resize:vertical;
+    }
+
+    .btn {
+      padding:12px 18px;
+      border:none;
+      border-radius:10px;
+      background:#d9a73f;
+      color:#111;
+      font-weight:700;
+      cursor:pointer;
+    }
+
+    .btn-dark {
+      background:#111;
+      color:white;
+    }
+
+    .status {
+      margin-top:12px;
+      font-weight:700;
+    }
+
+    .drop-zone {
+      border:2px dashed #d9a73f;
+      border-radius:14px;
+      padding:26px;
+      text-align:center;
+      background:#fffaf0;
+      cursor:pointer;
+      margin-bottom:14px;
+    }
+
+    .preview-img {
+      max-width:260px;
+      border-radius:12px;
+      margin-bottom:12px;
+      display:none;
+    }
+
+    .listing-row {
+      border:1px solid #eee;
+      border-radius:14px;
+      padding:14px;
+      display:grid;
+      grid-template-columns:100px 1fr;
+      gap:14px;
+      margin-bottom:12px;
+      background:white;
+    }
+
+    .listing-row img {
+      width:100px;
+      height:100px;
+      object-fit:cover;
+      border-radius:10px;
+      background:#eee;
+    }
+
+    @media(max-width:800px) {
+      .grid-2, .grid-3, .listing-row {
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="site-header"></div>
+
+  <main class="dashboard">
+    <div class="card">
+      <div style="display:flex; justify-content:space-between; gap:12px; align-items:center;">
+        <div>
+          <h1>Agent Dashboard</h1>
+          <div id="agentInfo">Checking login...</div>
+        </div>
+        <button id="logoutBtn" class="btn btn-dark" type="button">Logout</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Add Listing</h2>
+      <p style="color:#666;">This listing belongs only to your agent account.</p>
+
+      <div class="grid-2">
+        <select id="listingType">
+          <option value="sale">For Sale</option>
+          <option value="rent">For Rent</option>
+        </select>
+
+        <select id="type">
+          <option value="Condominium">Condominium</option>
+          <option value="Apartment">Apartment</option>
+          <option value="Terrace House">Terrace House</option>
+          <option value="Semi-Detached House">Semi-Detached House</option>
+          <option value="Bungalow">Bungalow</option>
+          <option value="Townhouse">Townhouse</option>
+        </select>
+      </div>
+
+      <input id="title" placeholder="Title" />
+      <input id="price" placeholder="Price (example: 7800000 or 30000)" />
+
+      <div class="grid-2">
+        <input id="location" placeholder="Short Location / Address" />
+        <input id="address" placeholder="Full Address" />
+      </div>
+
+      <div class="grid-2">
+        <input id="state" placeholder="State" />
+        <input id="city" placeholder="City" />
+      </div>
+
+      <input id="status" placeholder="Status (active / sold / rented / available)" value="active" />
+
+      <div class="grid-3">
+        <input id="bua" placeholder="Built-up / Size (sqft)" />
+        <input id="landArea" placeholder="Land Area (sqft)" />
+        <input id="tenure" placeholder="Tenure (Freehold / Leasehold)" />
+      </div>
+
+
+      <input id="features" placeholder="Features" />
+      <input id="googleMapsLink" placeholder="Google Maps Link" />
+      <textarea id="description" placeholder="Description"></textarea>
+
+      <h3>Cover Photo</h3>
+      <div class="drop-zone" id="dropZone">
+        <strong>Drag photo here</strong><br>
+        <span>or click to choose one cover image</span>
+        <input type="file" id="fileInput" accept="image/*" hidden />
+      </div>
+
+      <img id="previewImage" class="preview-img" />
+
+      <h3>Gallery Photos</h3>
+      <input type="file" id="galleryInput" accept="image/*" multiple />
+
+      <button id="saveBtn" class="btn" type="button">Save Listing</button>
+      <button id="cancelEditBtn" class="btn btn-dark" type="button" style="display:none;">Cancel Edit</button>
+      <div id="statusText" class="status"></div>
+    </div>
+
+    <div class="card">
+      <h2>My Listings</h2>
+      <div id="myListings">Loading...</div>
+    </div>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script type="module" src="/shared-layout.js?v=12"></script>
+
+  <script type="module">
+    import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+
+    import {
+      getAuth,
+      onAuthStateChanged,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      getDocs,
+      query,
+      where,
+      doc,
+      updateDoc
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    import {
+      getStorage,
+      ref,
+      uploadBytesResumable,
+      getDownloadURL
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBKO4RNc5r8GoPHQyRHdUllLVwtXFNJyVo",
+      authDomain: "residentialpropertykl.firebaseapp.com",
+      projectId: "residentialpropertykl",
+      storageBucket: "residentialpropertykl.firebasestorage.app",
+      messagingSenderId: "952845303526",
+      appId: "1:952845303526:web:7b604dca11ad50a93bc527",
+      measurementId: "G-DV21X2EGJ0"
+    };
+
+    const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const storage = getStorage(app);
+
+    let currentUser = null;
+    let selectedFile = null;
+    let selectedGalleryFiles = [];
+
+    let editingId = null;
+    let existingImage = "";
+    let existingGallery = [];
+
+    const cancelEditBtn = document.getElementById("cancelEditBtn");
+    const agentInfo = document.getElementById("agentInfo");
+    const statusText = document.getElementById("statusText");
+    const saveBtn = document.getElementById("saveBtn");
+    const myListings = document.getElementById("myListings");
+    const fileInput = document.getElementById("fileInput");
+    const galleryInput = document.getElementById("galleryInput");
+    const dropZone = document.getElementById("dropZone");
+    const previewImage = document.getElementById("previewImage");
+
+    function getField(id) {
+      return document.getElementById(id).value.trim();
+    }
+
+    function slugify(text) {
+      return (text || "")
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9\\s-]/g, "")
+        .replace(/\\s+/g, "-")
+        .replace(/-+/g, "-");
+    }
+
+    function setStatus(text, color = "#111") {
+      statusText.textContent = text;
+      statusText.style.color = color;
+    }
+
+    function showPreview(file) {
+      const reader = new FileReader();
+      reader.onload = e => {
+        previewImage.src = e.target.result;
+        previewImage.style.display = "block";
+      };
+      reader.readAsDataURL(file);
+    }
+
+    async function uploadImage(file, folder, title) {
+      const safeTitle = slugify(title) || "listing";
+      const safeFileName = file.name.replace(/\\s+/g, "-").toLowerCase();
+
+      const storageRef = ref(
+        storage,
+        `${folder}/${currentUser.uid}/${safeTitle}/${Date.now()}-${safeFileName}`
+      );
+
+      const uploadTask = uploadBytesResumable(storageRef, file);
+
+      return await new Promise((resolve, reject) => {
+        uploadTask.on(
+          "state_changed",
+          null,
+          reject,
+          async () => {
+            const url = await getDownloadURL(uploadTask.snapshot.ref);
+            resolve(url);
+          }
+        );
+      });
+    }
+
+    async function uploadGallery(files, title) {
+      const urls = [];
+
+      for (const file of files) {
+        if (!file.type.startsWith("image/")) continue;
+        const url = await uploadImage(file, "agent-listing-gallery", title);
+        urls.push(url);
+      }
+
+      return urls;
+    }
+
+    async function saveListing() {
+      if (!currentUser) {
+        window.location.href = "/agent-login.html";
+        return;
+      }
+
+      const title = getField("title");
+      const price = getField("price");
+      const location = getField("location");
+
+      if (!title || !price || !location) {
+        setStatus("Please fill in title, price and location.", "red");
+        return;
+      }
+
+      saveBtn.disabled = true;
+      saveBtn.textContent = "Saving...";
+      setStatus("Uploading listing...", "#333");
+
+      try {
+        const imageUrl = selectedFile
+          ? await uploadImage(selectedFile, "agent-listing-images", title)
+          : existingImage;
+
+        const galleryUrls = selectedGalleryFiles.length
+          ? await uploadGallery(selectedGalleryFiles, title)
+          : existingGallery;
+
+        const now = Date.now();
+
+        const agentProfiles = {
+          "agnescheesy88@yahoo.com": {
+            name: "Agnes Chee",
+            phone: "60122895038",
+            image: "/images/agnes.png"
+          },
+          "andrew.polygon@gmail.com": {
+            name: "Andrew Yap",
+            phone: "60192862772",
+            image: "/images/andrew.png"
+          },
+
+          "Magdalene@gmail.com": {
+            name: "Magdalene",
+            phone: "60172337537",
+            image: "/images/magdalene.png"
+          }
+        };
+        
+
+        const agentProfile = agentProfiles[currentUser.email] || {
+          name: currentUser.email,
+          phone: "",
+          image: "/images/default-agent.png"
+        };
+
+        const data = {
+          contentType: "listing",
+
+          // 🔥 IMPORTANT: this separates agent listing from your main listings
+          listingOwner: "agent",
+          agentId: currentUser.uid,
+          agentEmail: currentUser.email,
+          agentName: agentProfile.name,
+          agentPhone: agentProfile.phone,
+          agentImage: agentProfile.image,
+
+          listingType: document.getElementById("listingType").value,
+          title,
+          slug: slugify(title),
+          price,
+          location,
+          address: getField("address"),
+          state: getField("state"),
+          city: getField("city"),
+          type: getField("type"),
+          bua: getField("bua"),
+          landArea: getField("landArea"),
+          tenure: getField("tenure"),
+          features: getField("features"),
+          googleMapsLink: getField("googleMapsLink"),
+          description: getField("description"),
+          status: getField("status") || "active",
+          image: imageUrl,
+          gallery: galleryUrls,
+
+          createdAt: now,
+          postedAt: now,
+          updatedAt: now
+        };
+
+        if (editingId) {
+          await updateDoc(doc(db, "listings", editingId), data);
+          setStatus("Listing updated successfully.", "green");
+        } else {
+          await addDoc(collection(db, "listings"), data);
+          setStatus("Listing saved successfully.", "green");
+        }
+
+        
+        resetForm();
+        await loadMyListings();
+
+      } catch (error) {
+        console.error(error);
+        setStatus("Failed to save listing. Check Firebase rules/storage.", "red");
+      } finally {
+        saveBtn.disabled = false;
+        saveBtn.textContent = "Save Listing";
+      }
+    }
+
+    function resetForm() {
+
+      editingId = null;
+      existingImage = "";
+      existingGallery = [];
+      saveBtn.textContent = "Save Listing";
+      cancelEditBtn.style.display = "none";
+
+      document.getElementById("title").value = "";
+      document.getElementById("price").value = "";
+      document.getElementById("location").value = "";
+      document.getElementById("address").value = "";
+      document.getElementById("state").value = "";
+      document.getElementById("city").value = "";
+      document.getElementById("status").value = "active";
+      document.getElementById("bua").value = "";
+      document.getElementById("landArea").value = "";
+      document.getElementById("tenure").value = "";
+      document.getElementById("features").value = "";
+      document.getElementById("googleMapsLink").value = "";
+      document.getElementById("description").value = "";
+
+      selectedFile = null;
+      selectedGalleryFiles = [];
+      fileInput.value = "";
+      galleryInput.value = "";
+      previewImage.src = "";
+      previewImage.style.display = "none";
+    }
+
+    async function loadMyListings() {
+      if (!currentUser) return;
+
+      const q = query(
+        collection(db, "listings"),
+        where("agentId", "==", currentUser.uid),
+        where("listingOwner", "==", "agent")
+      );
+
+      const snapshot = await getDocs(q);
+
+      if (snapshot.empty) {
+        myListings.innerHTML = "No listings yet.";
+        return;
+      }
+
+      myListings.innerHTML = "";
+
+      snapshot.forEach(docSnap => {
+        const item = docSnap.data();
+
+        const row = document.createElement("div");
+        row.className = "listing-row";
+
+        row.innerHTML = `
+          <img src="${item.image || ""}" alt="${item.title || "Listing"}">
+          <div>
+            <strong>${item.title || "-"}</strong><br>
+            ${item.price || "-"}<br>
+            ${item.location || "-"}, ${item.state || "-"}<br>
+            ${item.type || "-"}<br>
+            <a href="/listing/${item.slug}" target="_blank">View Listing</a>
+            <br><br>
+            <button class="btn" type="button" onclick="editListing('${docSnap.id}')">Edit</button>
+          </div>
+        `;
+
+        myListings.appendChild(row);
+      });
+    }
+
+    window.editListing = async function(id) {
+      const q = query(
+        collection(db, "listings"),
+        where("agentId", "==", currentUser.uid),
+        where("listingOwner", "==", "agent")
+      );
+
+      const snapshot = await getDocs(q);
+      const found = snapshot.docs.find(d => d.id === id);
+
+      if (!found) {
+        alert("Listing not found.");
+        return;
+      }
+
+      const item = found.data();
+
+      editingId = id;
+      existingImage = item.image || "";
+      existingGallery = item.gallery || [];
+
+      document.getElementById("listingType").value = item.listingType || "sale";
+      document.getElementById("type").value = item.type || "Detached Factory";
+      document.getElementById("title").value = item.title || "";
+      document.getElementById("price").value = item.price || "";
+      document.getElementById("location").value = item.location || "";
+      document.getElementById("address").value = item.address || "";
+      document.getElementById("state").value = item.state || "";
+      document.getElementById("city").value = item.city || "";
+      document.getElementById("status").value = item.status || "active";
+      document.getElementById("bua").value = item.bua || "";
+      document.getElementById("landArea").value = item.landArea || "";
+      document.getElementById("tenure").value = item.tenure || "";
+      document.getElementById("features").value = item.features || "";
+      document.getElementById("googleMapsLink").value = item.googleMapsLink || "";
+      document.getElementById("description").value = item.description || "";
+
+      if (existingImage) {
+        previewImage.src = existingImage;
+        previewImage.style.display = "block";
+      }
+
+      saveBtn.textContent = "Update Listing";
+      cancelEditBtn.style.display = "inline-block";
+      setStatus("Editing listing. Update fields and click Update Listing.", "#8a6500");
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+
+    dropZone.addEventListener("click", () => fileInput.click());
+
+    fileInput.addEventListener("change", e => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      if (!file.type.startsWith("image/")) {
+        setStatus("Please choose image only.", "red");
+        return;
+      }
+
+      selectedFile = file;
+      showPreview(file);
+    });
+
+    galleryInput.addEventListener("change", e => {
+      selectedGalleryFiles = Array.from(e.target.files || []);
+    });
+
+    cancelEditBtn.addEventListener("click", () => {
+      resetForm();
+      setStatus("Edit cancelled.", "#666");
+    });
+
+    saveBtn.addEventListener("click", saveListing);
+
+    document.getElementById("logoutBtn").addEventListener("click", async () => {
+      await signOut(auth);
+      window.location.href = "/agent-login.html";
+    });
+
+    onAuthStateChanged(auth, async user => {
+      if (!user) {
+        window.location.href = "/agent-login.html";
+        return;
+      }
+
+      currentUser = user;
+      agentInfo.textContent = `Logged in as ${user.email}`;
+      await loadMyListings();
+    });
+  </script>
+</body>
+</html>

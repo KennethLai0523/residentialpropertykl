@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="icon" href="/favicon.ico?v=2">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>All Listings | Residential Property KL</title>
-  <meta name="description" content="Browse residential property listings including condominiums, terrace houses, semi-detached homes, bungalows and townhouses in Kuala Lumpur and Selangor." />
-  <meta name="theme-color" content="#3F6FB5">
-  <link rel="stylesheet" href="shared-layout.css?v=10" />
+  <title>All Listings | Residential Property KL</title>
+  <meta name="description" content="Browse residential property listings including condominiums, apartments, terrace houses, bungalows and more in Kuala Lumpur and Selangor." />
+  <link rel="canonical" id="canonicalLink" href="https://residentialpropertykl.com/listings.html" />
+  <meta name="theme-color" content="#4da6ff" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/shared-layout.css" />
 
   <style>
-
 
     * { box-sizing: border-box; }
 
@@ -160,10 +163,16 @@
 
     .listing-bottom {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
+      flex-direction: column;   /* 🔥 stack vertically */
+      gap: 10px;
+    }
+
+    .listing-bottom a {
+      width: 100%;              /* 🔥 full width */
+      text-align: center;
+      padding: 14px 16px;       /* 🔥 bigger */
+      font-size: 15px;
+      border-radius: 8px;
     }
 
     .btn-gold,
@@ -195,6 +204,77 @@
       color: var(--muted);
       display: none;
     }
+
+.listing-card {
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.listing-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+.listing-thumb {
+  transition: transform 0.3s ease;
+}
+
+.listing-card:hover .listing-thumb {
+  transform: scale(1.05);
+}
+
+.btn-outline {
+  transition: all 0.2s ease;
+}
+
+.btn-outline:hover {
+  background: #eaeaea;   /* clearer dim */
+  border-color: #bbb;
+}
+
+.btn-wa {
+  background: #25D366;   /* WhatsApp green */
+  color: #fff;
+  border: none;
+  display: inline-block;
+}
+
+.btn-wa:hover {
+  background: #1ebe5d;   /* darker on hover */
+  opacity: 0.95;
+}
+
+.listing-toggle {
+  display: flex;
+  gap: 8px;
+}
+
+.listing-toggle button {
+  border: 1px solid #ddd;
+  background: #fff;
+
+  padding: 12px 20px;     /* 🔥 bigger */
+  font-size: 16px;        /* 🔥 bigger text */
+  border-radius: 24px;    /* smoother pill */
+
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.listing-toggle button:hover {
+  background: #f5f5f5;
+}
+
+.listing-toggle button.active {
+  background: #4da6ff;
+  color: #fff;
+  border-color: #4da6ff;
+}
+
+.listing-toggle button.active {
+  background: linear-gradient(135deg, #4da6ff, #2f7de1);
+}
 
     @media (max-width: 860px) {
       .listing-card {
@@ -229,14 +309,23 @@
   <main class="container">
     <div class="page-header">
       <div class="breadcrumb">
-        <a href="index.html">Home</a> &nbsp;›&nbsp; <span id="crumbLabel">All Listings</span>
+        <a href="/">Home</a> &nbsp;›&nbsp; <span id="crumbLabel">All Listings</span>
       </div>
       <h1 class="page-title" id="pageTitle">All Listings</h1>
+      <p id="seoText" style="margin:10px 0 0; color:#555; line-height:1.7;">
+        Browse residential property listings including condominiums, apartments, terrace houses, bungalows and more in Kuala Lumpur and Selangor.
+      </p>
     </div>
 
     <div class="listing-layout">
       <div class="listing-topbar">
         <div class="results-text" id="resultsText">Loading listings...</div>
+
+        <div class="listing-toggle" id="listingTypeFilter">
+          <button data-value="" class="active">All</button>
+          <button data-value="sale">For Sale</button>
+          <button data-value="rent">For Rent</button>
+        </div>
       </div>
 
       <div class="listing-list" id="listingList"></div>
@@ -246,183 +335,370 @@
 
   <div id="site-footer"></div>
 
-  <script type="module" src="shared-layout.js"></script>
+  <script type="module" src="/shared-layout.js"></script>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import {
-      getFirestore,
-      collection,
-      getDocs
-    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import {
+    getFirestore,
+    collection,
+    getDocs
+  } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBKO4RNc5r8GoPHQyRHdUllLVwtXFNJyVo",
-  authDomain: "residentialpropertykl.firebaseapp.com",
-  projectId: "residentialpropertykl",
-  storageBucket: "residentialpropertykl.firebasestorage.app",
-  messagingSenderId: "952845303526",
-  appId: "1:952845303526:web:7b604dca11ad50a93bc527",
-  measurementId: "G-DV21X2EGJ0"
-};
+  const firebaseConfig = {
+    apiKey: "AIzaSyBKO4RNc5r8GoPHQyRHdUllLVwtXFNJyVo",
+    authDomain: "residentialpropertykl.firebaseapp.com",
+    projectId: "residentialpropertykl",
+    storageBucket: "residentialpropertykl.firebasestorage.app",
+    messagingSenderId: "952845303526",
+    appId: "1:952845303526:web:7b604dca11ad50a93bc527",
+    measurementId: "G-DV21X2EGJ0"
+  };
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
 
-    const listingList = document.getElementById("listingList");
-    const emptyState = document.getElementById("emptyState");
-    const resultsText = document.getElementById("resultsText");
-    const pageTitle = document.getElementById("pageTitle");
-    const crumbLabel = document.getElementById("crumbLabel");
+  const listingList = document.getElementById("listingList");
+  const emptyState = document.getElementById("emptyState");
+  const resultsText = document.getElementById("resultsText");
+  
+  const listingTypeFilter = document.getElementById("listingTypeFilter");
 
-    function getTypeFilter() {
-      const params = new URLSearchParams(window.location.search);
-      return params.get("type");
+  const pageTitle = document.getElementById("pageTitle");
+  const crumbLabel = document.getElementById("crumbLabel");
+  const seoText = document.getElementById("seoText");
+  const canonicalLink = document.getElementById("canonicalLink");
+  const metaDesc = document.querySelector('meta[name="description"]');
+
+  function slugToType(slug) {
+    const map = {
+      "condominium": "Condominium",
+      "apartment": "Apartment",
+      "terrace-house": "Terrace House",
+      "semi-detached-house": "Semi-Detached House",
+      "bungalow": "Bungalow",
+      "townhouse": "Townhouse",
+      "soho": "SOHO",
+      "all-listings": "All Listings"
+    };
+
+    return map[slug] || "All Listings";
+  }
+
+  function getFiltersFromURL() {
+    let path = window.location.pathname.replace(/^\/|\/$/g, "");
+
+    if (path.startsWith("categories/")) {
+      path = path.replace("categories/", "");
     }
 
-    function formatPrice(price, listingType) {
-      if (!price) return listingType === "rent" ? "Price on request" : "Price on request";
-
-      const num = Number(price);
-      if (!Number.isNaN(num) && num > 0) {
-        if (num >= 1000000) return `RM${(num / 1000000).toFixed(num % 1000000 === 0 ? 0 : 1)}M`;
-        if (num >= 1000) return `RM${(num / 1000).toFixed(num % 1000 === 0 ? 0 : 1)}K`;
-        return `RM${num.toLocaleString()}`;
-      }
-
-      return String(price).startsWith("RM") ? String(price) : `RM${price}`;
+    if (!path || path === "listings.html") {
+      return { type: null, listingType: null, location: null };
     }
 
-    function formatPostedDate(timestamp) {
-      if (!timestamp) return "Recently";
-
-      const now = Date.now();
-      const diffDays = Math.floor((now - timestamp) / (1000 * 60 * 60 * 24));
-
-      if (diffDays <= 0) return "Today";
-      if (diffDays === 1) return "1 day ago";
-      if (diffDays < 30) return `${diffDays} days ago`;
-
-      return new Date(timestamp).toLocaleDateString();
-    }
-
-    function renderListings(items) {
-      listingList.innerHTML = "";
-
-      if (!items.length) {
-        emptyState.style.display = "block";
-        resultsText.textContent = "Showing 0 listings";
-        return;
-      }
-
-      emptyState.style.display = "none";
-      resultsText.textContent = `Showing ${items.length} listing${items.length > 1 ? "s" : ""}`;
-
-      items.forEach((item) => {
-        const card = document.createElement("article");
-        card.className = "listing-card";
-
-        const label1 = item.listingType === "rent" ? "FOR RENT" : "FOR SALE";
-        const hotLabel = item.hotOffer ? `<span class="label hot">HOT OFFER</span>` : "";
-
-        card.innerHTML = `
-          <div class="listing-thumb" style="background-image:url('${item.image || ""}')">
-            <div class="listing-labels">
-              <span class="label">${label1}</span>
-              ${hotLabel}
-            </div>
-          </div>
-
-          <div class="listing-body">
-            <div class="listing-main">
-              <div>
-                <h2 class="listing-title">${item.title || "-"}</h2>
-                <div class="listing-meta">${item.location || "-"}${item.city ? `, ${item.city}` : ""}</div>
-                <div class="listing-info"><strong>Built-up:</strong> ${item.bua || "-"}</div>
-                <div class="listing-type">${item.type || "-"}</div>
-                <div class="listing-agent">${item.agentName || "Kenneth Lai"} • ${formatPostedDate(item.postedAt)}</div>
-              </div>
-              <div class="listing-price">${formatPrice(item.price, item.listingType)}</div>
-            </div>
-
-            <div class="listing-bottom">
-              <a class="btn-outline" href="https://wa.me/60166287357?text=${encodeURIComponent(`Hi Kenneth, I am interested in ${item.title || "this listing"}.`)}" target="_blank" rel="noopener noreferrer">WhatsApp</a>
-              <a class="btn-gold" href="detail.html?id=${item.id}">Details</a>
-            </div>
-          </div>
-        `;
-
-        listingList.appendChild(card);
-      });
-    }
-
-    async function loadListings() {
-      const typeFilter = getTypeFilter();
-
-const typeLabels = {
-  "Condominium": "Condo",
-  "Apartment": "Apartment",
-  "Terrace House": "Terrace House",
-  "Superlink": "Superlink",
-  "Semi-Detached House": "Semi-Detached House",
-  "Bungalow": "Bungalow",
-  "Townhouse": "Townhouse",
-  "Landed": "Landed Houses"
-};
-
-const displayLabel = typeLabels[typeFilter] || "All Listings";
-
-pageTitle.textContent = displayLabel;
-crumbLabel.textContent = displayLabel;
-
-      try {
-        const snapshot = await getDocs(collection(db, "listings"));
-        const items = [];
-
-        snapshot.forEach((docSnap) => {
-          const data = docSnap.data();
-          items.push({
-            id: docSnap.id,
-            ...data
-          });
-        });
-
-let filtered = items;
-
-// ✅ Only show residential
-filtered = filtered.filter(item => item.category === "residential");
-
-// ✅ Type filter
-if (typeFilter) {
-
-  // 🔥 Landed group
-  if (typeFilter === "Landed") {
-    const landedTypes = [
-      "Terrace House",
-      "Superlink",
-      "Semi-Detached House",
-      "Bungalow",
-      "Townhouse"
+    const simpleTypes = [
+      "all-listings",
+      "condominium",
+      "apartment",
+      "terrace-house",
+      "semi-detached-house",
+      "bungalow",
+      "townhouse",
+      "soho"
     ];
 
-    filtered = filtered.filter(item => landedTypes.includes(item.type));
+    if (simpleTypes.includes(path)) {
+      return {
+        type: path === "all-listings" ? null : path,
+        listingType: null,
+        location: null
+      };
+    }
+
+    const saleMarker = "-for-sale-";
+    const rentMarker = "-for-rent-";
+
+    if (path.includes(saleMarker)) {
+      const [type, location] = path.split(saleMarker);
+      return { type, listingType: "sale", location };
+    }
+
+    if (path.includes(rentMarker)) {
+      const [type, location] = path.split(rentMarker);
+      return { type, listingType: "rent", location };
+    }
+
+    return { type: null, listingType: null, location: null };
+  }
+
+  function makeListingSlug(title) {
+    return (title || "listing")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)/g, "");
+  }
+
+  function normalizeType(value) {
+    return (value || "")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)/g, "");
+  }
+
+  function formatPrice(price, listingType) {
+    if (!price) return "Price on request";
+
+    const num = Number(price);
+    if (!Number.isNaN(num) && num > 0) {
+      if (num >= 1000000) return `RM${(num / 1000000).toFixed(num % 1000000 === 0 ? 0 : 1)}M`;
+      if (num >= 1000) return `RM${(num / 1000).toFixed(num % 1000 === 0 ? 0 : 1)}K`;
+      return `RM${num.toLocaleString()}`;
+    }
+
+    return String(price).startsWith("RM") ? String(price) : `RM${price}`;
+  }
+
+  function formatPostedDate(timestamp) {
+    if (!timestamp) return "Recently";
+
+    const raw = typeof timestamp?.toDate === "function" ? timestamp.toDate().getTime() : Number(timestamp);
+    if (!raw) return "Recently";
+
+    const now = Date.now();
+    const diffDays = Math.floor((now - raw) / (1000 * 60 * 60 * 24));
+
+    if (diffDays <= 0) return "Today";
+    if (diffDays === 1) return "1 day ago";
+    if (diffDays < 30) return `${diffDays} days ago`;
+
+    return new Date(raw).toLocaleDateString();
+  }
+
+  function getSortTime(value) {
+    if (!value) return 0;
+    if (typeof value?.toDate === "function") return value.toDate().getTime();
+    if (typeof value === "number") return value;
+    const parsed = new Date(value).getTime();
+    return Number.isNaN(parsed) ? 0 : parsed;
+  }
+
+  function renderListings(items) {
+    listingList.innerHTML = "";
+
+    if (!items.length) {
+      emptyState.style.display = "block";
+      resultsText.textContent = "Showing 0 listings";
+      return;
+    }
+
+    emptyState.style.display = "none";
+    resultsText.textContent = `Showing ${items.length} listing${items.length > 1 ? "s" : ""}`;
+
+    items.forEach((item) => {
+      const card = document.createElement("article");
+      card.className = "listing-card";
+
+      const detailUrl = `/listing/${item.slug}`;   // ✅ define FIRST
+      card.dataset.link = detailUrl;               // ✅ use AFTER
+
+      const label1 = item.listingType === "rent" ? "FOR RENT" : "FOR SALE";
+      const hotLabel = item.hotOffer ? `<span class="label hot">HOT OFFER</span>` : "";
+
+      card.innerHTML = `
+        <div class="listing-thumb" style="background-image:url('${item.image || ""}')">
+          <div class="listing-labels">
+            <span class="label">${label1}</span>
+            ${hotLabel}
+          </div>
+        </div>
+
+        <div class="listing-body">
+          <div class="listing-main">
+            <div>
+              <h2 class="listing-title">${item.title || "-"}</h2>
+              <div class="listing-meta">${item.location || "-"}${item.city ? `, ${item.city}` : ""}</div>
+              <div class="listing-info"><strong>Built-up:</strong> ${item.bua || "-"}</div>
+              <div class="listing-type">${item.type || "-"}</div>
+              <div class="listing-agent">
+                Residential Property KL Group • ${formatPostedDate(item.postedAt || item.createdAt)}
+              </div>
+            <div class="listing-price">${formatPrice(item.price, item.listingType)}</div>
+          </div>
+
+          <div class="listing-bottom">
+            <a class="btn-wa" href="https://wa.me/60166287357?text=${encodeURIComponent(`Hi Kenneth, I am interested in ${item.title || "this listing"}.`)}" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+            <a class="btn-gold" href="${detailUrl}">Details</a>
+          </div>
+        </div>
+      `;
+
+      listingList.appendChild(card);
+
+      card.addEventListener('click', function (e) {
+        if (e.target.closest('a, button')) return;
+        window.location.href = card.dataset.link;
+      });
+    });
+  }
+
+async function loadListings() {
+  const { type, listingType, location } = getFiltersFromURL();
+
+  if (type && listingType && location) {
+    const niceType = slugToType(type);
+    const niceIntent = listingType === "rent" ? "Rent" : "Sale";
+    const niceLocation = location
+      .split("-")
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+
+    const titleText = `${niceType} for ${niceIntent} in ${niceLocation}`;
+
+    pageTitle.textContent = titleText;
+    crumbLabel.textContent = titleText;
+    document.title = `${titleText} | Residential Property KL`;
+
+    seoText.textContent = `Explore ${niceType.toLowerCase()} for ${niceIntent.toLowerCase()} in ${niceLocation}. Browse the latest residential property listings in ${niceLocation}.`;
+
+    if (metaDesc) {
+      metaDesc.setAttribute(
+        "content",
+        `Browse ${niceType.toLowerCase()} for ${niceIntent.toLowerCase()} in ${niceLocation}. View the latest residential property listings in ${niceLocation}.`
+      );
+    }
+
+    if (canonicalLink) {
+      canonicalLink.setAttribute(
+        "href",
+        `https://residentialpropertykl.com/${window.location.pathname.replace(/^\/+/, "")}`
+      );
+    }
+
+  } else if (type) {
+    const niceType = slugToType(type);
+
+    pageTitle.textContent = niceType;
+    crumbLabel.textContent = niceType;
+    document.title = `${niceType} | Residential Property KL`;
+
+    seoText.textContent = `Browse ${niceType.toLowerCase()} listings in Kuala Lumpur and Selangor.`;
+
+    if (metaDesc) {
+      metaDesc.setAttribute(
+        "content",
+        `Browse ${niceType.toLowerCase()} listings in Kuala Lumpur and Selangor.`
+      );
+    }
+
+    if (canonicalLink) {
+      canonicalLink.setAttribute(
+        "href",
+        `https://residentialpropertykl.com/categories/${type}`
+      );
+    }
 
   } else {
-    filtered = filtered.filter(item => item.type === typeFilter);
+    pageTitle.textContent = "All Listings";
+    crumbLabel.textContent = "All Listings";
+    document.title = "All Listings | Residential Property KL";
+
+    seoText.textContent = "Browse residential property listings including condominiums, apartments, terrace houses, bungalows and more in Kuala Lumpur and Selangor.";
+
+    if (metaDesc) {
+      metaDesc.setAttribute(
+        "content",
+        "Browse residential property listings including condominiums, apartments, terrace houses, bungalows and more in Kuala Lumpur and Selangor."
+      );
+    }
+
+    if (canonicalLink) {
+      canonicalLink.setAttribute(
+        "href",
+        "https://residentialpropertykl.com/listings.html"
+      );
+    }
+  }
+
+  try {
+    const snapshot = await getDocs(collection(db, "listings"));
+    const items = [];
+
+    snapshot.forEach((docSnap) => {
+      const data = docSnap.data();
+      items.push({
+        id: docSnap.id,
+        ...data
+      });
+    });
+
+    let filtered = items.filter(item => item.listingOwner !== "agent");
+
+    if (type) {
+      filtered = filtered.filter(item =>
+        normalizeType(item.type) === type
+      );
+    }
+
+    if (listingType) {
+      filtered = filtered.filter(item =>
+        (item.listingType || "").toLowerCase() === listingType
+      );
+    }
+
+    if (location) {
+      filtered = filtered.filter(item =>
+        (item.city || "").toLowerCase().includes(location) ||
+        (item.location || "").toLowerCase().includes(location)
+      );
+    }
+
+    filtered.sort((a, b) => getSortTime(b.createdAt) - getSortTime(a.createdAt));
+    renderListings(filtered);
+
+const toggleButtons = document.querySelectorAll("#listingTypeFilter button");
+
+toggleButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    // UI active state
+    toggleButtons.forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+
+    const selected = btn.dataset.value;
+
+    let filteredByToggle = items.filter(item => item.listingOwner !== "agent");
+
+    if (type) {
+      filteredByToggle = filteredByToggle.filter(item =>
+        normalizeType(item.type) === type
+      );
+    }
+
+    if (location) {
+      filteredByToggle = filteredByToggle.filter(item =>
+        (item.city || "").toLowerCase().includes(location) ||
+        (item.location || "").toLowerCase().includes(location)
+      );
+    }
+
+    if (selected) {
+      filteredByToggle = filteredByToggle.filter(item =>
+        (item.listingType || "").toLowerCase() === selected
+      );
+    }
+
+    renderListings(filteredByToggle);
+  });
+});
+
+  } catch (error) {
+    console.error(error);
+    resultsText.textContent = "Failed to load listings";
+    emptyState.style.display = "block";
+    emptyState.textContent = "Unable to load listings.";
   }
 }
 
-        filtered.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-        renderListings(filtered);
-      } catch (error) {
-        console.error(error);
-        resultsText.textContent = "Failed to load listings";
-        emptyState.style.display = "block";
-        emptyState.textContent = "Unable to load listings.";
-      }
-    }
-
-    loadListings();
-  </script>
+  loadListings();
+</script>
 </body>
 </html>

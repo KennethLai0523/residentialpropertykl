@@ -1,6 +1,6 @@
 :root {
-  --gold: #3F6FB5;       /* softer blue */
-  --gold-dark: #2F5FA5;  /* keep strong hover */
+  --gold: #4da6ff;       /* light blue */
+  --gold-dark: #3399ff;  /* slightly darker for hover */
   --dark: #111111;
   --text: #222222;
   --muted: #666666;
@@ -304,7 +304,7 @@ button {
 }
 
 .footer-col h4 {
-  color: #6EA8FF;   /* soft blue */
+  color: #ffffff;   /* clean white */
   margin: 10px 0 14px;
   font-size: 14px;
   letter-spacing: 1px;
@@ -313,7 +313,7 @@ button {
 .footer-col a {
   display: block;
   margin-bottom: 10px;
-  color: #6EA8FF;   /* same blue */
+  color: #99ccff;   /* light blue */
   font-weight: 700;
   font-size: 14px;
 }
@@ -394,6 +394,29 @@ button {
 
 .brand-mark img {
   border-radius: 0 !important;   /* 🔥 remove curve from image */
+}
+
+/* FOOTER */
+.site-footer {
+  background: #06090d;
+  color: #fff;
+  margin-top: 48px;
+  padding-top: 32px;
+  position: relative;
+}
+
+/* Compact footer links (SEO links) */
+.footer-links-compact {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 12px;
+  margin-top: 8px;
+}
+
+.footer-links-compact a {
+  font-size: 13px;
+  line-height: 1.4;
+  margin-bottom: 0;
 }
 
 /* MOBILE */
@@ -550,7 +573,7 @@ button {
   min-width: 100%;
   margin-top: 0 !important;
 
-  background: var(--gold);   /* your blue */
+  background: #4da6ff;
   border-top: none;
   box-shadow: 0 12px 24px rgba(0,0,0,0.12);
 
@@ -576,9 +599,9 @@ button {
   border-bottom: 1px solid rgba(0,0,0,0.08);
   white-space: normal;
   word-break: break-word;
-  background: var(--gold);
-  color: #fff;               /* optional: better contrast */
+  background: #3399ff;
 }
+
 
 .dropdown-menu a:last-child {
   border-bottom: none;

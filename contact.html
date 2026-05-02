@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Contact Us | Industrial Property KL</title>
-  <meta name="description" content="Contact Industrial Property KL for factory, warehouse, industrial land and ramp-up project enquiries in Kuala Lumpur and Selangor." />
-  <meta name="theme-color" content="#3F6FB5">
+  <title>Contact Us | Residential Property KL</title>
+  <meta name="description" content="Contact Residential Property KL for condominium, apartment and landed home enquiries in Kuala Lumpur and Selangor." />
+  <meta name="theme-color" content="#4da6ff" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="icon" href="/favicon.ico?v=2">
   <link rel="stylesheet" href="shared-layout.css" />
 
   <style>
-
 
     * { box-sizing: border-box; }
 
@@ -235,9 +236,10 @@
 
   <section class="contact-hero">
     <div class="container contact-hero-content">
-      <h1>Let’s Find Your Ideal Home</h1>
+      <h1>Contact Residential Property KL</h1>
       <p>
-Whether you're buying, upgrading or investing, reach out for tailored residential property options and support across KL and Selangor.
+        Looking for a condominium, apartment or landed home in Kuala Lumpur and Selangor?
+        Reach out directly for suitable options, viewings and faster recommendations.
       </p>
     </div>
   </section>
@@ -249,7 +251,7 @@ Whether you're buying, upgrading or investing, reach out for tailored residentia
         <div class="contact-card">
           <h2>Let’s Discuss Your Property Needs</h2>
           <p class="contact-intro">
-Whether you are buying, selling or investing, share your requirements and we will recommend suitable residential property options across Kuala Lumpur and Selangor.
+            Whether you are buying, renting, upgrading or investing, share your requirements with us and we will recommend suitable residential property options tailored to your needs.
           </p>
 
           <form class="contact-form" onsubmit="sendWhatsAppEnquiry(event)">
@@ -260,16 +262,16 @@ Whether you are buying, selling or investing, share your requirements and we wil
               <input type="email" id="email" placeholder="Email Address" />
               <select id="propertyNeed">
                 <option value="">Property Type Needed</option>
-                <option>Apartment/condo</option>
-                <option>Terraced House</option>
-                <option>Semi-D</option>
+                <option>Condominium</option>
+                <option>Apartment</option>
+                <option>Terrace House</option>
+                <option>Semi-Detached House</option>
                 <option>Bungalow</option>
-                <option>New Projects</option>
-                <option>Other</option>
+                <option>Townhouse</option>
               </select>
 
-              <input class="full" type="text" id="preferredArea" placeholder="Preferred Area (e.g. Petaling Jaya, Mont Kiara, Subang, Cheras)" />
-              <textarea class="full" id="message" placeholder="Tell us what you are looking for, such as budget, property type (condo / landed), own stay or investment, preferred location, size and timeline."></textarea>
+              <input class="full" type="text" id="preferredArea" placeholder="Preferred Area (e.g. KL City centre, Damansara, Puchong, Mont Kiara)" />
+              <textarea class="full" id="message" placeholder="Share your requirements, including budget, preferred location, property type, size, and timeline, and we will help you find suitable options."></textarea>
             </div>
 
             <div class="contact-actions">
@@ -286,15 +288,15 @@ Whether you are buying, selling or investing, share your requirements and we wil
         <div class="info-list">
           <div class="info-box">
             <h3>Contact Details</h3>
-            <p><strong>Residential Property KL Group</strong><br>Residential Property Specialist</p>
+            <p><strong>Residential Property KL</strong><br>Residential Property Specialist</p>
             <p><strong>WhatsApp:</strong> <a href="https://wa.me/60166287357" target="_blank" rel="noopener noreferrer">+60 16-628 7357</a></p>
             <p><strong>Email:</strong> <a href="mailto:kennethrealtyconsultancy@gmail.com">ResidentialPropertyKL@gmail.com</a></p>
           </div>
 
           <div class="info-box">
-            <h3>Coverage Area</h3>
+            <h3>Office Coverage</h3>
             <p>
-Kuala Lumpur, Petaling Jaya, Mont Kiara, Subang, Cheras, Shah Alam and surrounding Selangor residential areas.
+              Kuala Lumpur, Petaling Jaya, Mont Kiara, Subang, Shah Alam and surrounding residential areas across Selangor.
             </p>
           </div>
 
@@ -337,7 +339,7 @@ Kuala Lumpur, Petaling Jaya, Mont Kiara, Subang, Cheras, Shah Alam and surroundi
       const message = document.getElementById("message").value.trim();
 
       const text =
-`Hi Kenneth, I would like to enquire about industrial property.
+`Hi Kenneth, I would like to enquire about residential property.
 
 Name: ${name}
 Phone: ${phone}

@@ -5,6 +5,9 @@ import {
   getDocs,
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyBKO4RNc5r8GoPHQyRHdUllLVwtXFNJyVo",
   authDomain: "residentialpropertykl.firebaseapp.com",
@@ -15,8 +18,16 @@ const firebaseConfig = {
   measurementId: "G-DV21X2EGJ0"
 };
 
+
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+
+function makeProjectSlug(title) {
+  return (title || "project")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
 
 async function loadSharedSection(targetId, filePath) {
   const target = document.getElementById(targetId);
@@ -68,7 +79,7 @@ async function loadProjectsDropdown() {
     dropdown.innerHTML = projects
       .map(
         (project) =>
-          `<a href="project-detail.html?id=${project.id}">${project.title}</a>`
+          `<a href="/project/${makeProjectSlug(project.title)}-${project.id}">${project.title}</a>`
       )
       .join("");
   } catch (error) {
@@ -117,15 +128,15 @@ function setupSharedHeaderFooter() {
 }
 
 async function initSharedLayout() {
-await loadSharedSection("site-header", "header.html?v=3");
-await loadSharedSection("site-footer", "footer.html?v=3");
+  await loadSharedSection("site-header", "/header.html?v=3");
+  await loadSharedSection("site-footer", "/footer.html?v=3");
   await loadProjectsDropdown();
   setupSharedHeaderFooter();
 }
 
 function renderAgentRow(item) {
   const name = item.agentName || "Kenneth Lai";
-  const image = item.agentImage || "images/default-agent.png";
+  const image = item.agentImage || "/images/default-agent.png";
   const time = formatPostedDate(item.postedAt);
 
   return `
@@ -134,7 +145,7 @@ function renderAgentRow(item) {
         class="agent-avatar" 
         src="${image}" 
         alt="${name}"
-        onerror="this.src='images/default-agent.png'"
+        onerror="this.src='/images/default-agent.png'"
       />
       <span class="agent-name">${name}</span>
       <span class="agent-dot">•</span>

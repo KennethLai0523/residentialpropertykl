@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Agent Login | Industrial Property KL</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/shared-layout.css?v=12" />
+
+  <style>
+    .login-page {
+      max-width: 420px;
+      margin: 80px auto;
+      padding: 28px;
+      background: #fff;
+      border-radius: 16px;
+      border: 1px solid #eee;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    }
+
+    .login-page h1 {
+      margin-top: 0;
+      font-size: 28px;
+    }
+
+    .login-page input {
+      width: 100%;
+      padding: 13px 14px;
+      margin-bottom: 12px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-size: 15px;
+    }
+
+    .login-page button {
+      width: 100%;
+      padding: 13px;
+      border: none;
+      border-radius: 10px;
+      background: #4f5967;
+      color: #fff;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    .status {
+      margin-top: 12px;
+      font-weight: 700;
+      color: red;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="site-header"></div>
+
+  <main class="login-page">
+    <h1>Agent Login</h1>
+
+    <input id="email" type="email" placeholder="Agent Email" />
+    <input id="password" type="password" placeholder="Password" />
+
+    <button id="loginBtn" type="button">Login</button>
+
+    <div id="statusText" class="status"></div>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script type="module" src="/shared-layout.js?v=12"></script>
+
+  <script type="module">
+    import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import {
+      getAuth,
+      signInWithEmailAndPassword
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBKO4RNc5r8GoPHQyRHdUllLVwtXFNJyVo",
+      authDomain: "residentialpropertykl.firebaseapp.com",
+      projectId: "residentialpropertykl",
+      storageBucket: "residentialpropertykl.firebasestorage.app",
+      messagingSenderId: "952845303526",
+      appId: "1:952845303526:web:7b604dca11ad50a93bc527",
+      measurementId: "G-DV21X2EGJ0"
+    };
+
+    const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+    const loginBtn = document.getElementById("loginBtn");
+    const statusText = document.getElementById("statusText");
+
+    async function loginAgent() {
+      const email = emailInput.value.trim();
+      const password = passwordInput.value.trim();
+
+      if (!email || !password) {
+        statusText.textContent = "Please enter email and password.";
+        return;
+      }
+
+      loginBtn.disabled = true;
+      loginBtn.textContent = "Logging in...";
+      statusText.textContent = "";
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+
+        window.location.href = "/agent-dashboard.html";
+      } catch (error) {
+        console.error(error);
+        statusText.textContent = "Login failed. Please check email or password.";
+      } finally {
+        loginBtn.disabled = false;
+        loginBtn.textContent = "Login";
+      }
+    }
+
+    loginBtn.addEventListener("click", loginAgent);
+
+    passwordInput.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") {
+        loginAgent();
+      }
+    });
+  </script>
+</body>
+</html>

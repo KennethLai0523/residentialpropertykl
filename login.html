@@ -3,7 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin Login | Industrial Property KL</title>
+
+  <title>Admin Login | Residential Property KL</title>
+  <link rel="icon" href="/images/favicon.png?v=2">
+
   <style>
     * { box-sizing: border-box; }
 
@@ -68,57 +71,41 @@
       cursor: pointer;
     }
 
-    .btn:disabled {
-      opacity: 0.7;
-      cursor: not-allowed;
-    }
-
     .msg {
       margin-top: 16px;
       font-size: 14px;
-      line-height: 1.5;
       min-height: 22px;
     }
 
     .msg.error { color: #d93025; }
     .msg.success { color: #188038; }
-
-    .debug {
-      margin-top: 14px;
-      padding: 12px;
-      border-radius: 10px;
-      background: #faf7ef;
-      color: #5f4a15;
-      font-size: 13px;
-      word-break: break-word;
-      display: none;
-      white-space: pre-wrap;
-    }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h1>Admin Login</h1>
 
-    <label class="label" for="email">Email</label>
-    <input class="input" type="email" id="email" placeholder="Enter your email" />
+<div class="card">
+  <h1>Admin Login</h1>
 
-    <label class="label" for="password">Password</label>
-    <input class="input" type="password" id="password" placeholder="Enter your password" />
+  <label class="label">Email</label>
+  <input class="input" type="email" id="email" />
 
-    <button class="btn" id="loginBtn" type="button">Login</button>
+  <label class="label">Password</label>
+  <input class="input" type="password" id="password" />
 
-    <div class="msg" id="msg"></div>
-    <div class="debug" id="debugBox"></div>
-  </div>
+  <button class="btn" id="loginBtn">Login</button>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import {
-      getAuth,
-      signInWithEmailAndPassword,
-      onAuthStateChanged
-    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  <div class="msg" id="msg"></div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  setPersistence,
+  browserLocalPersistence
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBKO4RNc5r8GoPHQyRHdUllLVwtXFNJyVo",
@@ -126,95 +113,68 @@ const firebaseConfig = {
   projectId: "residentialpropertykl",
   storageBucket: "residentialpropertykl.firebasestorage.app",
   messagingSenderId: "952845303526",
-  appId: "1:952845303526:web:7b604dca11ad50a93bc527",
-  measurementId: "G-DV21X2EGJ0"
+  appId: "1:952845303526:web:7b604dca11ad50a93bc527"
 };
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
-    const emailInput = document.getElementById("email");
-    const passwordInput = document.getElementById("password");
-    const loginBtn = document.getElementById("loginBtn");
-    const msg = document.getElementById("msg");
-    const debugBox = document.getElementById("debugBox");
+const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
+const loginBtn = document.getElementById("loginBtn");
+const msg = document.getElementById("msg");
 
-    function setMessage(text, type = "") {
-      msg.textContent = text;
-      msg.className = "msg";
-      if (type) msg.classList.add(type);
-    }
+function setMessage(text, type = "") {
+  msg.textContent = text;
+  msg.className = "msg";
+  if (type) msg.classList.add(type);
+}
 
-    function showDebug(text) {
-      debugBox.style.display = "block";
-      debugBox.textContent = text;
-    }
+/* ✅ Prevent redirect loop */
+let checked = false;
 
-    function hideDebug() {
-      debugBox.style.display = "none";
-      debugBox.textContent = "";
-    }
+onAuthStateChanged(auth, (user) => {
+  if (user && !checked) {
+    checked = true;
+    window.location.href = "admin.html";
+  }
+});
 
-    function friendlyError(err) {
-      switch (err?.code) {
-        case "auth/invalid-email":
-          return "Invalid email format.";
-        case "auth/user-not-found":
-          return "User not found.";
-        case "auth/wrong-password":
-          return "Wrong password.";
-        case "auth/invalid-credential":
-        case "auth/invalid-login-credentials":
-          return "Email or password is incorrect.";
-        case "auth/operation-not-allowed":
-          return "Email/Password sign-in is not enabled.";
-        case "auth/api-key-not-valid":
-          return "Firebase API key is still invalid.";
-        default:
-          return "Login failed.";
-      }
-    }
+/* ✅ Login with persistence */
+async function login() {
+  const email = emailInput.value.trim();
+  const password = passwordInput.value;
 
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        window.location.href = "admin.html";
-      }
-    });
+  if (!email || !password) {
+    setMessage("Enter email and password", "error");
+    return;
+  }
 
-    async function login() {
-      const email = emailInput.value.trim();
-      const password = passwordInput.value;
+  loginBtn.disabled = true;
+  setMessage("Logging in...", "success");
 
-      hideDebug();
+  try {
+    await setPersistence(auth, browserLocalPersistence);
+    await signInWithEmailAndPassword(auth, email, password);
 
-      if (!email || !password) {
-        setMessage("Please enter email and password.", "error");
-        return;
-      }
+    setMessage("Success! Redirecting...", "success");
 
-      loginBtn.disabled = true;
-      setMessage("Logging in...", "success");
+    setTimeout(() => {
+      window.location.href = "admin.html";
+    }, 800);
 
-      try {
-        await signInWithEmailAndPassword(auth, email, password);
-        setMessage("Login successful. Redirecting...", "success");
-        window.location.href = "admin.html";
-      } catch (err) {
-        console.error(err);
-        setMessage(friendlyError(err), "error");
-        showDebug(`Error code: ${err.code || "none"}\nMessage: ${err.message || "No message"}`);
-      } finally {
-        loginBtn.disabled = false;
-      }
-    }
+  } catch (err) {
+    setMessage("Invalid email or password", "error");
+  } finally {
+    loginBtn.disabled = false;
+  }
+}
 
-    loginBtn.addEventListener("click", login);
-    passwordInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") login();
-    });
-    emailInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") login();
-    });
-  </script>
+loginBtn.addEventListener("click", login);
+passwordInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") login();
+});
+</script>
+
 </body>
 </html>

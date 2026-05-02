@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <title>Admin Panel | Residential Property KL</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="/images/favicon.png?v=2">
   <style>
     * { box-sizing: border-box; }
 
@@ -361,19 +362,20 @@
         <option value="rent">For Rent</option>
       </select>
     
-<select id="type">
-  <option value="Condominium">Condo</option>
-  <option value="Apartment">Apartment</option>
-  <option value="Terrace House">Terrace House</option>
-  <option value="Superlink">Superlink</option>
-  <option value="Semi-Detached House">Semi-Detached House</option>
-  <option value="Bungalow">Bungalow</option>
-  <option value="Townhouse">Townhouse</option>
-</select>
+    
+      <select id="type">
+        <option value="Condominium">Condominium</option>
+        <option value="Apartment">Apartment</option>
+        <option value="Terrace House">Terrace House</option>
+        <option value="Semi-Detached House">Semi-Detached House</option>
+        <option value="Bungalow">Bungalow</option>
+        <option value="Townhouse">Townhouse</option>
+        <option value="SOHO">SOHO</option>
+      </select>
     </div>
     
     <input id="title" placeholder="Title" />
-    <input id="price" placeholder="Price (example: 7800000 or 30000)" />
+    <input id="price" placeholder="Price (example: 2300 or 1,300,000)" />
     
     <div class="grid-2">
       <input id="location" placeholder="Short Location / Address" />
@@ -387,34 +389,33 @@
     
     <input id="status" placeholder="Status (active / sold / rented / available)" value="active" />
 
-        <div class="grid-3">
-          <input id="bua" placeholder="Built-up / Size (sqft)" />
-          <input id="landArea" placeholder="Land Area (sqft)" />
-          <input id="tenure" placeholder="Tenure (Freehold / Leasehold)" />
+        <div class="grid-3"> <!-- or should be grid 2-->
+          <input id="bua" placeholder="Built-up Size" />
+          <input id="landArea" placeholder="Land Area" />
+          <input id="bedrooms" placeholder="Bedrooms" />
         </div>
 
-<div class="grid-3">
-  <input id="bedrooms" placeholder="Bedrooms" />
-  <input id="bathrooms" placeholder="Bathrooms" />
-  <input id="carparks" placeholder="Car Parks" />
-</div>
+        <div class="grid-2">
+          <input id="bathrooms" placeholder="Bathrooms" />
+          <input id="carPark" placeholder="Car Park" />
+        </div>
 
-<div class="grid-2">
-  <input id="furnishing" placeholder="Furnishing (Fully / Partial / Unfurnished)" />
-  <input id="facilities" placeholder="Facilities (Pool, Gym, Guarded, etc)" />
-</div>
+        <div class="grid-2">
+          <input id="tenure" placeholder="Tenure (example: Leasehold)" />
+          <input id="maintenanceFee" placeholder="Maintenance Fee (RM 300 / month)" />
+        </div>
 
         <input id="features" placeholder="Features (comma separated or normal sentence)" />
         <input id="googleMapsLink" placeholder="Google Maps Link" />
         <textarea id="description" placeholder="Description"></textarea>
 
         <div class="grid-2">
-          <input id="agentName" placeholder="Agent Name" value="Kenneth Lai" />
-          <input id="agentPhone" placeholder="Agent Phone (60123456789)" />
+          <input id="agentName" value="Industrial Property KL Group" readonly />
+          <input id="agentPhone" value="+60 16-628 7357" readonly />
         </div>
 
         <div class="grid-2">
-          <input id="agentEmail" placeholder="Agent Email" />
+          <input id="agentEmail" value="kennethrealtyconsultancy@gmail.com" readonly />
           <select id="hotOffer">
             <option value="false">Normal Listing</option>
             <option value="true">Hot Offer</option>
@@ -436,8 +437,6 @@
           </div>
         </div>
 
-        <h3 class="subsection-title">Agent Photo</h3>
-        <input type="file" id="agentImageInput" accept="image/*" />
 
         <h3 class="subsection-title">Gallery Photos</h3>
         <input type="file" id="galleryInput" accept="image/*" multiple />
@@ -452,6 +451,7 @@
 
         <div class="status-text" id="statusText"></div>
       </div>
+      
 
       <div class="card">
         <h2>All Listings</h2>
@@ -574,15 +574,15 @@
       getDownloadURL
     } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBKO4RNc5r8GoPHQyRHdUllLVwtXFNJyVo",
-  authDomain: "residentialpropertykl.firebaseapp.com",
-  projectId: "residentialpropertykl",
-  storageBucket: "residentialpropertykl.firebasestorage.app",
-  messagingSenderId: "952845303526",
-  appId: "1:952845303526:web:7b604dca11ad50a93bc527",
-  measurementId: "G-DV21X2EGJ0"
-};
+    const firebaseConfig = {
+      apiKey: "AIzaSyBKO4RNc5r8GoPHQyRHdUllLVwtXFNJyVo",
+      authDomain: "residentialpropertykl.firebaseapp.com",
+      projectId: "residentialpropertykl",
+      storageBucket: "residentialpropertykl.firebasestorage.app",
+      messagingSenderId: "952845303526",
+      appId: "1:952845303526:web:7b604dca11ad50a93bc527",
+      measurementId: "G-DV21X2EGJ0"
+    };
     const projectFormTitle = document.getElementById("projectFormTitle");
     const projectList = document.getElementById("projectList");
 
@@ -605,7 +605,7 @@ const firebaseConfig = {
     const listingList = document.getElementById("listingList");
     const formTitle = document.getElementById("formTitle");
     const editBanner = document.getElementById("editBanner");
-    const agentImageInput = document.getElementById("agentImageInput");
+    const agentImageInput = null;
     const galleryInput = document.getElementById("galleryInput");
 
     const blogDropZone = document.getElementById("blogDropZone");
@@ -869,11 +869,10 @@ saveProjectBtn.textContent = "Update Project";
         bua: getField("bua"),
         landArea: getField("landArea"),
         tenure: getField("tenure"),
-bedrooms: getField("bedrooms"),
-bathrooms: getField("bathrooms"),
-carparks: getField("carparks"),
-furnishing: getField("furnishing"),
-facilities: getField("facilities"),
+        bedrooms: getField("bedrooms"),
+        bathrooms: getField("bathrooms"),
+        carPark: getField("carPark"),
+        maintenanceFee: getField("maintenanceFee"),
         features: getField("features"),
         googleMapsLink: getField("googleMapsLink"),
         image: imageUrl,
@@ -881,10 +880,10 @@ facilities: getField("facilities"),
         description: getField("description"),
         status: getField("status") || "active",
         hotOffer: document.getElementById("hotOffer").value === "true",
-        agentName: getField("agentName") || "Kenneth Lai",
-        agentPhone: getField("agentPhone"),
-        agentEmail: getField("agentEmail"),
-        agentImage: agentImageUrl,
+        agentName: "Industrial Property KL Group",
+        agentPhone: "+60 16-628 7357",
+        agentEmail: "kennethrealtyconsultancy@gmail.com",
+        agentImage: agentImageUrl || "/images/listingphoto.png",
         postedAt: keepCreatedAt || now,
         createdAt: keepCreatedAt || now,
         updatedAt: now
@@ -928,20 +927,19 @@ facilities: getField("facilities"),
       document.getElementById("bua").value = "";
       document.getElementById("landArea").value = "";
       document.getElementById("tenure").value = "";
-document.getElementById("bedrooms").value = "";
-document.getElementById("bathrooms").value = "";
-document.getElementById("carparks").value = "";
-document.getElementById("furnishing").value = "";
-document.getElementById("facilities").value = "";
+      document.getElementById("bedrooms").value = "";
+      document.getElementById("bathrooms").value = "";
+      document.getElementById("carPark").value = "";
+      document.getElementById("maintenanceFee").value = "";
       document.getElementById("features").value = "";
       document.getElementById("googleMapsLink").value = "";
       document.getElementById("description").value = "";
-      document.getElementById("agentName").value = "Kenneth Lai";
-      document.getElementById("agentPhone").value = "";
-      document.getElementById("agentEmail").value = "";
+      document.getElementById("agentName").value = "Industrial Property KL Group";
+      document.getElementById("agentPhone").value = "+60 16-628 7357";
+      document.getElementById("agentEmail").value = "kennethrealtyconsultancy@gmail.com";
       document.getElementById("hotOffer").value = "false";
 
-      agentImageInput.value = "";
+
       galleryInput.value = "";
       selectedAgentFile = null;
       selectedGalleryFiles = [];
@@ -995,11 +993,10 @@ document.getElementById("facilities").value = "";
       document.getElementById("bua").value = item.bua || "";
       document.getElementById("landArea").value = item.landArea || "";
       document.getElementById("tenure").value = item.tenure || "";
-document.getElementById("bedrooms").value = item.bedrooms || "";
-document.getElementById("bathrooms").value = item.bathrooms || "";
-document.getElementById("carparks").value = item.carparks || "";
-document.getElementById("furnishing").value = item.furnishing || "";
-document.getElementById("facilities").value = item.facilities || "";
+      document.getElementById("bedrooms").value = item.bedrooms || "";
+      document.getElementById("bathrooms").value = item.bathrooms || "";
+      document.getElementById("carPark").value = item.carPark || "";
+      document.getElementById("maintenanceFee").value = item.maintenanceFee || "";
       document.getElementById("features").value = item.features || "";
       document.getElementById("googleMapsLink").value = item.googleMapsLink || "";
       document.getElementById("description").value = item.description || "";
@@ -1011,7 +1008,6 @@ document.getElementById("facilities").value = item.facilities || "";
       selectedFile = null;
       selectedAgentFile = null;
       selectedGalleryFiles = [];
-      agentImageInput.value = "";
       galleryInput.value = "";
 
       showPreviewFromUrl(existingImageUrl);
@@ -1085,7 +1081,14 @@ document.getElementById("facilities").value = item.facilities || "";
             </div>
             <div class="listing-actions">
               <button class="btn btn-sm btn-light edit-btn">Edit</button>
-              <a class="btn btn-sm btn-green" href="detail.html?id=${docSnap.id}" target="_blank" style="text-decoration:none; text-align:center;">View</a>
+<a
+  class="btn btn-sm btn-green"
+  href="/listing/${item.slug}"
+  target="_blank"
+  style="text-decoration:none; text-align:center;"
+>
+  View
+</a>
             </div>
           `;
 
@@ -1205,71 +1208,75 @@ row.querySelector(".project-edit-btn").addEventListener("click", () => {
   }
 }
 
-    async function saveListing() {
-      const title = getField("title");
-      const price = getField("price");
-      const location = getField("location");
+async function saveListing() {
+  const title = getField("title");
+  const price = getField("price");
+  const location = getField("location");
 
-      if (!title || !price || !location) {
-        setStatus("Please fill in at least title, price, and location.", "red");
-        return;
-      }
+  if (!title || !price || !location) {
+    setStatus("Please fill in at least title, price, and location.", "red");
+    return;
+  }
 
-      if (!editingId && !selectedFile) {
-        setStatus("Please drag or choose one cover photo first.", "red");
-        return;
-      }
+  if (!editingId && !selectedFile) {
+    setStatus("Please drag or choose one cover photo first.", "red");
+    return;
+  }
 
-      saveBtn.disabled = true;
-      setStatus(editingId ? "Updating listing..." : "Saving listing...", "#333");
+  saveBtn.disabled = true;
+  setStatus(editingId ? "Updating listing..." : "Saving listing...", "#333");
 
-      try {
-        let finalImageUrl = existingImageUrl;
-        let finalAgentImageUrl = existingAgentImageUrl;
-        let finalGalleryUrls = [...existingGalleryUrls];
-        let keepCreatedAt = null;
+  try {
+    let finalImageUrl = existingImageUrl;
+    let finalAgentImageUrl = existingAgentImageUrl;
+    let finalGalleryUrls = [...existingGalleryUrls];
+    let keepCreatedAt = null;
 
-        if (editingId) {
-          const existingSnap = await getDoc(doc(db, "listings", editingId));
-          if (existingSnap.exists()) {
-            const existingData = existingSnap.data();
-            keepCreatedAt = existingData.createdAt || existingData.postedAt || null;
-          }
-        }
-
-        if (selectedFile) {
-          finalImageUrl = await uploadImage(selectedFile, "listing-images", title, progressText);
-        }
-
-        if (selectedAgentFile) {
-          finalAgentImageUrl = await uploadOptionalImage(selectedAgentFile, "agent-images", title, progressText);
-        }
-
-        if (selectedGalleryFiles.length > 0) {
-          finalGalleryUrls = await uploadGalleryImages(selectedGalleryFiles, title);
-        }
-
-        const data = getFormData(finalImageUrl, finalAgentImageUrl, finalGalleryUrls, keepCreatedAt);
-
-        if (editingId) {
-          await updateDoc(doc(db, "listings", editingId), data);
-          setStatus("Listing updated successfully.", "green");
-        } else {
-          await addDoc(collection(db, "listings"), data);
-          setStatus("Listing saved successfully.", "green");
-        }
-
-        progressText.textContent = "";
-        resetForm();
-        await loadListings();
-      } catch (error) {
-        console.error(error);
-        progressText.textContent = "";
-        setStatus("Failed to save listing. Check Storage rules and setup.", "red");
-      } finally {
-        saveBtn.disabled = false;
+    if (editingId) {
+      const existingSnap = await getDoc(doc(db, "listings", editingId));
+      if (existingSnap.exists()) {
+        const existingData = existingSnap.data();
+        keepCreatedAt = existingData.createdAt || existingData.postedAt || null;
       }
     }
+
+    if (selectedFile) {
+      finalImageUrl = await uploadImage(selectedFile, "listing-images", title, progressText);
+    }
+
+    if (selectedGalleryFiles.length > 0) {
+      finalGalleryUrls = await uploadGalleryImages(selectedGalleryFiles, title);
+    }
+
+    const data = getFormData(finalImageUrl, finalAgentImageUrl, finalGalleryUrls, keepCreatedAt);
+
+    if (editingId) {
+      const urlKey = `${slugify(data.title)}-${editingId}`;
+      await updateDoc(doc(db, "listings", editingId), {
+        ...data,
+        urlKey
+      });
+      setStatus("Listing updated successfully.", "green");
+    } else {
+      const newRef = await addDoc(collection(db, "listings"), data);
+      const urlKey = `${slugify(data.title)}-${newRef.id}`;
+
+      await updateDoc(newRef, { urlKey });
+
+      setStatus("Listing saved successfully.", "green");
+    }
+
+    progressText.textContent = "";
+    resetForm();
+    await loadListings();
+  } catch (error) {
+    console.error(error);
+    progressText.textContent = "";
+    setStatus("Failed to save listing. Check Storage rules and setup.", "red");
+  } finally {
+    saveBtn.disabled = false;
+  }
+}
 
     async function saveBlog() {
       const title = getField("blogTitle");
@@ -1443,14 +1450,27 @@ saveProjectBtn.textContent = "Save Project";
       });
     }
 
-onAuthStateChanged(auth, (user) => {
+const ADMIN_EMAILS = [
+  "kennethlaihk88@gmail.com",
+  "agnescheesy88@yahoo.com"
+];
+
+onAuthStateChanged(auth, async (user) => {
   if (!user) {
     window.location.href = "login.html";
-  } else {
-    loadListings();
-    loadBlogs();
-    loadProjects(); // 🔥 THIS LINE
+    return;
   }
+
+  if (!ADMIN_EMAILS.includes(user.email)) {
+    alert("Access denied. Admin only.");
+    await signOut(auth);
+    window.location.href = "login.html";
+    return;
+  }
+
+  await loadListings();
+  await loadBlogs();
+  await loadProjects();
 });
 
     logoutBtn.addEventListener("click", async () => {
@@ -1480,10 +1500,6 @@ onAuthStateChanged(auth, (user) => {
     changeImageBtn.addEventListener("click", () => fileInput.click());
     removeImageBtn.addEventListener("click", clearPreview);
 
-    agentImageInput.addEventListener("change", (e) => {
-      selectedAgentFile = e.target.files[0] || null;
-    });
-
     galleryInput.addEventListener("change", (e) => {
       selectedGalleryFiles = Array.from(e.target.files || []);
     });
@@ -1510,6 +1526,35 @@ onAuthStateChanged(auth, (user) => {
     });
     blogChangeImageBtn.addEventListener("click", () => blogFileInput.click());
     blogRemoveImageBtn.addEventListener("click", clearBlogPreview);
+
+    function formatRM(value) {
+      const numbersOnly = String(value).replace(/[^\d]/g, "");
+      if (!numbersOnly) return "";
+      return "RM " + Number(numbersOnly).toLocaleString("en-MY");
+    }
+
+    const priceInput = document.getElementById("price");
+
+    priceInput.addEventListener("blur", () => {
+      priceInput.value = formatRM(priceInput.value);
+    });
+
+    function formatSqft(value) { //this can be simplified as just above buaInput.value + " sqft" while removing format , this is a bit shitty 
+      const numbersOnly = String(value).replace(/[^\d]/g, "");
+      if (!numbersOnly) return "";
+      return Number(numbersOnly).toLocaleString("en-MY") + " sqft";
+    }
+
+    const buaInput = document.getElementById("bua");
+    const landAreaInput = document.getElementById("landArea");
+
+    buaInput.addEventListener("blur", () => {
+      buaInput.value = formatSqft(buaInput.value);
+    });
+
+    landAreaInput.addEventListener("blur", () => {
+      landAreaInput.value = formatSqft(landAreaInput.value);
+    });
 
     setupTabs();
   </script>

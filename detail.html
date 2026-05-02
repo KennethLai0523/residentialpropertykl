@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="icon" href="/favicon.ico?v=2">
+  <link rel="canonical" id="canonical-link">
+  <meta name="description" id="meta-desc" content="Industrial property listing in Kuala Lumpur and Selangor.">
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Property Detail | Residential Property KL</title>
-  <meta name="theme-color" content="#3F6FB5">
-  <link rel="stylesheet" href="shared-layout.css" />
+  <title>Property Detail | Industrial Property KL</title>
+  <meta name="theme-color" content="#4da6ff" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/shared-layout.css" />
   <style>
     .page {
       max-width: 1200px;
@@ -150,7 +156,7 @@
       display: inline-block;
       margin-top: 12px;
       padding: 10px 14px;
-      background: #1e88e5;
+      background: #f0b132;
       color: white;
       text-decoration: none;
       border-radius: 6px;
@@ -202,22 +208,41 @@
     }
 
 .detail-btn-orange {
-  background: #1e88e5; /* blue */
+  background: #f0b132;
   color: white;
 }
 
 .detail-btn-outline {
   background: white;
-  color: #1e88e5;
-  border: 1px solid #1e88e5;
+  color: #f0b132;
+  border: 1px solid #f0b132;
 }
 
-    .loading,
-    .error {
-      text-align: center;
-      padding: 60px 20px;
-      font-size: 18px;
-    }
+.loading,
+.error {
+  text-align: center;
+  padding: 60px 20px;
+  font-size: 18px;
+}
+
+.detail-btn-wa {
+  background: #25D366;   /* WhatsApp green */
+  color: #fff;
+  border: none;
+}
+
+.detail-btn-wa:hover {
+  background: #1ebe5d;
+}
+
+.detail-btn-wa {
+  background: #25D366;
+  color: #fff;
+  border: none;
+
+  padding: 16px;          /* 🔥 bigger than others */
+  font-size: 15px;        /* optional: slightly bigger text */
+}
 
     @media (max-width: 1100px) {
       .content {
@@ -226,18 +251,13 @@
     }
 
     @media (max-width: 820px) {
-  .top-info {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+      .top-info {
+        flex-direction: column;
+      }
 
-  .price {
-    font-size: 28px;
-    width: 100%;
-    white-space: normal;        /* 🔥 allow wrap */
-    overflow-wrap: break-word;  /* 🔥 force next line */
-    word-break: break-word;
-  }
+      .price {
+        font-size: 28px;
+      }
 
       .title-wrap h1 {
         font-size: 28px;
@@ -263,33 +283,54 @@
 
   <div id="site-footer"></div>
 
-  <script type="module" src="shared-layout.js"></script>
+  <script type="module" src="/shared-layout.js"></script>
   <script type="module">
     import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBKO4RNc5r8GoPHQyRHdUllLVwtXFNJyVo",
-  authDomain: "residentialpropertykl.firebaseapp.com",
-  projectId: "residentialpropertykl",
-  storageBucket: "residentialpropertykl.firebasestorage.app",
-  messagingSenderId: "952845303526",
-  appId: "1:952845303526:web:7b604dca11ad50a93bc527",
-  measurementId: "G-DV21X2EGJ0"
-};
+    const firebaseConfig = {
+      apiKey: "AIzaSyBKO4RNc5r8GoPHQyRHdUllLVwtXFNJyVo",
+      authDomain: "residentialpropertykl.firebaseapp.com",
+      projectId: "residentialpropertykl",
+      storageBucket: "residentialpropertykl.firebasestorage.app",
+      messagingSenderId: "952845303526",
+      appId: "1:952845303526:web:7b604dca11ad50a93bc527",
+      measurementId: "G-DV21X2EGJ0"
+    };
     
     const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
     
     const db = getFirestore(app);
     const appDiv = document.getElementById("app");
 
-    const params = new URLSearchParams(window.location.search);
-    const listingId = params.get("id");
+function getSlugFromUrl() {
+  const path = window.location.pathname;
+  const parts = path.split("/").filter(Boolean);
 
-function formatPrice(price) {
-  if (!price) return "";
-  return price;   // 🔥 just return what you typed
+  if (parts[0] !== "listing" || !parts[1]) return null;
+
+  return decodeURIComponent(parts[1]);
 }
+
+const listingSlug = getSlugFromUrl();
+
+if (window.location.search) {
+  window.history.replaceState({}, "", `/listing/${listingSlug}`);
+}
+
+    function formatPrice(price, listingType) {
+      if (!price) return "";
+      const clean = String(price).replace(/,/g, "").trim();
+
+      if (!isNaN(clean)) {
+        const num = Number(clean);
+        if (listingType === "rent") return "RM" + num.toLocaleString();
+        if (num >= 1000000) return "RM" + (num / 1000000).toFixed(1).replace(".0", "") + "M";
+        return "RM" + num.toLocaleString();
+      }
+
+      return String(price).startsWith("RM") ? String(price) : "RM" + price;
+    }
 
     function buildBadge(listingType, hotOffer) {
       const saleRent = listingType === "rent" ? "FOR RENT" : "FOR SALE";
@@ -335,46 +376,116 @@ function formatPrice(price) {
     window.changeMainImage = changeMainImage;
 
     async function loadListing() {
-      if (!listingId) {
-        appDiv.innerHTML = `<div class="error">Invalid listing ID</div>`;
+      if (!listingSlug) {
+        appDiv.innerHTML = `<div class="error">Invalid listing slug</div>`;
         return;
       }
 
       try {
-        const snap = await getDoc(doc(db, "listings", listingId));
+        const q = query(
+          collection(db, "listings"),
+          where("slug", "==", listingSlug)
+        );
 
-        if (!snap.exists()) {
+        const snapshot = await getDocs(q);
+
+        if (snapshot.empty) {
           appDiv.innerHTML = `<div class="error">Listing not found</div>`;
           return;
         }
 
+        const snap = snapshot.docs[0];
         const data = snap.data();
+
+
+
+
         const pageTitle = data.title || "Property Detail";
+
+        // ✅ Title
+        document.title = `${pageTitle} | Industrial Property KL`;
+
+        // ✅ Description
+        const metaDesc = document.getElementById("meta-desc");
+        if (metaDesc) {
+          metaDesc.setAttribute(
+            "content",
+            `${pageTitle} in ${data.location || ""}. ${data.type || ""} for ${data.listingType || "sale"} in Kuala Lumpur / Selangor.`
+          );
+        }
+
+        const canonical = document.getElementById("canonical-link");
+        if (canonical) {
+          if (window.location.pathname.startsWith("/listing/")) {
+            canonical.href = `https://industrialpropertykl.com${window.location.pathname}`;
+          } else {
+            canonical.href = "https://industrialpropertykl.com/listings.html";
+          }
+        }
+
+
+
+
         const gallery = getGallery(data);
-        const mainImage = gallery[0] || "";
+        const mainImage = gallery[0] || data.image || "";
+
+        const structuredData = {
+          "@context": "https://schema.org",
+          "@type": "Product",
+          "name": pageTitle,
+          "description": data.description || "",
+          "image": mainImage,
+          "offers": {
+            "@type": "Offer",
+            "price": String(data.price || "").replace(/[^\d.]/g, ""),
+            "priceCurrency": "MYR",
+            "availability": "https://schema.org/InStock"
+          }
+        };
+
+        /* 🔥 Prevent duplicate schema */
+        const oldSchema = document.getElementById("listing-schema");
+        if (oldSchema) oldSchema.remove();
+
+        /* 🔥 Inject new schema */
+        const script = document.createElement("script");
+        script.id = "listing-schema";
+        script.type = "application/ld+json";
+        script.text = JSON.stringify(structuredData);
+
+        document.head.appendChild(script);
+        
         const safeTitle = escapeHtml(pageTitle);
         const safeLocation = escapeHtml(safeText(data.location));
+
         const safeDescription = escapeHtml(safeText(data.description));
         const safeAddress = escapeHtml(safeText(data.address || data.location));
         const safeType = escapeHtml(safeText(data.type));
         const safeBua = escapeHtml(safeText(data.bua));
         const safeLandArea = escapeHtml(safeText(data.landArea));
+        const safeBedrooms = escapeHtml(safeText(data.bedrooms));
+        const safeBathrooms = escapeHtml(safeText(data.bathrooms));
+        const safeCarPark = escapeHtml(safeText(data.carPark));
         const safeTenure = escapeHtml(safeText(data.tenure));
-const safeBedrooms = escapeHtml(safeText(data.bedrooms));
-const safeBathrooms = escapeHtml(safeText(data.bathrooms));
-const safeCarparks = escapeHtml(safeText(data.carparks));
-const safeFurnishing = escapeHtml(safeText(data.furnishing));
+        const safeMaintenanceFee = escapeHtml(safeText(data.maintenanceFee));
         const safeFeatures = escapeHtml(safeText(data.features));
-        const safeAgentName = escapeHtml(
-          data.agentName && data.agentName !== "-" ? data.agentName : "Kenneth Lai"
-        );
+        const safeAgentName = "Industrial Property KL Group";
 
-        const whatsappText = encodeURIComponent(`Hi Kenneth, I am interested in [${pageTitle}]`);
+        const isRent = data.listingType === "rent";
+
+        const categoryLink = isRent
+          ? "/house-for-rent-kl.html"
+          : "/house-for-sale-kl.html";
+
+        const categoryName = isRent
+          ? "House for Rent KL"
+          : "House for Sale KL";
+
+        const whatsappText = encodeURIComponent(`Hi, I am interested in [${pageTitle}]`);
         const whatsappLink = data.agentPhone
           ? `https://wa.me/${String(data.agentPhone).replace(/\D/g, "")}?text=${whatsappText}`
           : `https://wa.me/60166287357?text=${whatsappText}`;
 
-        document.title = `${pageTitle} | Residential Property KL`;
 
         const thumbsHtml = gallery.map((img, index) => `
           <img
@@ -387,8 +498,11 @@ const safeFurnishing = escapeHtml(safeText(data.furnishing));
 
         appDiv.className = "";
         appDiv.innerHTML = `
+
           <div class="breadcrumb">
-            <a href="index.html">Home</a>
+            <a href="/">Home</a>
+            <span class="sep">&gt;</span>
+            <a href="${categoryLink}">${categoryName}</a>
             <span class="sep">&gt;</span>
             <span>${safeTitle}</span>
           </div>
@@ -420,9 +534,15 @@ const safeFurnishing = escapeHtml(safeText(data.furnishing));
                     <div class="label">Built-up</div>
                     <div class="value">${safeBua}</div>
                   </div>
+
                   <div class="overview-item">
                     <div class="label">Land Area</div>
                     <div class="value">${safeLandArea}</div>
+                  </div>
+
+                  <div class="overview-item">
+                    <div class="label">Bedrooms</div>
+                    <div class="value">${safeBedrooms}</div>
                   </div>
                   <div class="overview-item">
                     <div class="label">Property Status</div>
@@ -434,6 +554,11 @@ const safeFurnishing = escapeHtml(safeText(data.furnishing));
               <div class="card">
                 <h3>Description</h3>
                 <div class="desc">${safeDescription}</div>
+                <div style="margin-top:18px;">
+                  <a href="${categoryLink}" style="color:#d9a73f; font-weight:bold; text-decoration:none;">
+                    View more ${categoryName}
+                  </a>
+                </div>
               </div>
 
               <div class="card">
@@ -465,41 +590,47 @@ ${data.googleMapsLink ? `
                     <div class="label">Price</div>
                     <div class="value">${formatPrice(data.price, data.listingType)}</div>
                   </div>
+
                   <div class="details-item">
-                    <div class="label">Property Size</div>
+                    <div class="label">Built-up Size</div>
                     <div class="value">${safeBua}</div>
                   </div>
+
                   <div class="details-item">
                     <div class="label">Land Area</div>
                     <div class="value">${safeLandArea}</div>
                   </div>
+
+                  <div class="details-item">
+                    <div class="label">Bedrooms</div>
+                    <div class="value">${safeBedrooms}</div>
+                  </div>
+
+                  <div class="details-item">
+                    <div class="label">Bathrooms</div>
+                    <div class="value">${safeBathrooms}</div>
+                  </div>
+
+                  <div class="details-item">
+                    <div class="label">Car Park</div>
+                    <div class="value">${safeCarPark}</div>
+                  </div>
+
                   <div class="details-item">
                     <div class="label">Property Type</div>
                     <div class="value">${safeType}</div>
                   </div>
+
                   <div class="details-item">
                     <div class="label">Tenure</div>
                     <div class="value">${safeTenure}</div>
                   </div>
-<div class="details-item">
-  <div class="label">Bedrooms</div>
-  <div class="value">${safeBedrooms}</div>
-</div>
 
-<div class="details-item">
-  <div class="label">Bathrooms</div>
-  <div class="value">${safeBathrooms}</div>
-</div>
+                  <div class="details-item">
+                    <div class="label">Maintenance Fee</div>
+                    <div class="value">${safeMaintenanceFee}</div>
+                  </div>
 
-<div class="details-item">
-  <div class="label">Car Parks</div>
-  <div class="value">${safeCarparks}</div>
-</div>
-
-<div class="details-item">
-  <div class="label">Furnishing</div>
-  <div class="value">${safeFurnishing}</div>
-</div>
                   <div class="details-item" style="grid-column: 1 / -1;">
                     <div class="label">Features</div>
                     <div class="value">${safeFeatures}</div>
@@ -509,11 +640,10 @@ ${data.googleMapsLink ? `
             </div>
 
             <div>
-              <div class="card agent-card">
                 <div class="agent-top">
-                  <img src="${data.agentImage || 'https://via.placeholder.com/58x58?text=Agent'}" alt="Agent">
+                  <img src="/images/listingphoto.png">
                   <div>
-                    <div class="agent-name">${safeAgentName}</div>
+                    <div class="agent-name">Residential Property KL Group</div>
                     <div style="color:#777; font-size:13px;">Residential Property Specialist</div>
                   </div>
                 </div>
@@ -524,8 +654,8 @@ ${data.googleMapsLink ? `
                 <textarea class="form-control" rows="5">Hello, I am interested in [${safeTitle}]</textarea>
 
                 <button class="detail-btn detail-btn-orange" type="button">Send Message</button>
-                <a class="detail-btn detail-btn-outline" href="tel:${data.agentPhone || '60166287357'}">Call</a>
-                <a class="detail-btn detail-btn-outline" href="${whatsappLink}" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+                <a class="detail-btn detail-btn-outline" href="tel:60166287357">Call</a>
+                <a class="detail-btn detail-btn-wa" href="${whatsappLink}" target="_blank">WhatsApp</a>
               </div>
             </div>
           </div>
