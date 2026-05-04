@@ -1,0 +1,113 @@
+<style>
+#navFloatBtn {
+  position: fixed !important;
+  right: 16px !important;
+  bottom: 16px !important;
+  z-index: 2147483647 !important;
+
+  width: 58px !important;
+  height: 58px !important;
+  border-radius: 999px !important;
+  border: none !important;
+
+  background: #4da6ff !important;
+  color: #111 !important;
+  font-size: 28px !important;
+  font-weight: 700 !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+
+  cursor: pointer !important;
+}
+
+#floatNavMenu {
+  position: fixed !important;
+  right: 16px !important;
+  bottom: 84px !important;
+  z-index: 2147483647 !important;
+
+  background: white !important;
+  width: 220px !important;
+  border-radius: 14px !important;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.18) !important;
+  overflow: hidden !important;
+}
+
+#floatNavMenu.hidden {
+  display: none !important;
+}
+
+#floatNavMenu a {
+  display: block !important;
+  padding: 14px 16px !important;
+  color: #111 !important;
+  font-weight: 700 !important;
+  border-bottom: 1px solid #eee !important;
+}
+
+#navFloatBtn:hover {
+  opacity: 0.85 !important;
+  transform: scale(1.05);
+}
+
+#navFloatBtn:active {
+  transform: scale(0.95);
+}
+
+/* WhatsApp sliding panel */
+#waSlideMenu {
+  position: fixed !important;
+  right: 80px !important;   /* start beside button */
+  bottom: 16px !important;
+  z-index: 2147483647 !important;
+
+  width: 190px !important;
+  background: #25D366 !important; /* WhatsApp green */
+  border-radius: 999px !important;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.18) !important;
+
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(40px);
+  transition: all 0.3s ease;
+}
+
+#waSlideMenu.show {
+  opacity: 1;
+  pointer-events: auto;
+
+  /* 🔥 THIS is the LEFT slide */
+  transform: translateX(0px); /* 🔥 slide out from hamburger */
+}
+
+#waSlideMenu a {
+  display: block !important;
+  padding: 16px !important;
+  text-align: center;
+  font-weight: 700;
+  color: white !important;
+  text-decoration: none;
+}
+</style>
+
+<button id="navFloatBtn" type="button">☰</button>
+
+<div id="floatNavMenu" class="hidden">
+  <a href="/index.html">Home</a>
+  <a href="/about.html">About</a>
+  <a href="/categories/all-listings">Properties</a>
+  <a href="/blog.html">Blog</a>
+  <a href="/contact.html">Contact</a>
+</div>
+
+
+
+<div id="waSlideMenu">
+  <a href="https://wa.me/60166287357" target="_blank">WhatsApp Us</a>
+</div>

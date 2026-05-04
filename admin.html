@@ -407,6 +407,12 @@
 
         <input id="features" placeholder="Features (comma separated or normal sentence)" />
         <input id="googleMapsLink" placeholder="Google Maps Link" />
+
+        <div class="grid-2">
+          <input id="latitude" placeholder="Latitude (e.g. 3.1334)" />
+          <input id="longitude" placeholder="Longitude (e.g. 101.7124)" />
+        </div>
+
         <textarea id="description" placeholder="Description"></textarea>
 
         <div class="grid-2">
@@ -588,6 +594,23 @@
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
+
+    function extractLatLng(url) {
+      let match = url.match(/!3d(-?\d+\.\d+)!4d(-?\d+\.\d+)/);
+      if (match) return { lat: parseFloat(match[1]), lng: parseFloat(match[2]) };
+
+      match = url.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/);
+      if (match) return { lat: parseFloat(match[1]), lng: parseFloat(match[2]) };
+
+      match = url.match(/q=(-?\d+\.\d+),(-?\d+\.\d+)/);
+      if (match) return { lat: parseFloat(match[1]), lng: parseFloat(match[2]) };
+
+      return null;
+    }
+
+
+
+
     const db = getFirestore(app);
     const storage = getStorage(app);
 
@@ -875,6 +898,11 @@ saveProjectBtn.textContent = "Update Project";
         maintenanceFee: getField("maintenanceFee"),
         features: getField("features"),
         googleMapsLink: getField("googleMapsLink"),
+
+        latitude: parseFloat(document.getElementById("latitude").value) || null,
+        longitude: parseFloat(document.getElementById("longitude").value) || null,
+
+
         image: imageUrl,
         gallery: galleryUrls,
         description: getField("description"),
@@ -999,6 +1027,17 @@ saveProjectBtn.textContent = "Update Project";
       document.getElementById("maintenanceFee").value = item.maintenanceFee || "";
       document.getElementById("features").value = item.features || "";
       document.getElementById("googleMapsLink").value = item.googleMapsLink || "";
+
+      document.getElementById("latitude").value = item.latitude || "";
+      document.getElementById("longitude").value = item.longitude || "";
+
+      const extracted = extractLatLng(item.googleMapsLink || "");
+      if (extracted) {
+        document.getElementById("latitude").value = extracted.lat;
+        document.getElementById("longitude").value = extracted.lng;
+      }
+
+
       document.getElementById("description").value = item.description || "";
       document.getElementById("agentName").value = item.agentName || "Kenneth Lai";
       document.getElementById("agentPhone").value = item.agentPhone || "";
@@ -1558,5 +1597,30 @@ onAuthStateChanged(auth, async (user) => {
 
     setupTabs();
   </script>
+
+<script>
+  fetch("/floating-nav.html")
+    .then(res => res.text())
+    .then(html => {
+      document.getElementById("floating-nav-placeholder").innerHTML = html;
+
+      const btn = document.getElementById("navFloatBtn");
+      const menu = document.getElementById("floatNavMenu");
+
+      const waBtn = document.getElementById("waFloatBtn");
+      const waMenu = document.getElementById("waSlideMenu");
+
+      btn.addEventListener("click", () => {
+        menu.classList.toggle("hidden");
+
+        // also open whatsapp slide
+        waMenu.classList.toggle("show");
+      });
+
+      waBtn.addEventListener("click", () => {
+        waMenu.classList.toggle("show");
+      });
+    });
+</script>
 </body>
 </html>

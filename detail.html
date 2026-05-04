@@ -473,13 +473,9 @@ if (window.location.search) {
 
         const isRent = data.listingType === "rent";
 
-        const categoryLink = isRent
-          ? "/house-for-rent-kl.html"
-          : "/house-for-sale-kl.html";
+        const categoryLink = "/categories/all-listings";
 
-        const categoryName = isRent
-          ? "House for Rent KL"
-          : "House for Sale KL";
+        const categoryName = "All Listings";
 
         const whatsappText = encodeURIComponent(`Hi, I am interested in [${pageTitle}]`);
         const whatsappLink = data.agentPhone
@@ -556,7 +552,7 @@ if (window.location.search) {
                 <div class="desc">${safeDescription}</div>
                 <div style="margin-top:18px;">
                   <a href="${categoryLink}" style="color:#d9a73f; font-weight:bold; text-decoration:none;">
-                    View more ${categoryName}
+                    View all listings
                   </a>
                 </div>
               </div>
@@ -668,5 +664,26 @@ ${data.googleMapsLink ? `
 
     loadListing();
   </script>
+
+<div id="floating-nav-placeholder"></div>
+
+<script>
+  fetch("/floating-nav.html")
+    .then(res => res.text())
+    .then(html => {
+      document.getElementById("floating-nav-placeholder").innerHTML = html;
+
+      const btn = document.getElementById("navFloatBtn");
+      const menu = document.getElementById("floatNavMenu");
+      const waMenu = document.getElementById("waSlideMenu");
+
+      btn.addEventListener("click", () => {
+        menu.classList.toggle("hidden");
+
+        // 🔥 THIS is what you are missing
+        waMenu.classList.toggle("show");
+      });
+    });
+</script>
 </body>
 </html>

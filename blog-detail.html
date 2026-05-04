@@ -40,7 +40,7 @@
     }
 
     .article-container {
-      max-width: var(--max-width);
+      max-width: 900px;   /* 👈 was too big before */
       margin: 0 auto;
     }
 
@@ -69,8 +69,7 @@
 
     .article-cover {
       width: 100%;
-      aspect-ratio: 16 / 8;
-      background: #e5e7eb;
+      aspect-ratio: 16 / 10;
     }
 
     .article-cover img {
@@ -160,19 +159,28 @@
       margin-top: 24px;
     }
 
-    .back-button {
-      display: inline-block;
-      padding: 11px 16px;
-      border-radius: 12px;
-      background: var(--primary);
-      color: #fff;
-      font-weight: 700;
-      font-size: 0.93rem;
-    }
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 
-    .back-button:hover {
-      background: #1e293b;
-    }
+  padding: 10px 16px;
+  border-radius: 12px;
+
+  background: white;
+  color: #111827;
+
+  font-weight: 600;
+  font-size: 0.9rem;
+
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+
+.back-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.1);
+}
 
     @media (max-width: 640px) {
       .article-wrap {
@@ -361,5 +369,26 @@ const firebaseConfig = {
 
     loadBlogDetail();
   </script>
+
+<div id="floating-nav-placeholder"></div>
+
+<script>
+  fetch("/floating-nav.html")
+    .then(res => res.text())
+    .then(html => {
+      document.getElementById("floating-nav-placeholder").innerHTML = html;
+
+      const btn = document.getElementById("navFloatBtn");
+      const menu = document.getElementById("floatNavMenu");
+      const waMenu = document.getElementById("waSlideMenu");
+
+      btn.addEventListener("click", () => {
+        menu.classList.toggle("hidden");
+
+        // 🔥 THIS is what you are missing
+        waMenu.classList.toggle("show");
+      });
+    });
+</script>
 </body>
 </html>

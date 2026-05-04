@@ -55,6 +55,21 @@
       border-radius: 8px;
       margin-top: 15px;
     }
+
+@media (min-width: 821px) {
+  .topbar {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    z-index: 9999 !important;
+    background: #4da6ff !important;
+  }
+
+  body {
+    padding-top: 100px;
+  }
+}
   </style>
 </head>
 
@@ -176,6 +191,27 @@ async function loadProject() {
 }
 
 loadProject();
+</script>
+
+<div id="floating-nav-placeholder"></div>
+
+<script>
+  fetch("/floating-nav.html")
+    .then(res => res.text())
+    .then(html => {
+      document.getElementById("floating-nav-placeholder").innerHTML = html;
+
+      const btn = document.getElementById("navFloatBtn");
+      const menu = document.getElementById("floatNavMenu");
+      const waMenu = document.getElementById("waSlideMenu");
+
+      btn.addEventListener("click", () => {
+        menu.classList.toggle("hidden");
+
+        // 🔥 THIS is what you are missing
+        waMenu.classList.toggle("show");
+      });
+    });
 </script>
 
 </body>

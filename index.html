@@ -243,7 +243,7 @@
 
     .search-grid {
       display: grid;
-      grid-template-columns: 2.2fr 1fr 1fr 1fr auto;
+      grid-template-columns: 2fr 0.8fr 0.8fr auto;
       gap: 12px;
       align-items: center;
     }
@@ -688,6 +688,36 @@
   gap: 8px;
   margin-top: 14px;
 }
+.search-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.search-input-wrapper input {
+  width: 100%;
+  height: 52px;
+  border-radius: 10px;
+  border: 1px solid #d9d9d9;
+  padding: 0 48px 0 14px;
+  font-size: 15px;
+}
+
+.search-input-wrapper button {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+
+  height: 40px;
+  width: 40px;
+
+  border-radius: 8px;
+  border: none;
+  background: #4da6ff;
+  color: #fff;
+
+  cursor: pointer;
+}
 
 @media (max-width: 820px) {
   .about-inner {
@@ -1025,6 +1055,267 @@
   opacity: 0.9;          /* 🔥 slight dim effect */
 }
 
+.status-toggle {
+  display: flex;
+  gap: 8px;
+}
+
+.status-btn {
+  height: 52px;
+  padding: 0 16px;
+  border: 1px solid #d9d9d9;
+  background: #fff;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.status-btn.active {
+  background: #4da6ff;
+  color: #fff;
+  border-color: #4da6ff;
+}
+
+
+.status-toggle {
+  display: flex;
+  background: #eef6ff;
+  border: 1px solid #d7eaff;
+  border-radius: 12px;
+  padding: 4px;
+  gap: 4px;
+}
+
+.status-btn {
+  height: 44px;
+  padding: 0 14px;
+  border: none;
+  background: transparent;
+  border-radius: 9px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  color: #111;
+  min-width: 82px;
+}
+
+.status-btn.active {
+  background: #4da6ff;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(77,166,255,0.28);
+}
+
+.status-btn:hover {
+  background: rgba(77,166,255,0.15);
+}
+
+.status-btn.active:hover {
+  background: #4da6ff;
+}
+
+.search-grid button#searchBtn {
+  min-width: 110px;
+}
+
+.search-input-wrapper button:hover {
+  background: #2f8df5;
+}
+
+.search-input-wrapper input:focus {
+  outline: none;
+  border-color: #4da6ff;
+  box-shadow: 0 0 0 3px rgba(77,166,255,0.15);
+}
+
+.listings-controls {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.listings-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Make toggle smaller (important) */
+.listings-controls .status-btn {
+  height: 36px;
+  padding: 0 12px;
+  font-size: 13px;
+  min-width: auto;
+}
+
+/* Slightly tighter container */
+.listings-controls .status-toggle {
+  padding: 3px;
+}
+
+#mapViewBtn {
+  height: 52px;
+  border-radius: 10px;
+  border: none;
+  background: #111;
+  color: #fff;
+  font-weight: 700;
+  padding: 0 18px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+#mapViewBtn:hover {
+  opacity: 0.9;
+}
+
+.map-panel {
+  position: absolute;
+  left: 50%;
+  bottom: -430px;
+  transform: translateX(-50%);
+  width: min(1180px, calc(100% - 32px));
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.14);
+  padding: 14px;
+  z-index: 5;
+}
+
+.map-panel.hidden {
+  display: none;
+}
+
+#propertyMap {
+  width: 100%;
+  height: 400px;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+#closeMapBtn {
+  display: none;
+}
+
+.leaflet-popup-content {
+  width: 240px !important;
+  max-width: 240px !important;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.leaflet-popup-content strong {
+  display: block;
+  font-size: 14px;
+  line-height: 1.35;
+  margin-bottom: 6px;
+}
+
+.leaflet-popup-content a {
+  display: inline-block;
+  margin-top: 8px;
+  color: #4da6ff !important;
+  font-weight: 700;
+}
+
+/* 🔥 FORCE white popup container */
+.leaflet-popup-content-wrapper {
+  border-radius: 12px;
+  padding: 0;
+  overflow: hidden;
+}
+
+.leaflet-popup-content {
+  margin: 0 !important;
+  width: 240px !important;
+}
+
+/* 🔥 Your custom card */
+.map-popup {
+  background: #fff;
+  padding: 14px;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.map-popup-title {
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.map-popup-price {
+  color: #111;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.map-popup-location {
+  color: #666;
+  margin-bottom: 10px;
+}
+
+/* 🔥 button style */
+.map-popup-btn {
+  display: inline-block;
+  background: #4da6ff;
+  color: #fff !important;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 12px;
+  text-decoration: none;
+}
+
+#mobileMapViewBtn {
+  display: none;
+}
+
+.map-info-card {
+  position: absolute;
+  left: 20px;
+  bottom: 20px;
+  z-index: 10001;
+  width: 280px;
+  background: #fff;
+  color: #111;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  padding: 14px;
+}
+
+.map-info-card.hidden {
+  display: none;
+}
+
+.map-info-card-title {
+  font-weight: 800;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.map-info-card-price {
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.map-info-card-location {
+  color: #666;
+  font-size: 13px;
+  margin-bottom: 10px;
+}
+
+.map-info-card a {
+  display: inline-block;
+  background: #4da6ff;
+  color: #fff !important;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 12px;
+}
+
 @media (max-width: 820px) {
   .bucket-toggle {
     right: 12px !important;
@@ -1053,9 +1344,9 @@
 }
 
   .hero {
-    align-items: flex-start !important;   /* 🔥 THIS fixes it */
-    min-height: 650px !important;
-    padding-bottom: 200px !important;
+    align-items: flex-start !important;
+    min-height: 450px !important;   /* 🔥 reduce height */
+    padding-bottom: 80px !important; /* 🔥 less empty space */
   }
 
   .hero-content {
@@ -1103,6 +1394,123 @@
   main {
     padding-top: 20px !important;
   }
+
+
+.hero p {
+  white-space: nowrap;      /* 🔥 force 1 line */
+  font-size: 14px;          /* slightly smaller so it fits */
+  overflow: hidden;
+  text-overflow: ellipsis;  /* add "..." if too long */
+}
+
+  .listings-top {
+    align-items: flex-start !important;
+  }
+
+  .listings-controls {
+    flex-direction: column !important;
+    align-items: flex-end !important;
+    gap: 8px !important;
+  }
+
+  .results-count {
+    order: -1; /* move above toggle */
+    font-size: 13px;
+    white-space: nowrap;
+  }
+
+  #keywordFilter::placeholder {
+    font-size: 13px;   /* 🔥 smaller text */
+  }
+
+  #keywordFilter {
+    font-size: 14px;
+  }
+
+  .reviews-grid {
+    display: grid !important;
+    grid-template-columns: 1fr !important;  /* 🔥 1 column */
+    gap: 16px;
+  }
+
+  .reviews-grid .contact-card {
+    width: 100%;
+  }
+
+  .map-panel {
+    position: relative;
+    left: auto;
+    bottom: auto;
+    transform: none;
+    width: calc(100% - 24px);
+    margin: 16px auto 0;
+  }
+
+  #propertyMap {
+    height: 360px;
+  }
+
+  .hero.map-open {
+    margin-bottom: 0;
+  }
+
+  .search-panel #mapViewBtn {
+    display: none !important;
+  }
+
+  #mobileMapViewBtn {
+    display: block !important;
+    width: 180px;
+    height: 40px;
+    margin-top: 6px;
+    border-radius: 10px;
+    border: none;
+    background: #111;
+    color: #fff;
+    font-weight: 700;
+    font-size: 14px;
+  }
+
+  .map-panel {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    width: 100vw !important;
+    height: 100vh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    z-index: 9999;
+    background: #fff;
+  }
+
+  #propertyMap {
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 0 !important;
+  }
+
+  /* ❌ remove spacing trick */
+  .hero.map-open {
+    margin-bottom: 0 !important;
+  }
+
+#closeMapBtn {
+  display: block;
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 10000;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0,0,0,0.7);
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+}
+
 }
 
 @media (max-width: 900px) {
@@ -1124,9 +1532,44 @@
 .team-grid > div:hover {
   transform: translateY(-5px);
 }
+
+
+@media (min-width: 821px) {
+  .topbar {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    z-index: 9999 !important;
+    background: #4da6ff !important;
+  }
+
+  body {
+    padding-top: 0;
+  }
+
+  .hero-badges {
+    margin-top: 20px;
+  }
+
+    .hero .btn-wa {
+    margin-top: 30px;   /* 🔥 adjust this */
+  }
+
+.hero-content {
+  padding-top: 120px;   /* 🔥 increase this */
+}
+
+  .hero.map-open {
+    margin-bottom: 430px;
+  }
+}
   </style>
 
   <link rel="stylesheet" href="/shared-layout.css?v=12" />
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 </head>
 <body>
   <div id="site-header"></div>
@@ -1141,14 +1584,17 @@
       </div>
       <h1>Your residential property expert in KL & Selangor</h1>
       <p>
-        Professional guidance for residential property buying, selling, and investment
+        Trusted by 300+ property buyers & sellers in KL & Selangor
       </p>
       <a class="btn-wa" href="https://wa.me/60166287357?text=Hi%20I%20am%20interested%20in%20residential%20property" target="_blank" rel="noopener noreferrer">WhatsApp Our Team Now</a>
     </div>
 
     <div class="search-panel">
       <div class="search-grid">
-        <input type="text" id="keywordFilter" placeholder="Search factory, warehouse, Bukit Raja, Klang..." />
+        <div class="search-input-wrapper">
+          <input type="text" id="keywordFilter" placeholder="Search PJ, KL, Cheras..." />
+          <button id="searchBtn" type="button">🔍</button>
+        </div>
 
         <select id="stateFilter">
           <option value="">All States</option>
@@ -1167,14 +1613,17 @@
           <option value="Kuala Lumpur">Kuala Lumpur</option>
         </select>
 
-        <select id="statusFilter">
-          <option value="">All Status</option>
-          <option value="For Sale">For Sale</option>
-          <option value="For Rent">For Rent</option>
-        </select>
+        <button id="mapViewBtn" type="button">Map View</button>
 
-        <button id="searchBtn" type="button">Search</button>
+   
       </div>
+    </div>
+
+    <div class="map-panel hidden" id="mapPanel">
+      <button id="closeMapBtn">✕</button>
+      <div id="propertyMap"></div>
+
+      <div id="mapInfoCard" class="map-info-card hidden"></div>
     </div>
   </section>
 
@@ -1185,10 +1634,26 @@
         <div class="listings-top">
           <div>
             <h2 class="section-title">Latest Property for Sale & Rent</h2>
-            
           </div>
-          <div class="results-count" id="resultsCount">Showing 0 listings</div>
+
+          <div class="listings-controls">
+            <div class="status-toggle">
+              <button type="button" class="status-btn active" data-status="">All</button>
+              <button type="button" class="status-btn" data-status="For Sale">For Sale</button>
+              <button type="button" class="status-btn" data-status="For Rent">For Rent</button>
+            </div>
+
+            <div class="results-count" id="resultsCount">Showing 0 listings</div>
+
+            <button id="mobileMapViewBtn" type="button">Map View</button>
+          </div>
+
+          
         </div>
+
+        
+
+
 
         <div class="listings" id="listingGrid"></div>
         <div class="empty-state" id="emptyState">No matching listings found. Try another keyword, city or status.</div>
@@ -1307,7 +1772,6 @@
       </div>
     </section>
 
-    <button class="bucket-toggle" id="bucketToggle">Saved Properties (0)</button>
 
   <div class="saved-bucket hidden" id="savedBucket">
     <div class="saved-bucket-header">
@@ -1342,7 +1806,8 @@ const LOAD_STEP = 6;
     const keywordFilter = document.getElementById('keywordFilter');
     const stateFilter = document.getElementById('stateFilter');
     const cityFilter = document.getElementById('cityFilter');
-    const statusFilter = document.getElementById('statusFilter');
+    let selectedStatus = "";
+    const statusButtons = document.querySelectorAll(".status-btn");
     const searchBtn = document.getElementById('searchBtn');
 
 function renderListings(items) {
@@ -1372,7 +1837,9 @@ function renderListings(items) {
     card.innerHTML = `
       <div class="listing-image"
         style="background-image:url('${item.image}')">
-        <span class="listing-tag">${item.status}</span>
+        <span class="listing-tag">
+          ${item.listingType === "sale" ? "For Sale" : "For Rent"}
+        </span>
         <div class="image-actions">
           <button class="image-btn" onclick="addToCompare(${realIndex})" style="width:auto;padding:0 10px;font-size:12px;">Compare</button>
           <button class="image-btn" onclick="saveProperty(${realIndex})">♡</button>
@@ -1420,7 +1887,7 @@ function applyFilters() {
   const keyword = keywordFilter.value.trim().toLowerCase();
   const state = stateFilter.value;
   const city = cityFilter.value;
-  const status = statusFilter.value;
+  const status = selectedStatus;
 
   filteredListings = listings.filter(item => {
     const haystack = [item.title, item.location, item.state, item.city, item.type, item.description]
@@ -1430,7 +1897,10 @@ function applyFilters() {
     const matchKeyword = !keyword || haystack.includes(keyword);
     const matchState = !state || item.state === state;
     const matchCity = !city || item.city === city;
-    const matchStatus = !status || item.status === status;
+    const matchStatus =
+      !status ||
+      (status === "For Sale" && item.listingType === "sale") ||
+      (status === "For Rent" && item.listingType === "rent");
 
     return matchKeyword && matchState && matchCity && matchStatus;
   });
@@ -1441,6 +1911,16 @@ function applyFilters() {
 }
 
     searchBtn.addEventListener('click', applyFilters);
+
+    statusButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        statusButtons.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        selectedStatus = btn.dataset.status;
+        applyFilters();
+      });
+});
     keywordFilter.addEventListener('keydown', function (e) {
       if (e.key === 'Enter') applyFilters();
     });
@@ -1448,7 +1928,9 @@ function applyFilters() {
     document.addEventListener('click', function (e) {
       const typeLink = e.target.closest('[data-type-link]');
 if (typeLink) {
-  document.getElementById('statusFilter').value = '';
+  selectedStatus = "";
+  statusButtons.forEach(b => b.classList.remove("active"));
+  statusButtons[0].classList.add("active"); // reset to "All"
   document.getElementById('stateFilter').value = '';
   document.getElementById('cityFilter').value = '';
   document.getElementById('keywordFilter').value = '';
@@ -1529,7 +2011,9 @@ function removeSavedProperty(title) {
 function renderSavedBucket() {
   const bucketBody = document.getElementById('savedBucketBody');
   const bucketToggle = document.getElementById('bucketToggle');
-  bucketToggle.textContent = `Saved Properties (${savedProperties.length})`;
+  if (bucketToggle) {
+    bucketToggle.textContent = `Saved Properties (${savedProperties.length})`;
+  }
 
   if (!savedProperties.length) {
     bucketBody.innerHTML = '<div class="saved-empty">No saved properties yet.</div>';
@@ -1562,19 +2046,6 @@ function formatPostedDate(timestamp) {
   return date.toLocaleDateString();
 }
 
-const bucketToggle = document.getElementById('bucketToggle');
-const savedBucket = document.getElementById('savedBucket');
-const closeBucket = document.getElementById('closeBucket');
-
-bucketToggle.addEventListener('click', function () {
-  savedBucket.classList.toggle('hidden');
-});
-
-closeBucket.addEventListener('click', function () {
-  savedBucket.classList.add('hidden');
-});
-
-renderSavedBucket();
   // 🔥 FIREBASE CONFIG (CONNECTED)
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
@@ -1686,9 +2157,136 @@ function setupAgentSlider() {
 
     
 setupAgentSlider();
+
+const mapViewBtn = document.getElementById("mapViewBtn");
+const mobileMapViewBtn = document.getElementById("mobileMapViewBtn");
+const mapPanel = document.getElementById("mapPanel");
+
+
+/* 🔥 ADD HERE */
+const closeMapBtn = document.getElementById("closeMapBtn");
+
+if (closeMapBtn) {
+  closeMapBtn.addEventListener("click", () => {
+    mapPanel.classList.add("hidden");
+
+    mapViewBtn.textContent = "Map View";
+    if (mobileMapViewBtn) mobileMapViewBtn.textContent = "Map View";
+  });
+}
+
+let propertyMap = null;
+let mapMarkers = [];
+
+function renderMapPins(items) {
+  if (!propertyMap) {
+    propertyMap = L.map("propertyMap").setView([3.139, 101.6869], 11);
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution: "&copy; OpenStreetMap"
+    }).addTo(propertyMap);
+  }
+
+  mapMarkers.forEach(marker => marker.remove());
+  mapMarkers = [];
+
+const validItems = items.filter(item => {
+  const lat = Number(item.latitude);
+  const lng = Number(item.longitude);
+
+  return (
+    Number.isFinite(lat) &&
+    Number.isFinite(lng) &&
+    lat > 2 && lat < 4 &&      // Malaysia latitude range
+    lng > 100 && lng < 102     // Malaysia longitude range
+  );
+});
+
+  validItems.forEach(item => {
+    const lat = Number(item.latitude);
+    const lng = Number(item.longitude);
+
+    const marker = L.marker([lat, lng]).addTo(propertyMap);
+
+  marker.on("click", () => {
+    propertyMap.setView([lat, lng], Math.max(propertyMap.getZoom(), 14));
+
+    const card = document.getElementById("mapInfoCard");
+    card.classList.remove("hidden");
+
+    card.innerHTML = `
+      <div class="map-info-card-title">${item.title || ""}</div>
+      <div class="map-info-card-price">${item.price || ""}</div>
+      <div class="map-info-card-location">${item.location || ""}</div>
+      <a href="/listing/${item.slug || generateLink(item.title)}">
+        View Details
+      </a>
+    `;
+  });
+  });
+
+  if (validItems.length) {
+    const group = L.featureGroup(mapMarkers);
+    propertyMap.fitBounds(group.getBounds(), { padding: [30, 30] });
+  }
+
+  setTimeout(() => {
+    propertyMap.invalidateSize();
+  }, 200);
+}
+
+function toggleMapView() {
+  mapPanel.classList.toggle("hidden");
+
+  document.querySelector(".hero").classList.toggle("map-open");
+
+  if (!mapPanel.classList.contains("hidden")) {
+    renderMapPins(filteredListings.length ? filteredListings : listings);
+
+    mapViewBtn.textContent = "List View";
+    if (mobileMapViewBtn) mobileMapViewBtn.textContent = "List View";
+
+  } else {
+    mapViewBtn.textContent = "Map View";
+    if (mobileMapViewBtn) mobileMapViewBtn.textContent = "Map View";
+  }
+}
+
+// desktop button
+mapViewBtn.addEventListener("click", toggleMapView);
+
+// mobile button
+if (mobileMapViewBtn) {
+  mobileMapViewBtn.addEventListener("click", toggleMapView);
+}
 // 🚀 USE FIREBASE INSTEAD OF STATIC DATA
 loadListingsFromFirebase();
 
 </script>
+
+<div id="floating-nav-placeholder"></div>
+
+<script>
+  fetch("/floating-nav.html")
+    .then(res => res.text())
+    .then(html => {
+      document.getElementById("floating-nav-placeholder").innerHTML = html;
+
+      const btn = document.getElementById("navFloatBtn");
+      const menu = document.getElementById("floatNavMenu");
+      const waMenu = document.getElementById("waSlideMenu");
+
+      btn.addEventListener("click", () => {
+        menu.classList.toggle("hidden");
+
+        // 🔥 THIS is what you are missing
+        waMenu.classList.toggle("show");
+      });
+    });
+</script>
+
+
+
 </body>
 </html>
