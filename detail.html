@@ -273,24 +273,25 @@
       }
     }
 
-/* 🔥 container */
 .image-watermark-wrap {
   position: relative;
   width: 100%;
 }
 
-/* 🔥 BOX (independent layout) */
+/* 🔥 BOX */
 .watermark-box {
   position: absolute;
   top: 60%;
   left: 50%;
   transform: translate(-50%, -50%);
 
-  width: 500px;          /* 🔥 control box width */
-  height: 48px;          /* 🔥 control box height */
+  width: 500px;
+  height: 46px;
 
-  background: rgba(200, 200, 200, 0.7);  /* subtle grey */
-  border-radius: 0px;
+  background: rgba(0, 0, 0, 0.25);   /* 🔥 darker for contrast */
+  backdrop-filter: blur(4px);        /* 🔥 premium glass effect */
+
+  border-radius: 6px;
 
   display: flex;
   align-items: center;
@@ -299,15 +300,18 @@
   pointer-events: none;
 }
 
+/* 🔥 TEXT */
 .watermark-text {
-  font-size: 28px;        /* 🔥 slightly smaller */
-  font-weight: 400;       /* 🔥 lighter = softer */
-  letter-spacing: 0.5px;  /* 🔥 tighter spacing */
+  font-family: "Poppins", sans-serif;
 
-  color: rgba(255,255,255,0.9);  /* 🔥 slightly softer white */
+  font-size: 26px;                  /* 🔥 slightly smaller = cleaner */
+  font-weight: 400;                /* 🔥 softer */
+  letter-spacing: 1px;             /* 🔥 balanced spacing */
+
+  color: rgba(255,255,255,0.95);   /* 🔥 softer white */
   white-space: nowrap;
 
-  font-family: "Poppins", sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
   </style>
