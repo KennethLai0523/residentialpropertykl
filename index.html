@@ -1863,7 +1863,11 @@ function renderListings(items) {
           <span>${formatPostedDate(item.postedAt)}</span>
         </div>
         <div class="listing-actions">
-          <a class="btn-wa" href="https://wa.me/60166287357?text=${encodeURIComponent('Hi Kenneth, I am interested in ' + item.title + ' at ' + item.location + '.')}" target="_blank">WhatsApp</a>
+          <a class="btn-wa"
+            href="https://wa.me/${item.agentPhone ? String(item.agentPhone).replace(/\D/g, "") : "60166287357"}?text=${encodeURIComponent('Hi, I am interested in ' + item.title + ' at ' + item.location + '.')}"
+            target="_blank">
+            WhatsApp
+          </a>
           <a class="btn-primary" href="/listing/${item.slug || generateLink(item.title)}">Details</a>
         </div>
       </div>
@@ -2075,8 +2079,8 @@ async function loadListingsFromFirebase() {
       ...doc.data()
     });
   });
-
-listings = firebaseListings.filter(item => item.listingOwner !== "agent");
+listings = firebaseListings; //agent
+//listings = firebaseListings.filter(item => item.listingOwner !== "agent");
 filteredListings = listings;
 visibleCount = LOAD_STEP;
 renderListings(filteredListings);
