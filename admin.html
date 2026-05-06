@@ -352,6 +352,22 @@
           Use this for residential property listings (sale or rent).
         </div>
 
+<div class="card" style="background:#f8fbff; border:1px solid #d7eaff;">
+  <h3>AI Import Listing</h3>
+
+  <input id="importUrl" placeholder="Paste listing URL here" />
+
+  <textarea id="importText" placeholder="Paste listing text / details here"></textarea>
+
+  <textarea id="importImageUrls" placeholder="Paste image URLs here, one per line"></textarea>
+
+  <button class="btn btn-dark" id="importBtn" type="button">
+    AI Fill Form
+  </button>
+
+  <div class="status-text" id="importStatus"></div>
+</div>
+
         <div id="editBanner" class="edit-banner">
           Editing existing listing
         </div>
@@ -445,8 +461,15 @@
 
 
         <h3 class="subsection-title">Gallery Photos</h3>
-        <input type="file" id="galleryInput" accept="image/*" multiple />
+
+        <div class="drop-zone" id="galleryDropZone">
+          <strong>Drag gallery photos here</strong>
+          <span class="muted">or click to choose multiple gallery images</span>
+          <input type="file" id="galleryInput" accept="image/*" multiple hidden />
+        </div>
+
         <div class="gallery-note">Choose multiple images for detail page gallery.</div>
+        <div id="galleryPreview" style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:14px;"></div>
 
         <div class="progress-text" id="progressText"></div>
 
@@ -595,6 +618,46 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
+let currentUser = null;
+
+const accountProfiles = {
+  "kennethrealtyconsultancy@gmail.com": {
+    role: "master",
+    agentId: "kenneth-lai",
+    name: "Residential Property KL Group",
+    phone: "60166287357",
+    email: "kennethrealtyconsultancy@gmail.com",
+    image: "/images/listingphoto.png"
+  },
+
+  "agnescheesy88@yahoo.com": {
+    role: "agent",
+    agentId: "agnes-chee",
+    name: "Agnes Chee",
+    phone: "60122895038",
+    email: "agnescheesy88@yahoo.com",
+    image: "/images/agnes.png"
+  },
+
+  "andrew.polygon@gmail.com": {
+    role: "agent",
+    agentId: "andrew-yap",
+    name: "Andrew Yap",
+    phone: "60192862772",
+    email: "andrew.polygon@gmail.com",
+    image: "/images/andrew.png"
+  },
+
+  "magdalene@gmail.com": {
+    role: "agent",
+    agentId: "magdalene",
+    name: "Magdalene",
+    phone: "60128918615",
+    email: "magdalene@gmail.com",
+    image: "/images/magdalene.png"
+  }
+};
+
     function extractLatLng(url) {
       let match = url.match(/!3d(-?\d+\.\d+)!4d(-?\d+\.\d+)/);
       if (match) return { lat: parseFloat(match[1]), lng: parseFloat(match[2]) };
@@ -607,6 +670,8 @@
 
       return null;
     }
+
+
 
 
 
@@ -644,6 +709,8 @@
     const blogList = document.getElementById("blogList");
     const blogFormTitle = document.getElementById("blogFormTitle");
     const blogEditBanner = document.getElementById("blogEditBanner");
+    const galleryDropZone = document.getElementById("galleryDropZone");
+    const galleryPreview = document.getElementById("galleryPreview");
 
     const projectTitle = document.getElementById("projectTitle");
     const projectLocation = document.getElementById("projectLocation");
@@ -668,6 +735,21 @@ let existingProjectGalleryImages = [];
     let selectedBlogFile = null;
     let editingBlogId = null;
     let existingBlogImageUrl = "";
+
+function renderGalleryPreview(urls = []) {
+  galleryPreview.innerHTML = "";
+
+  urls.forEach(url => {
+    const img = document.createElement("img");
+    img.src = url;
+    img.style.width = "110px";
+    img.style.height = "80px";
+    img.style.objectFit = "cover";
+    img.style.borderRadius = "8px";
+    img.style.border = "1px solid #ddd";
+    galleryPreview.appendChild(img);
+  });
+}
 
     function setStatus(text, color = "#111") {
       statusText.textContent = text;
@@ -873,7 +955,43 @@ saveProjectBtn.textContent = "Update Project";
       return document.getElementById(id).value.trim();
     }
 
+function setValue(id, value) {
+  const el = document.getElementById(id);
+  if (!el) return;
+
+  el.value = value || "";
+  el.dispatchEvent(new Event("input", { bubbles: true }));
+  el.dispatchEvent(new Event("change", { bubbles: true }));
+}
+
+function fillListingForm(data) {
+  setValue("listingType", data.listingType);
+  setValue("type", data.type);
+  setValue("title", data.title);
+  setValue("price", data.price);
+  setValue("location", data.location);
+  setValue("address", data.address);
+  setValue("state", data.state);
+  setValue("city", data.city);
+  setValue("status", "active");
+
+  setValue("bua", data.bua);
+  setValue("landArea", data.landArea);
+  setValue("bedrooms", data.bedrooms);
+  setValue("bathrooms", data.bathrooms);
+  setValue("carPark", data.carPark);
+  setValue("tenure", data.tenure);
+  setValue("maintenanceFee", data.maintenanceFee);
+  setValue("features", data.features);
+  setValue("googleMapsLink", data.googleMapsLink);
+  setValue("latitude", data.latitude);
+  setValue("longitude", data.longitude);
+  setValue("description", data.description);
+  setValue("hotOffer", "false");
+}
+
     function getFormData(imageUrl, agentImageUrl, galleryUrls, keepCreatedAt = null) {
+      const profile = accountProfiles[currentUser.email.toLowerCase()];
       const now = Date.now();
       const title = getField("title");
 
@@ -908,10 +1026,14 @@ saveProjectBtn.textContent = "Update Project";
         description: getField("description"),
         status: getField("status") || "active",
         hotOffer: document.getElementById("hotOffer").value === "true",
-        agentName: "Industrial Property KL Group",
-        agentPhone: "+60 16-628 7357",
-        agentEmail: "kennethrealtyconsultancy@gmail.com",
-        agentImage: agentImageUrl || "/images/listingphoto.png",
+
+        listingOwner: profile.role === "master" ? "main" : "agent",
+        agentId: profile.agentId,
+        agentName: profile.name,
+        agentPhone: profile.phone,
+        agentEmail: profile.email,
+        agentImage: profile.image,
+
         postedAt: keepCreatedAt || now,
         createdAt: keepCreatedAt || now,
         updatedAt: now
@@ -969,6 +1091,7 @@ saveProjectBtn.textContent = "Update Project";
 
 
       galleryInput.value = "";
+      galleryPreview.innerHTML = "";
       selectedAgentFile = null;
       selectedGalleryFiles = [];
 
@@ -1050,6 +1173,7 @@ saveProjectBtn.textContent = "Update Project";
       galleryInput.value = "";
 
       showPreviewFromUrl(existingImageUrl);
+      renderGalleryPreview(existingGalleryUrls);
 
       formTitle.textContent = "Edit Listing";
       saveBtn.textContent = "Update Listing";
@@ -1101,9 +1225,27 @@ saveProjectBtn.textContent = "Update Project";
         }
 
         listingList.innerHTML = "";
-
         snapshot.forEach((docSnap) => {
           const item = docSnap.data();
+
+          const profile = accountProfiles[currentUser.email.toLowerCase()];
+
+          if (profile.role !== "master" && item.agentId !== profile.agentId) {
+            return;
+          }
+
+
+
+/*
+
+        snapshot.forEach((docSnap) => {
+        const item = docSnap.data();
+        
+
+
+
+
+*/            
           const row = document.createElement("div");
           row.className = "listing-row";
 
@@ -1257,10 +1399,10 @@ async function saveListing() {
     return;
   }
 
-  if (!editingId && !selectedFile) {
-    setStatus("Please drag or choose one cover photo first.", "red");
-    return;
-  }
+if (!editingId && !selectedFile && !existingImageUrl) {
+  setStatus("Please drag, choose, or import one cover photo first.", "red");
+  return;
+}
 
   saveBtn.disabled = true;
   setStatus(editingId ? "Updating listing..." : "Saving listing...", "#333");
@@ -1496,16 +1638,20 @@ const ADMIN_EMAILS = [
 
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
-    window.location.href = "login.html";
+    window.location.href = "/login.html";
     return;
   }
 
-  if (!ADMIN_EMAILS.includes(user.email)) {
-    alert("Access denied. Admin only.");
+  const email = user.email.toLowerCase();
+
+  if (!accountProfiles[email]) {
+    alert("This email is not allowed.");
     await signOut(auth);
-    window.location.href = "login.html";
+    window.location.href = "/login.html";
     return;
   }
+
+  currentUser = user;
 
   await loadListings();
   await loadBlogs();
@@ -1518,6 +1664,72 @@ onAuthStateChanged(auth, async (user) => {
     });
 
     saveBtn.addEventListener("click", saveListing);
+
+
+document.getElementById("importBtn").addEventListener("click", async () => {
+  const importUrl = document.getElementById("importUrl").value.trim();
+  const importText = document.getElementById("importText").value.trim();
+  const imageUrls = document.getElementById("importImageUrls").value
+    .split("\n")
+    .map(x => x.trim())
+    .filter(Boolean);
+
+  const importStatus = document.getElementById("importStatus");
+
+  if (!importText && !importUrl) {
+    importStatus.textContent = "Paste listing URL or listing text first.";
+    importStatus.style.color = "red";
+    return;
+  }
+
+  importStatus.textContent = "AI processing...";
+  importStatus.style.color = "#333";
+
+  try {
+    const res = await fetch("/api/importListing", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        url: importUrl,
+        text: importText,
+        imageUrls
+      })
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.error || "Import failed");
+    }
+
+    fillListingForm(data.listing);
+
+
+const importedImages = Array.isArray(data.listing.imageUrls)
+  ? data.listing.imageUrls
+  : [];
+
+if (importedImages.length) {
+  existingImageUrl = importedImages[0];       // cover image
+  existingGalleryUrls = importedImages;       // gallery images
+
+  selectedFile = null;
+  selectedGalleryFiles = [];
+
+  showPreviewFromUrl(existingImageUrl);
+  renderGalleryPreview(existingGalleryUrls);
+}
+
+    importStatus.textContent = "Form filled. Review before saving.";
+    importStatus.style.color = "green";
+  } catch (err) {
+    console.error(err);
+    importStatus.textContent = "Failed to import listing.";
+    importStatus.style.color = "red";
+  }
+});
     cancelEditBtn.addEventListener("click", resetForm);
 
     dropZone.addEventListener("click", () => fileInput.click());
@@ -1539,9 +1751,46 @@ onAuthStateChanged(auth, async (user) => {
     changeImageBtn.addEventListener("click", () => fileInput.click());
     removeImageBtn.addEventListener("click", clearPreview);
 
-    galleryInput.addEventListener("change", (e) => {
-      selectedGalleryFiles = Array.from(e.target.files || []);
-    });
+function handleGalleryFiles(files) {
+  selectedGalleryFiles = Array.from(files || []);
+  existingGalleryUrls = [];
+
+  galleryPreview.innerHTML = "";
+
+  selectedGalleryFiles.forEach(file => {
+    if (!file.type.startsWith("image/")) return;
+
+    const img = document.createElement("img");
+    img.src = URL.createObjectURL(file);
+    img.style.width = "110px";
+    img.style.height = "80px";
+    img.style.objectFit = "cover";
+    img.style.borderRadius = "8px";
+    img.style.border = "1px solid #ddd";
+    galleryPreview.appendChild(img);
+  });
+}
+
+galleryDropZone.addEventListener("click", () => galleryInput.click());
+
+galleryInput.addEventListener("change", (e) => {
+  handleGalleryFiles(e.target.files);
+});
+
+galleryDropZone.addEventListener("dragover", (e) => {
+  e.preventDefault();
+  galleryDropZone.classList.add("dragover");
+});
+
+galleryDropZone.addEventListener("dragleave", () => {
+  galleryDropZone.classList.remove("dragover");
+});
+
+galleryDropZone.addEventListener("drop", (e) => {
+  e.preventDefault();
+  galleryDropZone.classList.remove("dragover");
+  handleGalleryFiles(e.dataTransfer.files);
+});
 
     saveBlogBtn.addEventListener("click", saveBlog);
     cancelBlogEditBtn.addEventListener("click", resetBlogForm);

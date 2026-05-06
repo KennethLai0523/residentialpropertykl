@@ -5,6 +5,13 @@ admin.initializeApp();
 
 const db = admin.firestore();
 
+
+const { onRequest } = require("firebase-functions/v2/https");
+const { defineSecret } = require("firebase-functions/params");
+const OpenAI = require("openai");
+
+const openaiKey = defineSecret("OPENAI_API_KEY");
+
 function slugify(text) {
   return (text || "item")
     .toLowerCase()
@@ -211,3 +218,106 @@ ${urls}
     res.status(500).send("Error generating sitemap");
   }
 });
+
+exports.importListing = onRequest(
+  { secrets: [openaiKey], cors: true },
+  async (req, res) => {
+    try {
+      if (req.method !== "POST") {
+        return res.status(405).json({ error: "Method not allowed" });
+      }
+
+      const { url, text, imageUrls = [] } = req.body || {};
+
+      let finalText = text || "";
+
+      if (url) {
+        const pageRes = await fetch(url, {
+          headers: {
+            "User-Agent": "Mozilla/5.0"
+          }
+        });
+
+        const html = await pageRes.text();
+
+        finalText = html
+          .replace(/<script[\s\S]*?<\/script>/gi, " ")
+          .replace(/<style[\s\S]*?<\/style>/gi, " ")
+          .replace(/<[^>]+>/g, " ")
+          .replace(/\s+/g, " ")
+          .trim();
+
+        console.log("FINAL TEXT PREVIEW:", finalText.slice(0, 500));
+      }
+
+      if (!finalText) {
+        return res.status(400).json({ error: "Missing listing text or URL content" });
+      }
+
+      const client = new OpenAI({
+        apiKey: openaiKey.value(),
+      });
+
+      const response = await client.responses.create({
+        model: "gpt-4.1-mini",
+        input: `
+Extract this property listing into clean JSON only.
+
+Rules:
+- Malaysia residential listing
+- listingType: "sale" or "rent"
+- price format: RM 1,200,000 or RM 2,500/month
+- size format: 2,874 sqft
+- do NOT guess missing info
+
+Return JSON only:
+
+{
+  "listingType": "",
+  "type": "",
+  "title": "",
+  "price": "",
+  "location": "",
+  "address": "",
+  "state": "",
+  "city": "",
+  "status": "active",
+  "bua": "",
+  "landArea": "",
+  "bedrooms": "",
+  "bathrooms": "",
+  "carPark": "",
+  "tenure": "",
+  "maintenanceFee": "",
+  "features": "",
+  "googleMapsLink": "",
+  "latitude": "",
+  "longitude": "",
+  "description": "",
+  "hotOffer": false,
+  "imageUrls": []
+}
+
+TEXT:
+${finalText}
+
+IMAGES:
+${imageUrls.join("\n")}
+`
+      });
+
+      const raw = response.output_text
+        .replace(/```json/g, "")
+        .replace(/```/g, "")
+        .trim();
+
+      const listing = JSON.parse(raw);
+
+      return res.json({ listing });
+
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ error: err.message });
+    }
+  }
+);

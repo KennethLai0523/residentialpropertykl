@@ -9,7 +9,7 @@
   <meta name="theme-color" content="#4da6ff" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <link rel="icon" href="/favicon.ico"> <!-- this controls bar icon-->
-  <link rel="stylesheet" href="shared-layout.css" />
+  <link rel="stylesheet" href="/shared-layout.css" />
 
   <style>
 
@@ -199,9 +199,9 @@
   <main class="article-wrap">
     <div class="article-container">
       <div class="breadcrumb">
-        <a href="index.html">Home</a>
+        <a href="/index.html">Home</a>
         <span>/</span>
-        <a href="blog.html">Blog</a>
+        <a href="/blog.html">Blog</a>
         <span>/</span>
         <span id="breadcrumbTitle">Loading...</span>
       </div>
@@ -228,14 +228,14 @@
       </article>
 
       <div class="back-row">
-        <a class="back-button" href="blog.html">← Back to Blog</a>
+        <a class="back-button" href="/blog.html">← Back to Blog</a>
       </div>
     </div>
   </main>
 
   <div id="site-footer"></div>
 
-  <script type="module" src="shared-layout.js"></script>
+  <script type="module" src="/shared-layout.js"></script>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
@@ -267,6 +267,13 @@ const firebaseConfig = {
     const articleContent = document.getElementById("articleContent");
 
     function getBlogId() {
+      const path = window.location.pathname;
+
+      if (path.startsWith("/blog/")) {
+        const slug = path.replace("/blog/", "").replace(/\/$/, "");
+        return slug || null;
+      }
+
       const params = new URLSearchParams(window.location.search);
       return params.get("id");
     }
@@ -306,6 +313,11 @@ const firebaseConfig = {
         .replace(/'/g, "&#039;");
     }
 
+
+    function renderContent(content = "") {
+      return content;
+    }
+/*
     function renderContent(content = "") {
       const safe = escapeHtml(content);
 
@@ -317,6 +329,7 @@ const firebaseConfig = {
 
       return paragraphs.join("");
     }
+      */
 
     async function loadBlogDetail() {
       const blogId = getBlogId();
@@ -355,7 +368,8 @@ const firebaseConfig = {
         articleTitle.textContent = title;
         articleAuthor.textContent = `By ${author}`;
         articleDate.textContent = date;
-        articleContent.innerHTML = renderContent(content);
+        //articleContent.innerHTML = renderContent(content);
+        articleContent.innerHTML = content;
 
         loadingState.style.display = "none";
         articleCard.style.display = "block";

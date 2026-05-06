@@ -356,7 +356,7 @@ const firebaseConfig = {
 
       return `
         <article class="blog-card">
-          <a class="blog-card-image" href="blog-detail.html?id=${id}">
+          <a class="blog-card-image" href="/blog/${id}">
             <img src="${coverImage}" alt="${title}" loading="lazy" />
           </a>
 
@@ -364,7 +364,7 @@ const firebaseConfig = {
             <div class="blog-card-category">${category}</div>
 
             <h3 class="blog-card-title">
-              <a href="blog-detail.html?id=${id}">${title}</a>
+              <a href="/blog/${id}">${title}</a>
             </h3>
 
             <p class="blog-card-excerpt">${excerpt}</p>
@@ -374,7 +374,7 @@ const firebaseConfig = {
               <span>${date}</span>
             </div>
 
-            <a class="blog-card-button" href="blog-detail.html?id=${id}">
+            <a class="blog-card-button" href="/blog/${id}">
               Read More
             </a>
           </div>

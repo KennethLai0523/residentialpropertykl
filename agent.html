@@ -204,9 +204,7 @@
 
       document.getElementById("agentProfile").innerHTML = `
         <div class="agent-profile">
-          <a href="/agent-login.html">
-            <img src="${agent.image}" alt="${agent.name}" style="cursor:pointer;">
-          </a>
+          <img src="${agent.image}" alt="${agent.name}">
           <div>
             <h1>${agent.name}</h1>
             <div class="agent-role">${agent.role}</div>
@@ -218,8 +216,7 @@
 
       const q = query(
         collection(db, "listings"),
-        where("agentId", "==", agent.uid),
-        where("listingOwner", "==", "agent")
+        where("agentId", "==", agent.id)
       );
 
       const snapshot = await getDocs(q);

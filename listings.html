@@ -318,7 +318,7 @@
 }
   </style>
 </head>
-<body>
+<body class="page-listing">
   <div id="site-header"></div>
 
   <main class="container">
@@ -521,6 +521,12 @@
 
       card.innerHTML = `
         <div class="listing-thumb" style="background-image:url('${item.image || ""}')">
+
+          <!-- 🔥 WATERMARK -->
+          <div class="watermark-box">
+            <span class="watermark-text">RESIDENTIAL PROPERTY KL</span>
+          </div>
+
           <div class="listing-labels">
             <span class="label">${label1}</span>
             ${hotLabel}
@@ -541,7 +547,12 @@
           </div>
 
           <div class="listing-bottom">
-            <a class="btn-wa" href="https://wa.me/60166287357?text=${encodeURIComponent(`Hi Kenneth, I am interested in ${item.title || "this listing"}.`)}" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+            <a class="btn-wa"
+              href="https://wa.me/${item.agentPhone ? String(item.agentPhone).replace(/\D/g, "") : "60166287357"}?text=${encodeURIComponent(`Hi, I am interested in ${item.title || "this listing"}.`)}"
+              target="_blank"
+              rel="noopener noreferrer">
+              WhatsApp
+            </a>
             <a class="btn-gold" href="${detailUrl}">Details</a>
           </div>
         </div>
@@ -645,8 +656,8 @@ async function loadListings() {
         ...data
       });
     });
-
-    let filtered = items.filter(item => item.listingOwner !== "agent");
+    let filtered = items;
+    //let filtered = items.filter(item => item.listingOwner !== "agent"); //agent
 
     if (type) {
       filtered = filtered.filter(item =>

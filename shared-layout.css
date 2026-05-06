@@ -476,6 +476,77 @@ button {
   pointer-events: auto !important;
 }
 
+
+/* 🔥 WATERMARK SYSTEM */
+
+/* container (only used in detail page) */
+.image-watermark-wrap {
+  position: relative;
+  width: 100%;
+}
+
+/* listing cards already have .listing-image */
+.listing-image {
+  position: relative;
+}
+
+/* 🔥 BOX */
+.watermark-box {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 500px;
+  height: 46px;
+
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(4px);
+
+  border-radius: 6px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  pointer-events: none;
+}
+
+/* 🔥 TEXT */
+.watermark-text {
+  font-family: "Poppins", sans-serif;
+  font-size: 26px;
+  font-weight: 400;
+  letter-spacing: 1px;
+
+  color: rgba(255,255,255,0.95);
+  white-space: nowrap;
+
+  -webkit-font-smoothing: antialiased;
+}
+
+.page-home .listing-image .watermark-box {
+  width: 180px;
+  height: 26px;
+  top: 55%;   /* slightly nicer position */
+}
+
+.page-home .listing-image .watermark-text {
+  font-size: 11px;
+  letter-spacing: 0.3px;
+}
+
+/* 🔥 ONLY listings page */
+.page-listing .listing-thumb .watermark-box {
+  width: 220px;
+  height: 30px;
+  top: 55%;
+}
+
+.page-listing .listing-thumb .watermark-text {
+  font-size: 12px;
+  letter-spacing: 0.5px;
+}
 /* MOBILE */
 @media (max-width: 820px) {
   html,
