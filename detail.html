@@ -272,6 +272,44 @@
         grid-template-columns: 1fr;
       }
     }
+
+/* 🔥 container */
+.image-watermark-wrap {
+  position: relative;
+  width: 100%;
+}
+
+/* 🔥 BOX (independent layout) */
+.watermark-box {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 500px;          /* 🔥 control box width */
+  height: 48px;          /* 🔥 control box height */
+
+  background: rgba(200, 200, 200, 0.7);  /* subtle grey */
+  border-radius: 0px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  pointer-events: none;
+}
+
+.watermark-text {
+  font-size: 28px;        /* 🔥 slightly smaller */
+  font-weight: 400;       /* 🔥 lighter = softer */
+  letter-spacing: 0.5px;  /* 🔥 tighter spacing */
+
+  color: rgba(255,255,255,0.9);  /* 🔥 slightly softer white */
+  white-space: nowrap;
+
+  font-family: "Poppins", sans-serif;
+}
+
   </style>
 </head>
 <body>
@@ -515,7 +553,14 @@ if (window.location.search) {
           <div class="content">
             <div>
               <div class="card">
-                ${mainImage ? `<img id="mainImage" class="main-image" src="${mainImage}" alt="${safeTitle}">` : `<div class="main-image"></div>`}
+                ${mainImage ? `
+                  <div class="image-watermark-wrap">
+                    <img id="mainImage" class="main-image" src="${mainImage}" alt="${safeTitle}">
+                    <div class="watermark-box">
+                      <span class="watermark-text">RESIDENTIAL PROPERTY KL</span>
+                    </div>
+                  </div>
+                ` : `<div class="main-image"></div>`}
                 ${gallery.length ? `<div class="thumbs">${thumbsHtml}</div>` : ""}
               </div>
 
