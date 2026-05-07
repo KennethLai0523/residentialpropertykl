@@ -44,7 +44,7 @@ async function loadSharedSection(targetId, filePath) {
 }
 
 async function loadProjectsDropdown() {
-  const dropdown = document.getElementById("projectsDropdown");
+  const dropdown = document.getElementById("projectsDropdownItems");
   if (!dropdown) return;
 
   try {
