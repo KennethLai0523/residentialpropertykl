@@ -1,0 +1,13 @@
+copy(
+  [...new Set([
+    ...[...document.querySelectorAll('link[as="image"]')].map(l => l.href),
+    ...[...document.querySelectorAll('img')].map(i => i.currentSrc || i.src),
+    ...[...document.querySelectorAll('*')].map(el => {
+      const bg = getComputedStyle(el).backgroundImage;
+      return bg.match(/url\(["']?(.*?)["']?\)/)?.[1];
+    })
+  ])]
+  .filter(Boolean)
+  .filter(u => /^https:\/\/my1-cdn\.pgimgs\.com\/listing\/501239756\/UPHO\.\d+\.V800\/.*\.jpg$/i.test(u))
+  .join('\n')
+)

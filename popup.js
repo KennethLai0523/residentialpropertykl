@@ -4,8 +4,8 @@ const FUNCTION_URL =
 const statusBox = document.getElementById("status");
 
 
-document.getElementById("copyBtn").addEventListener("click", async () => {
-  statusBox.textContent = "Copying image URLs...";
+document.getElementById("extractBtn").addEventListener("click", async () => {
+  statusBox.textContent = "Reading listing + images...";
 
   try {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -13,7 +13,7 @@ document.getElementById("copyBtn").addEventListener("click", async () => {
     const result = await chrome.scripting.executeScript({
       target: { tabId: tab.id },
       func: () => {
-        const urls = [...new Set([
+        const imageUrls = [...new Set([
           ...document.querySelectorAll("img"),
           ...document.querySelectorAll("source"),
           ...document.querySelectorAll("[style]")
@@ -41,40 +41,19 @@ document.getElementById("copyBtn").addEventListener("click", async () => {
           /\.(jpg|jpeg|png|webp)/i.test(u)
         );
 
-        return urls.join("\n");
+        return {
+          url: location.href,
+          title: document.title,
+          text: document.body.innerText,
+          imageUrls
+        };
       }
-    });
-
-    const text = result[0].result || "";
-
-    await navigator.clipboard.writeText(text);
-
-    statusBox.textContent = text
-      ? `Copied image URLs.\nFound images: ${text.split("\n").length}`
-      : "No image URLs found.";
-  } catch (err) {
-    statusBox.textContent = "Error: " + err.message;
-  }
-});
-
-document.getElementById("extractBtn").addEventListener("click", async () => {
-  statusBox.textContent = "Reading PropertyGuru page...";
-
-  try {
-    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-
-    const result = await chrome.scripting.executeScript({
-      target: { tabId: tab.id },
-      func: () => ({
-        url: location.href,
-        title: document.title,
-        text: document.body.innerText
-      })
     });
 
     const pageData = result[0].result;
 
-    statusBox.textContent = "Sending to AI...";
+    statusBox.textContent =
+      `Sending text + ${pageData.imageUrls.length} images to AI...`;
 
     const response = await fetch(FUNCTION_URL, {
       method: "POST",
@@ -84,9 +63,14 @@ document.getElementById("extractBtn").addEventListener("click", async () => {
 
     const data = await response.json();
 
+    data.imageUrls = pageData.imageUrls;
+
     await chrome.storage.local.set({ latestListing: data });
 
-    statusBox.textContent = "Done. Listing saved.\nNow open admin.html and click Fill Admin Form.";
+    await navigator.clipboard.writeText(pageData.imageUrls.join("\n"));
+
+    statusBox.textContent =
+      `Done. Listing saved.\nImage URLs copied: ${pageData.imageUrls.length}\nNow open admin.html and click Fill Admin Form.`;
   } catch (err) {
     statusBox.textContent = "Error: " + err.message;
   }
@@ -175,6 +159,14 @@ func: (data) => {
 
   const fixedListingType = normalizeListingType(data.listingType);
   const fixedPropertyType = normalizePropertyType(data.type || data.title || data.description);
+
+
+  const importImageUrls = document.getElementById("importImageUrls");
+if (importImageUrls && Array.isArray(data.imageUrls)) {
+  importImageUrls.value = data.imageUrls.join("\n");
+  importImageUrls.dispatchEvent(new Event("input", { bubbles: true }));
+  importImageUrls.dispatchEvent(new Event("change", { bubbles: true }));
+}
 
   setField("listingType", fixedListingType);
   setField("type", fixedPropertyType);
