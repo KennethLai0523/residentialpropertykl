@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "PropertyGuru Importer",
+  "version": "1.1",
+  "permissions": ["activeTab", "scripting", "storage"],
+  "host_permissions": [
+    "https://www.propertyguru.com.my/*",
+    "https://us-central1-residentialpropertykl.cloudfunctions.net/*",
+    "https://residentialpropertykl.com/*",
+    "http://localhost/*"
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  }
+}
