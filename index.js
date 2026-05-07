@@ -10,6 +10,9 @@ const { onRequest } = require("firebase-functions/v2/https");
 const { defineSecret } = require("firebase-functions/params");
 const OpenAI = require("openai");
 
+const chromium = require("@sparticuz/chromium");
+const playwright = require("playwright-core");
+
 const openaiKey = defineSecret("OPENAI_API_KEY");
 
 function slugify(text) {
@@ -220,7 +223,12 @@ ${urls}
 });
 
 exports.importListing = onRequest(
-  { secrets: [openaiKey], cors: true },
+  {
+    secrets: [openaiKey],
+    cors: true,
+    memory: "1GiB",
+    timeoutSeconds: 120
+  },
   async (req, res) => {
     try {
       if (req.method !== "POST") {
@@ -231,24 +239,26 @@ exports.importListing = onRequest(
 
       let finalText = text || "";
 
-      if (url) {
-        const pageRes = await fetch(url, {
-          headers: {
-            "User-Agent": "Mozilla/5.0"
-          }
-        });
+if (url) {
+  const scrapeRes = await fetch("https://property-scraper-952845303526.asia-southeast1.run.app/scrape", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ url })
+  });
 
-        const html = await pageRes.text();
+  const scraped = await scrapeRes.json();
 
-        finalText = html
-          .replace(/<script[\s\S]*?<\/script>/gi, " ")
-          .replace(/<style[\s\S]*?<\/style>/gi, " ")
-          .replace(/<[^>]+>/g, " ")
-          .replace(/\s+/g, " ")
-          .trim();
+  if (!scrapeRes.ok) {
+    throw new Error(scraped.error || "Cloud Run scraper failed");
+  }
 
-        console.log("FINAL TEXT PREVIEW:", finalText.slice(0, 500));
-      }
+  finalText = scraped.text || "";
+
+  console.log("SCRAPER TEXT LENGTH:", finalText.length);
+  console.log("SCRAPER PREVIEW:", finalText.slice(0, 500));
+}
 
       if (!finalText) {
         return res.status(400).json({ error: "Missing listing text or URL content" });

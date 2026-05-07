@@ -1701,7 +1701,7 @@ document.getElementById("importBtn").addEventListener("click", async () => {
     const data = await res.json();
 
     if (!res.ok) {
-      throw new Error(data.error || "Import failed");
+      throw new Error(data.error || JSON.stringify(data) || "Import failed");
     }
 
     fillListingForm(data.listing);
@@ -1724,11 +1724,11 @@ if (importedImages.length) {
 
     importStatus.textContent = "Form filled. Review before saving.";
     importStatus.style.color = "green";
-  } catch (err) {
-    console.error(err);
-    importStatus.textContent = "Failed to import listing.";
-    importStatus.style.color = "red";
-  }
+    } catch (err) {
+      console.error(err);
+      importStatus.textContent = "Failed: " + err.message;
+      importStatus.style.color = "red";
+    }
 });
     cancelEditBtn.addEventListener("click", resetForm);
 
