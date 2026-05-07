@@ -353,16 +353,14 @@
         </div>
 
 <div class="card" style="background:#f8fbff; border:1px solid #d7eaff;">
-  <h3>AI Import Listing</h3>
-
-  <input id="importUrl" placeholder="Paste listing URL here" />
+  <h3>Magical AI</h3>
 
   <textarea id="importText" placeholder="Paste listing text / details here"></textarea>
 
   <textarea id="importImageUrls" placeholder="Paste image URLs here, one per line"></textarea>
 
   <button class="btn btn-dark" id="importBtn" type="button">
-    AI Fill Form
+    Fill form ╰(○'◡'○)╮
   </button>
 
   <div class="status-text" id="importStatus"></div>
@@ -443,6 +441,16 @@
             <option value="true">Hot Offer</option>
           </select>
         </div>
+
+<div class="grid-2" id="sourceAgentRow" style="display:none;">
+  <input
+    id="sourceAgentName"
+    placeholder="name"
+    readonly
+  />
+</div>
+
+        
 
         <h3 class="subsection-title">Cover Photo</h3>
         <div class="drop-zone" id="dropZone">
@@ -1033,6 +1041,7 @@ function fillListingForm(data) {
         agentPhone: profile.phone,
         agentEmail: profile.email,
         agentImage: profile.image,
+        sourceAgentName: getField("sourceAgentName"),
 
         postedAt: keepCreatedAt || now,
         createdAt: keepCreatedAt || now,
@@ -1094,6 +1103,8 @@ function fillListingForm(data) {
       galleryPreview.innerHTML = "";
       selectedAgentFile = null;
       selectedGalleryFiles = [];
+document.getElementById("sourceAgentName").value = "";
+document.getElementById("sourceAgentRow").style.display = "none";
 
       clearPreview();
       progressText.textContent = "";
@@ -1166,6 +1177,11 @@ function fillListingForm(data) {
       document.getElementById("agentPhone").value = item.agentPhone || "";
       document.getElementById("agentEmail").value = item.agentEmail || "";
       document.getElementById("hotOffer").value = item.hotOffer ? "true" : "false";
+
+document.getElementById("sourceAgentName").value =
+  item.sourceAgentName || "";
+
+document.getElementById("sourceAgentRow").style.display = "grid";
 
       selectedFile = null;
       selectedAgentFile = null;
@@ -1667,7 +1683,7 @@ onAuthStateChanged(auth, async (user) => {
 
 
 document.getElementById("importBtn").addEventListener("click", async () => {
-  const importUrl = document.getElementById("importUrl").value.trim();
+  const importUrl = "";
   const importText = document.getElementById("importText").value.trim();
   const imageUrls = document.getElementById("importImageUrls").value
     .split("\n")
@@ -1676,7 +1692,7 @@ document.getElementById("importBtn").addEventListener("click", async () => {
 
   const importStatus = document.getElementById("importStatus");
 
-  if (!importText && !importUrl) {
+  if (!importText && imageUrls.length === 0) {
     importStatus.textContent = "Paste listing URL or listing text first.";
     importStatus.style.color = "red";
     return;
@@ -1686,25 +1702,33 @@ document.getElementById("importBtn").addEventListener("click", async () => {
   importStatus.style.color = "#333";
 
   try {
-    const res = await fetch("/api/importListing", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        url: importUrl,
-        text: importText,
-        imageUrls
-      })
-    });
+let data = { listing: {} };
 
-    const data = await res.json();
+if (importText) {
+  const res = await fetch("/api/importListing", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      text: importText,
+      imageUrls
+    })
+  });
 
-    if (!res.ok) {
-      throw new Error(data.error || JSON.stringify(data) || "Import failed");
-    }
+  data = await res.json();
 
+  if (!res.ok) {
+    throw new Error(data.error || JSON.stringify(data) || "Import failed");
+  }
+
+  if (data.listing) {
     fillListingForm(data.listing);
+  }
+}
+
+data.listing = data.listing || {};
+data.listing.imageUrls = imageUrls;
 
 
 const importedImages = Array.isArray(data.listing.imageUrls)

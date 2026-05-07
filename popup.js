@@ -41,12 +41,18 @@ document.getElementById("extractBtn").addEventListener("click", async () => {
           /\.(jpg|jpeg|png|webp)/i.test(u)
         );
 
-        return {
-          url: location.href,
-          title: document.title,
-          text: document.body.innerText,
-          imageUrls
-        };
+const sourceAgentName =
+  document.querySelector('[da-id="agent-name"]')?.innerText?.trim() ||
+  document.querySelector('[data-testid="agent-name"]')?.innerText?.trim() ||
+  "";
+
+return {
+  url: location.href,
+  title: document.title,
+  text: document.body.innerText,
+  imageUrls,
+  sourceAgentName
+};
       }
     });
 
@@ -64,6 +70,8 @@ document.getElementById("extractBtn").addEventListener("click", async () => {
     const data = await response.json();
 
     data.imageUrls = pageData.imageUrls;
+
+    data.sourceAgentName = pageData.sourceAgentName;
 
     await chrome.storage.local.set({ latestListing: data });
 
@@ -190,6 +198,13 @@ if (importImageUrls && Array.isArray(data.imageUrls)) {
   setField("latitude", data.latitude);
   setField("longitude", data.longitude);
   setField("description", data.description);
+
+  setField("sourceAgentName", data.sourceAgentName);
+
+const sourceAgentRow = document.getElementById("sourceAgentRow");
+if (sourceAgentRow) {
+  sourceAgentRow.style.display = "grid";
+}
 }
     });
 
