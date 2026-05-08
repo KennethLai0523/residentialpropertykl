@@ -44,17 +44,17 @@
   <meta name="description" content="Professional Expert Guidance for Industrial Property Investment, Leasing, and Business Expansion" />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://residentialpropertykl.com/" />
-  <meta name="theme-color" content="#4da6ff" />
+  <meta name="theme-color" content="#1B4332" />
   <meta property="og:image" content="https://residentialpropertykl.com/images/logo.png">
 
   <style>
     :root {
-      --gold: #d9a73f;
-      --gold-dark: #c69329;
+--gold: #1B4332;
+--gold-dark: #2D6A4F;
       --dark: #111111;
       --text: #222222;
       --muted: #666666;
-      --bg: #f5f5f5;
+      --bg: #F7F5F0;
       --card: #ffffff;
       --border: #e8e8e8;
       --wa: #25D366;
@@ -67,7 +67,7 @@
       margin: 0;
       font-family: Arial, Helvetica, sans-serif;
       color: var(--text);
-      background: #ffffff;
+      background: #F7F5F0;
       line-height: 1.5;
     }
 
@@ -170,21 +170,64 @@
       margin-top: 10px;
     }
 
-    .hero {
-      position: relative;
-      min-height: 560px;
-      color: #fff;
-      background:
-        linear-gradient(rgba(8,18,32,0.58), rgba(8,18,32,0.68)),
-        url('images/ResidentialHome.jpeg') center/cover no-repeat;
-      display: flex;
-      align-items: center;
-    }
 
-    .hero-content {
-      padding: 92px 0 160px;
-      text-align: center;
-    }
+
+.hero-content {
+  padding: 120px 0 160px;
+}
+
+.hero-main-layout {
+  display: flex;
+  align-items: center;
+  min-height: 420px;
+}
+
+.hero-copy {
+  max-width: 620px;
+}
+
+.hero-copy h1 {
+  text-align: left;
+  font-size: clamp(48px, 6vw, 76px);
+  line-height: 1.02;
+  margin-bottom: 20px;
+}
+
+.hero-copy p {
+  text-align: left;
+  margin: 0 0 30px;
+  max-width: 420px;
+  font-size: 16px;
+  color: #333;
+}
+
+.hero-copy h1 {
+  color: #111;
+}
+
+.hero-nav-grid {
+  justify-content: flex-start;
+  margin-top: 0;
+  margin-bottom: 34px;
+}
+
+.hero-main-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  padding: 0 24px;
+  border-radius: 4px;
+  background: #1B4332;
+  color: #fff;
+  font-weight: 700;
+  transition: 0.25s ease;
+}
+
+.hero-main-btn:hover {
+  background: #2D6A4F;
+  transform: translateY(-2px);
+}
 
     .hero h1 {
       margin: 0 0 16px;
@@ -193,20 +236,66 @@
       letter-spacing: 0.4px;
     }
 
-    .hero p {
-      width: min(860px, 100%);
-      margin: 0 auto 24px;
-      font-size: clamp(16px, 2vw, 22px);
-      color: rgba(255,255,255,0.92);
-    }
+.hero p {
+  margin: 0 0 24px;
+  max-width: 420px;
+  color: #333;
+  font-size: 16px;
+}
 
-    .hero-badges {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-bottom: 22px;
-    }
+
+
+.hero-nav-grid {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+
+  margin-top: 28px;
+  margin-bottom: 28px;
+}
+
+.hero-nav-btn {
+  min-width: 130px;
+
+  padding: 14px 22px;
+
+  border-radius: 18px;
+
+  background: rgba(255,255,255,0.72);
+  border: 1px solid rgba(27,67,50,0.08);
+
+  backdrop-filter: blur(12px);
+
+  color: #1B4332;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  text-align: center;
+
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+
+  box-shadow:
+    0 8px 24px rgba(0,0,0,0.06);
+
+  border-radius: 16px;
+}
+
+.hero-nav-btn:hover {
+  background: #ffffff;
+  transform: translateY(-3px);
+
+  border-color: rgba(255,255,255,0.28);
+
+  box-shadow:
+    0 12px 28px rgba(0,0,0,0.22),
+    0 0 20px rgba(255,255,255,0.06);
+}
     
 .brand-mark {
   background: transparent !important;
@@ -220,14 +309,7 @@
   display: block;
 }
 
-    .badge {
-      background: rgba(255,255,255,0.12);
-      border: 1px solid rgba(255,255,255,0.18);
-      padding: 10px 14px;
-      border-radius: 999px;
-      font-size: 14px;
-      font-weight: 700;
-    }
+
 
     .search-panel {
       position: absolute;
@@ -259,16 +341,16 @@
       background: #fff;
     }
 
-    .search-grid button {
-      height: 52px;
-      min-width: 150px;
-      border-radius: 10px;
-      border: none;
-      background: var(--gold);
-      color: var(--dark);
-      font-weight: 700;
-      cursor: pointer;
-    }
+.search-grid button {
+  height: 52px;
+  min-width: 150px;
+  border-radius: 10px;
+  border: none;
+  background: #1B4332;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
 
     main {
       padding-top: 96px;
@@ -286,7 +368,7 @@
 
     .about-section {
       padding: 0;
-      background: #f5f5f5; /* grey */
+      background: #F7F5F0; /* grey */
     }
 
     .section-title {
@@ -713,7 +795,7 @@
 
   border-radius: 8px;
   border: none;
-  background: #4da6ff;
+  background: #1B4332;
   color: #fff;
 
   cursor: pointer;
@@ -760,14 +842,14 @@
       margin: 0 auto;
     }
 
-    .team-section {
-      background: #ffffff;
-      border-top: 1px solid #eee;
-      padding: 275px 0;   /* 🔥 THIS controls height */
-    }
+.team-section {
+  background: #ffffff;
+  border-top: 1px solid #eee;
+  padding: 90px 0;
+}
 
     .reviews-section {
-      background: #f5f5f5;
+      background: #F7F5F0;
     }
 
     /* ===== FORMAL LISTING STYLE ===== */
@@ -843,7 +925,7 @@
 
 
     .listing-actions .btn-primary {
-      background: #4da6ff;
+      background: #1B4332;
       color: #fff;
       border: none;
     }
@@ -1072,16 +1154,16 @@
 }
 
 .status-btn.active {
-  background: #4da6ff;
+  background: #1B4332;
   color: #fff;
-  border-color: #4da6ff;
+  border-color: #1B4332;
 }
 
 
 .status-toggle {
   display: flex;
-  background: #eef6ff;
-  border: 1px solid #d7eaff;
+background: #EEF3EF;
+border: 1px solid #D7E4DA;
   border-radius: 12px;
   padding: 4px;
   gap: 4px;
@@ -1101,17 +1183,17 @@
 }
 
 .status-btn.active {
-  background: #4da6ff;
+  background: #1B4332;
   color: #fff;
-  box-shadow: 0 4px 12px rgba(77,166,255,0.28);
+  box-shadow: 0 4px 12px rgba(45,106,79,0.28);
 }
 
 .status-btn:hover {
-  background: rgba(77,166,255,0.15);
+  background: rgba(45,106,79,0.15);
 }
 
 .status-btn.active:hover {
-  background: #4da6ff;
+  background: #1B4332;
 }
 
 .search-grid button#searchBtn {
@@ -1119,12 +1201,12 @@
 }
 
 .search-input-wrapper button:hover {
-  background: #2f8df5;
+  background: #40916C;
 }
 
 .search-input-wrapper input:focus {
   outline: none;
-  border-color: #4da6ff;
+  border-color: #1B4332;
   box-shadow: 0 0 0 3px rgba(77,166,255,0.15);
 }
 
@@ -1188,10 +1270,9 @@
 }
 
 #propertyMap {
-  width: 100%;
-  height: 400px;
-  border-radius: 14px;
-  overflow: hidden;
+  width: 100% !important;
+  height: 360px !important;
+  border-radius: 14px !important;
 }
 
 #closeMapBtn {
@@ -1215,7 +1296,7 @@
 .leaflet-popup-content a {
   display: inline-block;
   margin-top: 8px;
-  color: #4da6ff !important;
+  color: #1B4332 !important;
   font-weight: 700;
 }
 
@@ -1259,7 +1340,7 @@
 /* 🔥 button style */
 .map-popup-btn {
   display: inline-block;
-  background: #4da6ff;
+  background: #1B4332;
   color: #fff !important;
   padding: 8px 12px;
   border-radius: 6px;
@@ -1308,12 +1389,29 @@
 
 .map-info-card a {
   display: inline-block;
-  background: #4da6ff;
+  background: #1B4332;
   color: #fff !important;
   padding: 8px 12px;
   border-radius: 8px;
   font-weight: 700;
   font-size: 12px;
+}
+
+.hero {
+  position: relative;
+  min-height: 560px;
+  color: #111;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(247,245,240,0.96) 0%,
+      rgba(247,245,240,0.88) 38%,
+      rgba(247,245,240,0.25) 62%,
+      rgba(247,245,240,0.05) 100%
+    ),
+    url('/images/hero-residential-green.jpg') center/cover no-repeat;
+  display: flex;
+  align-items: center;
 }
 
 @media (max-width: 820px) {
@@ -1350,22 +1448,7 @@
   }
 
   .hero-content {
-    padding: 30px 0 160px !important;
-  }
-
-  .hero-badges {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    gap: 6px;
-    padding: 0 10px;
-    margin-top: -10px;                  /* add this */
-    margin-bottom: 10px;
-  }
-
-  .badge {
-    white-space: nowrap;
-    padding: 5px 9px;
-    font-size: 11.5px;
+  padding: 160px 0 110px 24px !important;
   }
 
   .search-panel {
@@ -1471,19 +1554,6 @@
     font-size: 14px;
   }
 
-  .map-panel {
-    position: fixed !important;
-    top: 0;
-    left: 0;
-    width: 100vw !important;
-    height: 100vh !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    border-radius: 0 !important;
-    z-index: 9999;
-    background: #fff;
-  }
-
   #propertyMap {
     width: 100% !important;
     height: 100% !important;
@@ -1535,22 +1605,13 @@
 
 
 @media (min-width: 821px) {
-  .topbar {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100% !important;
-    z-index: 9999 !important;
-    background: #4da6ff !important;
-  }
+
 
   body {
     padding-top: 0;
   }
 
-  .hero-badges {
-    margin-top: 20px;
-  }
+
 
     .hero .btn-wa {
     margin-top: 30px;   /* 🔥 adjust this */
@@ -1564,6 +1625,324 @@
     margin-bottom: 430px;
   }
 }
+
+/* ===== LIVING WEBSITE ANIMATIONS ===== */
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes searchPop {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(24px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+}
+
+@keyframes cardReveal {
+  from { opacity: 0; transform: translateY(35px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes softFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+/* header slide in */
+.topbar {
+  animation: slideDown 0.55s ease both;
+}
+
+.city-slider-wrap,
+.hero h1,
+.hero-nav-grid,
+.hero p,
+.hero .btn-wa {
+  animation: fadeUp 0.8s ease both;
+}
+
+.city-slider-wrap { animation-delay: 0.1s; }
+.hero h1 { animation-delay: 0.22s; }
+.hero-nav-grid { animation-delay: 0.28s; }
+.hero p { animation-delay: 0.34s; }
+.hero .btn-wa { animation-delay: 0.46s; }
+
+/* search panel entrance */
+.search-panel {
+  animation: searchPop 0.75s ease 0.55s both;
+}
+
+
+
+/* search fields */
+.search-grid input,
+.search-grid select,
+.search-grid button {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.search-grid input:focus,
+.search-grid select:focus {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(77,166,255,0.18);
+}
+
+/* listing reveal */
+.listing-card {
+  animation: cardReveal 0.65s ease both;
+}
+
+.listing-card:nth-child(1) { animation-delay: 0.05s; }
+.listing-card:nth-child(2) { animation-delay: 0.12s; }
+.listing-card:nth-child(3) { animation-delay: 0.19s; }
+.listing-card:nth-child(4) { animation-delay: 0.26s; }
+.listing-card:nth-child(5) { animation-delay: 0.33s; }
+.listing-card:nth-child(6) { animation-delay: 0.40s; }
+
+/* button hover */
+.btn-wa,
+.btn-primary,
+#mapViewBtn,
+#mobileMapViewBtn,
+#loadMoreBtn {
+  transition: transform 0.22s ease, box-shadow 0.22s ease, opacity 0.22s ease;
+}
+
+.btn-wa:hover,
+.btn-primary:hover,
+#mapViewBtn:hover,
+#mobileMapViewBtn:hover,
+#loadMoreBtn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.16);
+}
+
+/* team card */
+.team-card {
+  animation: fadeUp 0.7s ease both;
+}
+
+.team-card img {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.team-card:hover img {
+  transform: scale(1.04);
+  box-shadow: 0 16px 35px rgba(0,0,0,0.18);
+}
+
+/* reviews */
+.reviews-grid .contact-card {
+  animation: fadeUp 0.75s ease both;
+}
+
+/* floating nav */
+#navFloatBtn {
+  animation: softFloat 3s ease-in-out infinite;
+}
+
+/* map panel */
+.map-panel {
+  animation: cardReveal 0.45s ease both;
+}
+
+.map-section {
+  background: #ffffff;
+  padding: 70px 0 30px;
+}
+
+.map-panel {
+  position: relative;
+  left: auto;
+  bottom: auto;
+  transform: none;
+
+  width: 100%;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.14);
+  padding: 14px;
+  z-index: 5;
+
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.map-panel.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#propertyMap {
+  width: 100%;
+  height: 420px;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+/* mobile lighter animation */
+@media (max-width: 820px) {
+  .listing-card,
+  .team-card,
+  .reviews-grid .contact-card {
+    animation-duration: 0.45s;
+  }
+
+.hero-nav-grid {
+  gap: 10px;
+  margin-top: 20px;
+  margin-bottom: 18px;
+}
+
+.hero-nav-btn {
+  min-width: calc(50% - 10px);
+
+  padding: 12px 16px;
+
+  font-size: 13px;
+
+  border-radius: 14px;
+}
+
+.city-slider-track {
+  gap: 10px;
+}
+
+.city-chip {
+  padding: 10px 16px;
+  font-size: 12px;
+}
+}
+
+/* reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+.city-slider-wrap {
+  width: 100%;
+  overflow: hidden;
+
+  margin-bottom: 26px;
+
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 10%,
+    black 90%,
+    transparent
+  );
+}
+
+.city-slider-track {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  width: max-content;
+
+  animation: cityScroll 30s linear infinite;
+}
+
+.city-chip {
+  flex-shrink: 0;
+
+  padding: 10px 18px;
+
+  border-radius: 999px;
+
+  background: rgba(255,255,255,0.72);
+
+  border: 1px solid rgba(27,67,50,0.08);
+
+  color: #1B4332;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  letter-spacing: 0.3px;
+
+  backdrop-filter: blur(8px);
+
+  box-shadow:
+    0 8px 20px rgba(0,0,0,0.05);
+
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease,
+    color 0.25s ease;
+}
+
+.city-chip:hover {
+  transform: translateY(-2px);
+
+  background: #ffffff;
+
+  color: #1B4332;
+}
+
+@keyframes cityScroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 820px) {
+  .map-section {
+    display: block !important;
+    background: #ffffff !important;
+    padding: 40px 0 24px !important;
+  }
+
+  .map-section .container {
+    width: calc(100% - 24px) !important;
+  }
+
+  .map-section .map-panel {
+    display: block !important;
+    position: relative !important;
+    left: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+
+    width: 100% !important;
+    height: auto !important;
+    margin: 0 auto !important;
+    padding: 10px !important;
+
+    opacity: 1 !important;
+    border-radius: 16px !important;
+  }
+
+  .map-section #propertyMap {
+    display: block !important;
+    width: 100% !important;
+    height: 360px !important;
+    min-height: 360px !important;
+    border-radius: 14px !important;
+  }
+}
+
+
   </style>
 
   <link rel="stylesheet" href="/shared-layout.css?v=14" />
@@ -1572,22 +1951,31 @@
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 </head>
 <body class="page-home">
-  <div id="site-header"></div>
+
+<div id="site-header"></div>
+
 
   <section class="hero" id="home">
-    <div class="container hero-content">
-      <div class="hero-badges">
-        <span class="badge">Condo</span>
-        <span class="badge">Landed</span>
-        <span class="badge">Soho</span>
-        <span class="badge">New Project</span>
-      </div>
-      <h1>Your residential property expert in KL & Selangor</h1>
-      <p>
-        Trusted by 300+ property buyers & sellers in KL & Selangor
-      </p>
-      <a class="btn-wa" href="https://wa.me/60166287357?text=Hi%20I%20am%20interested%20in%20residential%20property" target="_blank" rel="noopener noreferrer">WhatsApp Our Team Now</a>
+
+<div class="container hero-content">
+
+  <div class="hero-main-layout">
+    <div class="hero-copy">
+
+
+
+      <h1>Your Trusted<br>Property Partner<br>in KL & Selangor</h1>
+
+      <p>Helping you find the right property with confidence.</p>
+
+      <a class="hero-main-btn" href="/categories/all-listings">
+        Explore Properties
+      </a>
+
     </div>
+  </div>
+
+</div>
 
     <div class="search-panel">
       <div class="search-grid">
@@ -1613,19 +2001,21 @@
           <option value="Kuala Lumpur">Kuala Lumpur</option>
         </select>
 
-        <button id="mapViewBtn" type="button">Map View</button>
+
 
    
       </div>
     </div>
+  </section>
 
-    <div class="map-panel hidden" id="mapPanel">
-      <button id="closeMapBtn">✕</button>
+<section class="map-section">
+  <div class="container">
+    <div class="map-panel" id="mapPanel">
       <div id="propertyMap"></div>
-
       <div id="mapInfoCard" class="map-info-card hidden"></div>
     </div>
-  </section>
+  </div>
+</section>
 
   <main>
 
@@ -1645,7 +2035,6 @@
 
             <div class="results-count" id="resultsCount">Showing 0 listings</div>
 
-            <button id="mobileMapViewBtn" type="button">Map View</button>
           </div>
 
           
@@ -2171,25 +2560,32 @@ function setupAgentSlider() {
     
 setupAgentSlider();
 
-const mapViewBtn = document.getElementById("mapViewBtn");
-const mobileMapViewBtn = document.getElementById("mobileMapViewBtn");
 const mapPanel = document.getElementById("mapPanel");
-
-
-/* 🔥 ADD HERE */
-const closeMapBtn = document.getElementById("closeMapBtn");
-
-if (closeMapBtn) {
-  closeMapBtn.addEventListener("click", () => {
-    mapPanel.classList.add("hidden");
-
-    mapViewBtn.textContent = "Map View";
-    if (mobileMapViewBtn) mobileMapViewBtn.textContent = "Map View";
-  });
-}
 
 let propertyMap = null;
 let mapMarkers = [];
+
+function initDefaultMap() {
+  renderMapPins(filteredListings.length ? filteredListings : listings);
+
+  setTimeout(() => {
+    if (propertyMap) propertyMap.invalidateSize();
+  }, 300);
+}
+
+const mapObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      mapPanel.classList.add("show");
+      initDefaultMap();
+      mapObserver.unobserve(mapPanel);
+    }
+  });
+}, {
+  threshold: 0.25
+});
+
+mapObserver.observe(mapPanel);
 
 function renderMapPins(items) {
   if (!propertyMap) {
@@ -2220,7 +2616,8 @@ const validItems = items.filter(item => {
     const lat = Number(item.latitude);
     const lng = Number(item.longitude);
 
-    const marker = L.marker([lat, lng]).addTo(propertyMap);
+  const marker = L.marker([lat, lng]).addTo(propertyMap);
+  mapMarkers.push(marker);
 
   marker.on("click", () => {
     propertyMap.setView([lat, lng], Math.max(propertyMap.getZoom(), 14));
@@ -2248,33 +2645,11 @@ const validItems = items.filter(item => {
     propertyMap.invalidateSize();
   }, 200);
 }
-
-function toggleMapView() {
-  mapPanel.classList.toggle("hidden");
-
-  document.querySelector(".hero").classList.toggle("map-open");
-
-  if (!mapPanel.classList.contains("hidden")) {
-    renderMapPins(filteredListings.length ? filteredListings : listings);
-
-    mapViewBtn.textContent = "List View";
-    if (mobileMapViewBtn) mobileMapViewBtn.textContent = "List View";
-
-  } else {
-    mapViewBtn.textContent = "Map View";
-    if (mobileMapViewBtn) mobileMapViewBtn.textContent = "Map View";
-  }
-}
-
-// desktop button
-mapViewBtn.addEventListener("click", toggleMapView);
-
-// mobile button
-if (mobileMapViewBtn) {
-  mobileMapViewBtn.addEventListener("click", toggleMapView);
-}
 // 🚀 USE FIREBASE INSTEAD OF STATIC DATA
-loadListingsFromFirebase();
+loadListingsFromFirebase().then(() => {
+  initDefaultMap();
+  mapPanel.classList.add("show");
+});
 
 </script>
 
