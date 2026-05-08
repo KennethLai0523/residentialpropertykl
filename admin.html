@@ -307,6 +307,33 @@
       font-size: 13px;
     }
 
+.project-section-builder {
+  border: 1px solid #d7eaff;
+  background: #f8fbff;
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 14px;
+}
+
+.project-section-builder h4 {
+  margin: 0 0 12px;
+}
+
+.project-section-images {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 10px 0;
+}
+
+.project-section-images img {
+  width: 120px;
+  height: 85px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
     @media (max-width: 900px) {
       .grid-3,
       .grid-2 {
@@ -498,16 +525,50 @@
 
 <div class="tab-panel" id="projectsTab">
   <div class="card">
+
+
+<div class="card">
+  <h2>Add Developer</h2>
+
+  <input id="developerName" placeholder="Developer Name e.g. Gamuda Projects" />
+  <textarea id="developerDescription" placeholder="Developer Description"></textarea>
+
+  <h3 class="subsection-title">Developer Cover Image</h3>
+  <input type="file" id="developerCoverInput" accept="image/*" />
+
+  <button class="btn" id="saveDeveloperBtn" type="button">
+    Save Developer
+  </button>
+
+  <div class="status-text" id="developerStatus"></div>
+</div>
+
+
     <h2 id="projectFormTitle">Add Project</h2>
     <div class="section-note">
       Use this to create new industrial projects and launch pages.
     </div>
 
-    <input id="projectTitle" placeholder="Project Title" />
-    <input id="projectLocation" placeholder="Location" />
+<select id="projectDeveloperSelect">
+  <option value="">Select Developer</option>
+</select>
 
-    <textarea id="projectShort" placeholder="Short Description"></textarea>
-    <textarea id="projectContent" class="editor-large" placeholder="Full Content"></textarea>
+<input id="projectTitle" placeholder="Project Title" />
+<input id="projectLocation" placeholder="Location" />
+
+<textarea id="projectShort" placeholder="Short Description"></textarea>
+<textarea id="projectContent" class="editor-large" placeholder="Main Project Overview"></textarea>
+
+<h3 class="subsection-title">Project Sections</h3>
+<div class="section-note">
+  Add sections like Facilities, Nearby Areas, Community, Advantages. Each section can have its own photos.
+</div>
+
+<div id="projectSectionsWrap"></div>
+
+<button class="btn btn-light" id="addProjectSectionBtn" type="button">
+  + Add Project Section
+</button>
 
     <h3 class="subsection-title">Project Cover Image</h3>
     <input type="file" id="projectCoverInput" accept="image/*" />
@@ -681,6 +742,96 @@ const accountProfiles = {
 
 
 
+const developerName = document.getElementById("developerName");
+const developerDescription = document.getElementById("developerDescription");
+const developerCoverInput = document.getElementById("developerCoverInput");
+const saveDeveloperBtn = document.getElementById("saveDeveloperBtn");
+const developerStatus = document.getElementById("developerStatus");
+const projectDeveloperSelect = document.getElementById("projectDeveloperSelect");
+
+let developersCache = [];
+
+async function saveDeveloper() {
+  const name = developerName.value.trim();
+  const description = developerDescription.value.trim();
+
+  if (!name) {
+    developerStatus.textContent = "Please enter developer name.";
+    developerStatus.style.color = "red";
+    return;
+  }
+
+  saveDeveloperBtn.disabled = true;
+  developerStatus.textContent = "Saving developer...";
+  developerStatus.style.color = "#333";
+
+  try {
+    let coverImage = "";
+
+    if (developerCoverInput.files[0]) {
+      coverImage = await uploadImage(
+        developerCoverInput.files[0],
+        "developer-cover",
+        name,
+        developerStatus
+      );
+    }
+
+    await addDoc(collection(db, "developers"), {
+      name,
+      slug: slugify(name),
+      description,
+      coverImage,
+      status: "published",
+      createdAt: Date.now(),
+      updatedAt: Date.now()
+    });
+
+    developerStatus.textContent = "Developer saved successfully.";
+    developerStatus.style.color = "green";
+
+    developerName.value = "";
+    developerDescription.value = "";
+    developerCoverInput.value = "";
+
+    await loadDevelopers();
+  } catch (error) {
+    console.error(error);
+    developerStatus.textContent = "Failed to save developer.";
+    developerStatus.style.color = "red";
+  } finally {
+    saveDeveloperBtn.disabled = false;
+  }
+}
+
+async function loadDevelopers() {
+  const snapshot = await getDocs(collection(db, "developers"));
+
+  developersCache = [];
+
+  snapshot.forEach((docSnap) => {
+    const data = docSnap.data();
+
+    if (data.status === "published") {
+      developersCache.push({
+        id: docSnap.id,
+        ...data
+      });
+    }
+  });
+
+  developersCache.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+
+  projectDeveloperSelect.innerHTML = `
+    <option value="">Select Developer</option>
+    ${developersCache.map(dev => `
+      <option value="${dev.id}">
+        ${dev.name}
+      </option>
+    `).join("")}
+  `;
+}
+
 
 
 
@@ -726,8 +877,18 @@ const accountProfiles = {
     const projectContent = document.getElementById("projectContent");
     const projectCoverInput = document.getElementById("projectCoverInput");
     const projectGalleryInput = document.getElementById("projectGalleryInput");
+
+
+const projectSectionsWrap = document.getElementById("projectSectionsWrap");
+const addProjectSectionBtn = document.getElementById("addProjectSectionBtn");
+
+let projectSectionsState = [];
+
+
     const saveProjectBtn = document.getElementById("saveProjectBtn");
     const projectStatus = document.getElementById("projectStatus");
+
+
 
 let editingProjectId = null;
 let existingProjectCoverImage = "";
@@ -856,6 +1017,99 @@ function renderGalleryPreview(urls = []) {
       reader.readAsDataURL(file);
     }
 
+function renderProjectSectionsBuilder() {
+  projectSectionsWrap.innerHTML = "";
+
+  projectSectionsState.forEach((section, index) => {
+    const box = document.createElement("div");
+    box.className = "project-section-builder";
+
+    box.innerHTML = `
+      <h4>Project Section ${index + 1}</h4>
+
+      <input 
+        class="project-section-title" 
+        placeholder="Section Title e.g. Facilities / Nearby Areas / Community"
+        value="${section.title || ""}"
+      />
+
+      <textarea 
+        class="project-section-description" 
+        placeholder="Section Description"
+      >${section.description || ""}</textarea>
+
+      <input 
+        class="project-section-file" 
+        type="file" 
+        accept="image/*" 
+        multiple
+      />
+
+      <div class="project-section-images"></div>
+
+      <button class="btn btn-sm btn-light remove-project-section-btn" type="button">
+        Remove Section
+      </button>
+    `;
+
+    const titleInput = box.querySelector(".project-section-title");
+    const descInput = box.querySelector(".project-section-description");
+    const fileInput = box.querySelector(".project-section-file");
+    const imagesWrap = box.querySelector(".project-section-images");
+    const removeBtn = box.querySelector(".remove-project-section-btn");
+
+    function refreshImages() {
+      imagesWrap.innerHTML = "";
+
+      const existingImages = section.images || [];
+      existingImages.forEach((url) => {
+        const img = document.createElement("img");
+        img.src = url;
+        imagesWrap.appendChild(img);
+      });
+
+      const newFiles = section.files || [];
+      newFiles.forEach((file) => {
+        const img = document.createElement("img");
+        img.src = URL.createObjectURL(file);
+        imagesWrap.appendChild(img);
+      });
+    }
+
+    titleInput.addEventListener("input", () => {
+      projectSectionsState[index].title = titleInput.value;
+    });
+
+    descInput.addEventListener("input", () => {
+      projectSectionsState[index].description = descInput.value;
+    });
+
+    fileInput.addEventListener("change", (e) => {
+      projectSectionsState[index].files = Array.from(e.target.files || []);
+      refreshImages();
+    });
+
+    removeBtn.addEventListener("click", () => {
+      projectSectionsState.splice(index, 1);
+      renderProjectSectionsBuilder();
+    });
+
+    refreshImages();
+    projectSectionsWrap.appendChild(box);
+  });
+}
+
+function addProjectSection(title = "", description = "", images = []) {
+  projectSectionsState.push({
+    title,
+    description,
+    images,
+    files: []
+  });
+
+  renderProjectSectionsBuilder();
+}
+
 function setProjectEditMode(item, id) {
   editingProjectId = id;
   existingProjectCoverImage = item.coverImage || "";
@@ -865,6 +1119,22 @@ function setProjectEditMode(item, id) {
   projectLocation.value = item.location || "";
   projectShort.value = item.shortDescription || "";
   projectContent.value = item.fullContent || "";
+  projectDeveloperSelect.value = item.developerId || "";
+
+
+
+projectSectionsState = Array.isArray(item.projectSections)
+  ? item.projectSections.map(section => ({
+      title: section.title || "",
+      description: section.description || "",
+      images: Array.isArray(section.images) ? section.images : [],
+      files: []
+    }))
+  : [];
+
+renderProjectSectionsBuilder();
+
+
 
   projectCoverInput.value = "";
   projectGalleryInput.value = "";
@@ -1532,13 +1802,23 @@ if (!editingId && !selectedFile && !existingImageUrl) {
     }
 
 async function saveProject() {
+
+const developerId = projectDeveloperSelect.value;
+const developer = developersCache.find(dev => dev.id === developerId);
+
+if (!developerId || !developer) {
+  projectStatus.textContent = "Please select developer.";
+  projectStatus.style.color = "red";
+  return;
+}
+
   const title = projectTitle.value.trim();
   const location = projectLocation.value.trim();
   const shortDescription = projectShort.value.trim();
   const fullContent = projectContent.value.trim();
 
   if (!title || !location || !shortDescription || !fullContent) {
-    projectStatus.textContent = "Please fill in title, location, short description and full content.";
+    projectStatus.textContent = "Please fill in title, location, short description and main overview.";
     projectStatus.style.color = "red";
     return;
   }
@@ -1581,7 +1861,43 @@ async function saveProject() {
       );
     }
 
+    const finalProjectSections = [];
+
+    for (const section of projectSectionsState) {
+      const sectionTitle = (section.title || "").trim();
+      const sectionDescription = (section.description || "").trim();
+
+      if (!sectionTitle && !sectionDescription) continue;
+
+      let sectionImages = Array.isArray(section.images) ? [...section.images] : [];
+
+      if (Array.isArray(section.files) && section.files.length > 0) {
+        for (const file of section.files) {
+          if (!file.type.startsWith("image/")) continue;
+
+          const imageUrl = await uploadImage(
+            file,
+            "project-sections",
+            `${title}-${sectionTitle}`,
+            projectStatus
+          );
+
+          sectionImages.push(imageUrl);
+        }
+      }
+
+      finalProjectSections.push({
+        title: sectionTitle,
+        description: sectionDescription,
+        images: sectionImages
+      });
+    }
+
     const payload = {
+
+developerId,
+developerName: developer.name,
+developerSlug: developer.slug,
       title,
       slug: slugify(title),
       location,
@@ -1589,6 +1905,7 @@ async function saveProject() {
       fullContent,
       coverImage: finalCoverImage,
       galleryImages: finalGalleryImages,
+      projectSections: finalProjectSections,
       status: "published",
       createdAt,
       updatedAt: Date.now()
@@ -1607,6 +1924,7 @@ async function saveProject() {
     editingProjectId = null;
     existingProjectCoverImage = "";
     existingProjectGalleryImages = [];
+    projectSectionsState = [];
 
     projectTitle.value = "";
     projectLocation.value = "";
@@ -1614,11 +1932,12 @@ async function saveProject() {
     projectContent.value = "";
     projectCoverInput.value = "";
     projectGalleryInput.value = "";
+    renderProjectSectionsBuilder();
 
     await loadProjects();
 
-projectFormTitle.textContent = "Add Project";
-saveProjectBtn.textContent = "Save Project";
+    projectFormTitle.textContent = "Add Project";
+    saveProjectBtn.textContent = "Save Project";
   } catch (error) {
     console.error(error);
     projectStatus.textContent = "Failed to save project. Check Storage rules and setup.";
@@ -1626,8 +1945,6 @@ saveProjectBtn.textContent = "Save Project";
   } finally {
     saveProjectBtn.disabled = false;
   }
-
-
 }
 
     function setupTabs() {
@@ -1671,6 +1988,7 @@ onAuthStateChanged(auth, async (user) => {
 
   await loadListings();
   await loadBlogs();
+  await loadDevelopers();
   await loadProjects();
 });
 
@@ -1795,6 +2113,8 @@ function handleGalleryFiles(files) {
   });
 }
 
+
+
 galleryDropZone.addEventListener("click", () => galleryInput.click());
 
 galleryInput.addEventListener("change", (e) => {
@@ -1819,6 +2139,11 @@ galleryDropZone.addEventListener("drop", (e) => {
     saveBlogBtn.addEventListener("click", saveBlog);
     cancelBlogEditBtn.addEventListener("click", resetBlogForm);
     saveProjectBtn.addEventListener("click", saveProject);
+
+saveDeveloperBtn.addEventListener("click", saveDeveloper);
+addProjectSectionBtn.addEventListener("click", () => {
+  addProjectSection();
+});
 
     blogDropZone.addEventListener("click", () => blogFileInput.click());
     blogFileInput.addEventListener("change", (e) => {

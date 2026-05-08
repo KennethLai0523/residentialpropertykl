@@ -174,7 +174,7 @@ function makeProjectSlug(title) {
 
 async function loadProjects(){
 
-  const snapshot = await getDocs(collection(db,"projects"));
+  const snapshot = await getDocs(collection(db,"developers"));
 
   if(snapshot.empty){
     projectGrid.innerHTML = `
@@ -185,7 +185,7 @@ async function loadProjects(){
     return;
   }
 
-  const projects = [];
+  const developers = [];
 
   snapshot.forEach((docSnap)=>{
 
@@ -193,7 +193,7 @@ async function loadProjects(){
 
     if(data.status === "published"){
 
-      projects.push({
+      developers.push({
         id: docSnap.id,
         ...data
       });
@@ -202,32 +202,32 @@ async function loadProjects(){
 
   });
 
-  projects.sort((a,b)=>(b.createdAt || 0) - (a.createdAt || 0));
+  developers.sort((a,b)=>(b.createdAt || 0) - (a.createdAt || 0));
 
-  projectGrid.innerHTML = projects.map(project=>{
+  projectGrid.innerHTML = developers.map(developer=>{
 
     const url =
-      `/project/${makeProjectSlug(project.title)}-${project.id}`;
+    `/developer-projects.html?id=${developer.id}`;
 
     return `
       <a class="project-card" href="${url}">
 
         <div class="project-image"
-          style="background-image:url('${project.coverImage || ""}')">
+          style="background-image:url('${developer.coverImage || ""}')">
         </div>
 
         <div class="project-body">
 
           <h2 class="project-title">
-            ${project.title || ""}
+            ${developer.name || ""}
           </h2>
 
           <div class="project-location">
-            ${project.location || ""}
+            ${developer.slug || ""}
           </div>
 
           <div class="project-short">
-            ${project.shortDescription || ""}
+            ${developer.description || ""}
           </div>
 
         </div>

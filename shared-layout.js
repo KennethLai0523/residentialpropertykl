@@ -48,38 +48,38 @@ async function loadProjectsDropdown() {
   if (!dropdown) return;
 
   try {
-    const snapshot = await getDocs(collection(db, "projects"));
+    const snapshot = await getDocs(collection(db, "developers"));
 
     if (snapshot.empty) {
       dropdown.innerHTML = `<div style="padding:10px;">No projects yet</div>`;
       return;
     }
 
-    const projects = [];
+    const developers = [];
 
     snapshot.forEach((docSnap) => {
       const data = docSnap.data();
 
       if (data.status === "published") {
-        projects.push({
-          id: docSnap.id,
-          title: data.title || "Untitled Project",
-          createdAt: data.createdAt || 0
-        });
+developers.push({
+  id: docSnap.id,
+  name: data.name || "Untitled Developer",
+  createdAt: data.createdAt || 0
+});
       }
     });
 
-    if (!projects.length) {
+    if (!developers.length) {
       dropdown.innerHTML = `<div style="padding:10px;">No projects yet</div>`;
       return;
     }
 
-    projects.sort((a, b) => b.createdAt - a.createdAt);
+    developers.sort((a, b) => b.createdAt - a.createdAt);
 
-    dropdown.innerHTML = projects
+    dropdown.innerHTML = developers
       .map(
-        (project) =>
-          `<a href="/project/${makeProjectSlug(project.title)}-${project.id}">${project.title}</a>`
+        (developer) =>
+          `<a href="/developer-projects.html?id=${developer.id}">${developer.name}</a>`
       )
       .join("");
   } catch (error) {

@@ -1,25 +1,2305 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Industrial Property Blog KL</title>
-  <meta name="description" content="Industrial property insights, factory investment tips, and warehouse market updates in KL and Selangor.">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "name": "Residential Property KL",
+      "url": "https://residentialpropertykl.com",
+      "logo": "https://residentialpropertykl.com/images/logo.png"
+    },
+    {
+      "@type": "RealEstateAgent",
+      "name": "Residential Property KL",
+      "url": "https://residentialpropertykl.com",
+      "telephone": "+60166287357",
+      "areaServed": "Kuala Lumpur, Selangor",
+      "image": "https://residentialpropertykl.com/images/logo.png"
+    }
+  ]
+}
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ML49L4TQ29"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-ML49L4TQ29');
+</script>
+  <!-- Favicon (Google + all devices) -->
+<link rel="icon" href="/favicon.ico?v=2">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+  
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Residential Property KL | Property for Sale & Rent</title>
+  <meta name="description" content="Professional Expert Guidance for Industrial Property Investment, Leasing, and Business Expansion" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://residentialpropertykl.com/" />
+  <meta name="theme-color" content="#4da6ff" />
+  <meta property="og:image" content="https://residentialpropertykl.com/images/logo.png">
+
+  <style>
+    :root {
+      --gold: #d9a73f;
+      --gold-dark: #c69329;
+      --dark: #111111;
+      --text: #222222;
+      --muted: #666666;
+      --bg: #f5f5f5;
+      --card: #ffffff;
+      --border: #e8e8e8;
+      --wa: #25D366;
+      --nav-height: 84px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background: #ffffff;
+      line-height: 1.5;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    .container {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+
+    .saved-bucket {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 999;
+      background: var(--dark);
+      color: #fff;
+      border-radius: 16px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+      width: min(360px, calc(100% - 24px));
+      overflow: hidden;
+    }
+
+    .saved-bucket.hidden {
+      display: none;
+    }
+
+    .saved-bucket-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px;
+      background: #1b1b1b;
+      font-weight: 700;
+    }
+
+    .saved-bucket-body {
+      padding: 14px 16px;
+      max-height: 280px;
+      overflow: auto;
+    }
+
+    .saved-item {
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .saved-item:last-child {
+      border-bottom: none;
+    }
+
+    .saved-item-title {
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .saved-item-meta {
+      color: rgba(255,255,255,0.74);
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .saved-empty {
+      color: rgba(255,255,255,0.68);
+      font-size: 14px;
+    }
+
+    .bucket-toggle {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 998;
+      background: var(--gold);
+      color: var(--dark);
+      border: none;
+      border-radius: 999px;
+      padding: 14px 18px;
+      font-weight: 700;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+      cursor: pointer;
+    }
+
+    .mini-btn {
+      background: transparent;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 8px;
+      padding: 8px 10px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .saved-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .hero {
+      position: relative;
+      min-height: 560px;
+      color: #fff;
+      background:
+        linear-gradient(rgba(8,18,32,0.58), rgba(8,18,32,0.68)),
+        url('images/ResidentialHome.jpeg') center/cover no-repeat;
+      display: flex;
+      align-items: center;
+    }
+
+    .hero-content {
+      padding: 92px 0 160px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      margin: 0 0 16px;
+      font-size: clamp(36px, 5vw, 64px);
+      line-height: 1.06;
+      letter-spacing: 0.4px;
+    }
+
+    .hero p {
+      width: min(860px, 100%);
+      margin: 0 auto 24px;
+      font-size: clamp(16px, 2vw, 22px);
+      color: rgba(255,255,255,0.92);
+    }
+
+    .hero-badges {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 22px;
+    }
+    
+.brand-mark {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+.brand-mark img {
+  background: transparent !important;
+  display: block;
+}
+
+    .badge {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.18);
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .search-panel {
+      position: absolute;
+      left: 50%;
+      bottom: -20px;
+      transform: translateX(-50%);
+      width: min(1180px, calc(100% - 32px));
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.12);
+      padding: 20px;
+    }
+
+    .search-grid {
+      display: grid;
+      grid-template-columns: 2fr 0.8fr 0.8fr auto;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .search-grid input,
+    .search-grid select {
+      width: 100%;
+      height: 52px;
+      border-radius: 10px;
+      border: 1px solid #d9d9d9;
+      padding: 0 14px;
+      font-size: 15px;
+      background: #fff;
+    }
+
+    .search-grid button {
+      height: 52px;
+      min-width: 150px;
+      border-radius: 10px;
+      border: none;
+      background: var(--gold);
+      color: var(--dark);
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    main {
+      padding-top: 96px;
+      background: #ffffff;
+    }
+
+    .section {
+      padding: 48px 0;
+    }
+
+    #listings {
+      background: #ffffff;
+      padding-top: 0;
+    }
+
+    .about-section {
+      padding: 0;
+      background: #f5f5f5; /* grey */
+    }
+
+    .section-title {
+      margin: 0 0 10px;
+      font-size: clamp(28px, 3vw, 42px);
+      line-height: 1.1;
+      color: var(--dark);
+    }
+
+    .section-subtitle {
+      margin: 0 0 26px;
+      color: var(--muted);
+      max-width: 760px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .stat-card,
+    .category-card,
+    .listing-card,
+    .about-card,
+    .contact-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: 0 6px 22px rgba(0,0,0,0.04);
+    }
+
+    .stat-card {
+      padding: 24px;
+    }
+
+    .stat-card strong {
+      display: block;
+      font-size: 30px;
+      margin-bottom: 6px;
+      color: var(--dark);
+    }
+
+    .stat-card span {
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .categories {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .category-card {
+      padding: 24px;
+    }
+
+    .category-card h3 {
+      margin: 0 0 10px;
+      font-size: 20px;
+    }
+
+    .category-card p {
+      margin: 0 0 16px;
+      color: var(--muted);
+    }
+
+    .category-chip {
+      display: inline-block;
+      background: #fff4d4;
+      color: #8a6200;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .listings-top {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .results-count {
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .listings {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .listing-card {
+      overflow: hidden;
+    }
+
+    .listing-image {
+      display: block;
+      height: 210px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+
+      overflow: hidden;              /* 🔥 needed for zoom */
+      transition: transform 0.3s ease;
+    }
+
+    .listing-card:hover .listing-image {
+      transform: scale(1.05);        /* 🔥 zoom effect */
+    }
+
+    .listing-image::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0);
+      transition: background 0.3s ease;
+    }
+
+    .listing-card:hover .listing-image::after {
+      background: rgba(0,0,0,0.15);  /* 🔥 subtle dark overlay */
+    }
+
+    .listing-card {
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .listing-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    }
+
+    .image-actions {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      display: flex;
+      gap: 8px;
+    }
+
+    .image-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      border: none;
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .image-btn:hover {
+      background: rgba(0,0,0,0.8);
+    }
+
+    .listing-tag {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: rgba(17,17,17,0.82);
+      color: #fff;
+      padding: 8px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .listing-body {
+      padding: 18px;
+    }
+
+    .listing-price {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--dark);
+      margin-bottom: 8px;
+    }
+
+    .listing-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin: 0 0 8px;
+    }
+
+    .listing-location,
+    .listing-meta,
+    .listing-desc {
+      color: var(--muted);
+      margin: 0 0 8px;
+      font-size: 15px;
+    }
+
+    .listing-meta strong {
+      color: var(--text);
+    }
+
+    .listing-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .empty-state {
+      display: none;
+      padding: 36px;
+      background: #fff;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      text-align: center;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    
+    .about-arrow {
+      width: 40px;
+      height: 40px;
+      border: none;
+      background: transparent;
+      color: #cfcfcf;
+      font-size: 34px;
+      line-height: 1;
+      cursor: pointer;
+    }
+    
+    .about-arrow:hover {
+      color: #999;
+    }
+    
+    
+    .about-showcase-photo {
+      text-align: center;
+    }
+    
+    .about-showcase-photo img {
+      width: 140px;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 14px;
+      margin: 0 auto 14px;
+      background: #f1f1f1;
+    }
+    
+    .about-showcase-name {
+      font-weight: 700;
+      color: #d9a73f;
+      margin-bottom: 4px;
+    }
+    
+    .about-showcase-role {
+      font-size: 13px;
+      color: var(--muted);
+    }
+    
+    .about-showcase-title {
+      font-style: italic;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    
+
+    
+    
+    .about-dots span {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #cfcfcf;
+      display: inline-block;
+    }
+    
+    .about-dots span.active {
+      background: #111;
+    }
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  max-width: 1000px;   /* 🔥 increase this */
+  margin: 30px auto 0;
+}
+    
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+
+    
+    .about-showcase-photo {
+    }
+
+
+    
+
+
+    .about-card,
+    .contact-card {
+      padding: 28px;
+    }
+
+    .about-card ul {
+      margin: 16px 0 0;
+      padding-left: 18px;
+      color: var(--muted);
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .contact-card h3 {
+      margin-top: 0;
+    }
+
+    .contact-card p {
+      margin: 0 0 12px;
+      color: var(--muted);
+    }
+
+    .about-full {
+      max-width: 100%;
+      width: 100%;
+    }
+
+    .about-showcase {
+      display: grid;
+      grid-template-columns: 40px minmax(0, 900px) 40px;
+      justify-content: center;
+      align-items: center;
+      margin: 0 auto;
+    }
+    
+    .about-showcase-card {
+      width: 100%;
+      max-width: 900px;
+      justify-self: center;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 0;
+      background: transparent;
+    }
+
+
+
+
+
+
+.about-arrow {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: transparent;
+  color: #cfcfcf;
+  font-size: 30px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.about-inner {
+  width: 100%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 20px;
+  align-items: center;
+}
+
+.about-showcase-content {
+  max-width: 560px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.about-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 14px;
+}
+.search-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.search-input-wrapper input {
+  width: 100%;
+  height: 52px;
+  border-radius: 10px;
+  border: 1px solid #d9d9d9;
+  padding: 0 48px 0 14px;
+  font-size: 15px;
+}
+
+.search-input-wrapper button {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+
+  height: 40px;
+  width: 40px;
+
+  border-radius: 8px;
+  border: none;
+  background: #4da6ff;
+  color: #fff;
+
+  cursor: pointer;
+}
+
+@media (max-width: 820px) {
+  .about-inner {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+}
+    
+    .about-showcase-title {
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+    
+    .about-showcase-content p {
+      font-size: 14px;
+      line-height: 1.5;
+      margin: 0 0 8px;
+      color: #555;
+      font-style: italic;
+    }
+    
+    .about-showcase-contact {
+      font-size: 14px;
+      line-height: 1.5;
+      margin-top: 8px;
+      color: #444;
+      font-style: italic;
+    }
+    
+    .about-showcase-card {
+      padding: 150px 0;
+    }
+    
+    .about-inner {
+      gap: 20px;
+    }
+
+    .about-showcase-content {
+      max-width: 650px;
+      margin: 0 auto;
+    }
+
+    .team-section {
+      background: #ffffff;
+      border-top: 1px solid #eee;
+      padding: 275px 0;   /* 🔥 THIS controls height */
+    }
+
+    .reviews-section {
+      background: #f5f5f5;
+    }
+
+    /* ===== FORMAL LISTING STYLE ===== */
+    .listings {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 26px;
+    }
+    
+    .listing-card {
+      background: transparent !important;
+      border: none !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      overflow: visible;
+      padding-bottom: 0;
+    }
+    
+    .listing-image {
+      height: 210px;
+      border-radius: 0;
+      overflow: hidden;
+      margin-bottom: 14px;
+    }
+    
+    .listing-body {
+      padding: 0;
+    }
+    
+    .listing-price {
+      font-size: 26px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    
+    .listing-title {
+      font-size: 18px;
+      line-height: 1.45;
+      margin: 0 0 8px;
+      font-weight: 500;
+    }
+    
+    .listing-location,
+    .listing-meta,
+    .listing-desc {
+      font-size: 13px;
+      color: #555;
+      margin: 0 0 8px;
+    }
+    
+    .listing-meta {
+      display: block;
+    }
+    
+    .listing-actions {
+      margin-top: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: nowrap;
+    }
+    
+    .listing-actions .btn-wa,
+    .listing-actions .btn-primary {
+      border-radius: 4px;
+      padding: 10px 16px;
+      font-size: 13px;
+      font-weight: 700;
+
+      min-width: 110px;
+    }
+
+
+    .listing-actions .btn-primary {
+      background: #4da6ff;
+      color: #fff;
+      border: none;
+    }
+    
+    .agent-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid #ddd;
+      font-size: 12px;
+      color: #666;
+    }
+    
+    .agent-avatar {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    
+    .listing-tag {
+      border-radius: 2px;
+      font-size: 10px;
+      padding: 6px 8px;
+    }
+    
+    .image-btn {
+      border-radius: 4px;
+      width: 32px;
+      height: 32px;
+      font-size: 13px;
+    }
+    
+    @media (max-width: 1100px) {
+      .listings {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    
+    @media (max-width: 820px) {
+      .listings {
+        grid-template-columns: 1fr;
+        gap: 22px;
+      }
+    
+      .listing-image {
+        height: 220px;
+      }
+    }
+
+    .reviews-grid .contact-card {
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      border: 1px solid #e5e5e5;
+      background: #fff;
+      padding: 20px;
+    }
+
+    .reviews-grid p {
+      font-style: italic;
+      color: #444;
+      line-height: 1.6;
+    }
+    
+    .reviews-grid strong {
+      display: block;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+    
+    .reviews-grid span {
+      font-size: 13px;
+      color: #777;
+    }
+
+    .header {
+      height: 72px;
+    }
+
+.brand-mark img {
+  height: 100px !important;
+  width: 150px !important;
+  max-width: none !important;
+  max-height: none !important;
+}
+    
+    .nav a {
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .search-bar {
+      border-radius: 6px;
+      box-shadow: none;
+      border: 1px solid #ddd;
+    }
+
+    .hero-text {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-size: 30px;
+      font-weight: 700;
+    }
+
+    .listing-card {
+      border-radius: 4px;
+    }
+
+    /* MOBILE NAV FIX */
+    @media (max-width: 820px) {
+    
+      #navShell {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    
+        padding: 12px 16px;
+    
+        max-height: none;        /* ❌ remove forced height */
+        overflow: visible;       /* ❌ no scroll inside */
+      }
+    
+      .nav-item {
+        width: 100%;
+      }
+    
+      .dropdown.open .dropdown-menu {
+        display: block;
+      }
+    
+      .dropdown-menu a {
+        display: block;
+        padding: 12px 14px;
+        border-top: 1px solid rgba(0,0,0,0.08);
+      }
+    
+    }
+
+.saved-properties-btn {
+  position: fixed;
+  right: 16px;
+  bottom: 16px !important;   /* 🔥 THIS fixes it */
+
+  z-index: 999;
+
+  border-radius: 24px;
+  padding: 12px 18px;
+}
+
+.team-card {
+  text-align: center;
+  max-width: 220px;
+  margin: 0 auto;
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.team-card:hover {
+  transform: translateY(-5px);
+}
+
+.team-card img {
+  width: 100%;
+  max-width: 220px;
+  height: 260px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.team-name {
+  margin-top: 10px;
+  font-weight: 700;
+}
+
+.team-role {
+  color: #666;
+}
+
+.listing-image {
+  display: block;
+  cursor: pointer;
+}
+
+.listing-card {
+  cursor: pointer;
+}
+
+.listing-actions a,
+.image-btn {
+  cursor: pointer; /* keep normal for buttons */
+}
+
+.btn-wa {
+  background: #25D366;
+  color: #fff;
+  transition: background 0.2s ease, opacity 0.2s ease;
+}
+
+.btn-wa:hover {
+  background: #1ebe5d;
+  opacity: 0.9;          /* 🔥 slight dim effect */
+}
+
+.status-toggle {
+  display: flex;
+  gap: 8px;
+}
+
+.status-btn {
+  height: 52px;
+  padding: 0 16px;
+  border: 1px solid #d9d9d9;
+  background: #fff;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.status-btn.active {
+  background: #4da6ff;
+  color: #fff;
+  border-color: #4da6ff;
+}
+
+
+.status-toggle {
+  display: flex;
+  background: #eef6ff;
+  border: 1px solid #d7eaff;
+  border-radius: 12px;
+  padding: 4px;
+  gap: 4px;
+}
+
+.status-btn {
+  height: 44px;
+  padding: 0 14px;
+  border: none;
+  background: transparent;
+  border-radius: 9px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  color: #111;
+  min-width: 82px;
+}
+
+.status-btn.active {
+  background: #4da6ff;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(77,166,255,0.28);
+}
+
+.status-btn:hover {
+  background: rgba(77,166,255,0.15);
+}
+
+.status-btn.active:hover {
+  background: #4da6ff;
+}
+
+.search-grid button#searchBtn {
+  min-width: 110px;
+}
+
+.search-input-wrapper button:hover {
+  background: #2f8df5;
+}
+
+.search-input-wrapper input:focus {
+  outline: none;
+  border-color: #4da6ff;
+  box-shadow: 0 0 0 3px rgba(77,166,255,0.15);
+}
+
+.listings-controls {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.listings-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Make toggle smaller (important) */
+.listings-controls .status-btn {
+  height: 36px;
+  padding: 0 12px;
+  font-size: 13px;
+  min-width: auto;
+}
+
+/* Slightly tighter container */
+.listings-controls .status-toggle {
+  padding: 3px;
+}
+
+#mapViewBtn {
+  height: 52px;
+  border-radius: 10px;
+  border: none;
+  background: #111;
+  color: #fff;
+  font-weight: 700;
+  padding: 0 18px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+#mapViewBtn:hover {
+  opacity: 0.9;
+}
+
+.map-panel {
+  position: absolute;
+  left: 50%;
+  bottom: -430px;
+  transform: translateX(-50%);
+  width: min(1180px, calc(100% - 32px));
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.14);
+  padding: 14px;
+  z-index: 5;
+}
+
+.map-panel.hidden {
+  display: none;
+}
+
+#propertyMap {
+  width: 100%;
+  height: 400px;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+#closeMapBtn {
+  display: none;
+}
+
+.leaflet-popup-content {
+  width: 240px !important;
+  max-width: 240px !important;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.leaflet-popup-content strong {
+  display: block;
+  font-size: 14px;
+  line-height: 1.35;
+  margin-bottom: 6px;
+}
+
+.leaflet-popup-content a {
+  display: inline-block;
+  margin-top: 8px;
+  color: #4da6ff !important;
+  font-weight: 700;
+}
+
+/* 🔥 FORCE white popup container */
+.leaflet-popup-content-wrapper {
+  border-radius: 12px;
+  padding: 0;
+  overflow: hidden;
+}
+
+.leaflet-popup-content {
+  margin: 0 !important;
+  width: 240px !important;
+}
+
+/* 🔥 Your custom card */
+.map-popup {
+  background: #fff;
+  padding: 14px;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.map-popup-title {
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.map-popup-price {
+  color: #111;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.map-popup-location {
+  color: #666;
+  margin-bottom: 10px;
+}
+
+/* 🔥 button style */
+.map-popup-btn {
+  display: inline-block;
+  background: #4da6ff;
+  color: #fff !important;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 12px;
+  text-decoration: none;
+}
+
+#mobileMapViewBtn {
+  display: none;
+}
+
+.map-info-card {
+  position: absolute;
+  left: 20px;
+  bottom: 20px;
+  z-index: 10001;
+  width: 280px;
+  background: #fff;
+  color: #111;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  padding: 14px;
+}
+
+.map-info-card.hidden {
+  display: none;
+}
+
+.map-info-card-title {
+  font-weight: 800;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.map-info-card-price {
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.map-info-card-location {
+  color: #666;
+  font-size: 13px;
+  margin-bottom: 10px;
+}
+
+.map-info-card a {
+  display: inline-block;
+  background: #4da6ff;
+  color: #fff !important;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 12px;
+}
+
+@media (max-width: 820px) {
+  .bucket-toggle {
+    right: 12px !important;
+    bottom: 12px !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+    max-width: none !important;
+    z-index: 998 !important;
+  }
+
+  .saved-bucket {
+    right: 12px !important;
+    bottom: 60px !important;
+  }
+}
+
+
+
+@media (max-width: 820px) {
+
+.brand-mark img {
+  height: 60px !important;
+  width: 120px !important;   /* 🔥 add this */
+  object-fit: contain;
+}
+
+  .hero {
+    align-items: flex-start !important;
+    min-height: 450px !important;   /* 🔥 reduce height */
+    padding-bottom: 80px !important; /* 🔥 less empty space */
+  }
+
+  .hero-content {
+    padding: 30px 0 160px !important;
+  }
+
+  .hero-badges {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 6px;
+    padding: 0 10px;
+    margin-top: -10px;                  /* add this */
+    margin-bottom: 10px;
+  }
+
+  .badge {
+    white-space: nowrap;
+    padding: 5px 9px;
+    font-size: 11.5px;
+  }
+
+  .search-panel {
+    position: absolute !important;
+    left: 50%;
+    bottom: 20px;
+    transform: translateX(-50%);
+    width: calc(100% - 24px);
+    padding: 16px;
+    border-radius: 18px;
+  }
+
+  .search-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px;
+  }
+
+  .search-grid input,
+  .search-grid select,
+  .search-grid button {
+    height: 48px !important;
+    font-size: 14px;
+  }
+
+  main {
+    padding-top: 20px !important;
+  }
+
+
+.hero p {
+  white-space: nowrap;      /* 🔥 force 1 line */
+  font-size: 14px;          /* slightly smaller so it fits */
+  overflow: hidden;
+  text-overflow: ellipsis;  /* add "..." if too long */
+}
+
+  .listings-top {
+    align-items: flex-start !important;
+  }
+
+  .listings-controls {
+    flex-direction: column !important;
+    align-items: flex-end !important;
+    gap: 8px !important;
+  }
+
+  .results-count {
+    order: -1; /* move above toggle */
+    font-size: 13px;
+    white-space: nowrap;
+  }
+
+  #keywordFilter::placeholder {
+    font-size: 13px;   /* 🔥 smaller text */
+  }
+
+  #keywordFilter {
+    font-size: 14px;
+  }
+
+  .reviews-grid {
+    display: grid !important;
+    grid-template-columns: 1fr !important;  /* 🔥 1 column */
+    gap: 16px;
+  }
+
+  .reviews-grid .contact-card {
+    width: 100%;
+  }
+
+  .map-panel {
+    position: relative;
+    left: auto;
+    bottom: auto;
+    transform: none;
+    width: calc(100% - 24px);
+    margin: 16px auto 0;
+  }
+
+  #propertyMap {
+    height: 360px;
+  }
+
+  .hero.map-open {
+    margin-bottom: 0;
+  }
+
+  .search-panel #mapViewBtn {
+    display: none !important;
+  }
+
+  #mobileMapViewBtn {
+    display: block !important;
+    width: 180px;
+    height: 40px;
+    margin-top: 6px;
+    border-radius: 10px;
+    border: none;
+    background: #111;
+    color: #fff;
+    font-weight: 700;
+    font-size: 14px;
+  }
+
+  .map-panel {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    width: 100vw !important;
+    height: 100vh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    z-index: 9999;
+    background: #fff;
+  }
+
+  #propertyMap {
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 0 !important;
+  }
+
+  /* ❌ remove spacing trick */
+  .hero.map-open {
+    margin-bottom: 0 !important;
+  }
+
+#closeMapBtn {
+  display: block;
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 10000;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0,0,0,0.7);
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+}
+
+@media (max-width: 900px) {
+  .team-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 500px) {
+  .team-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.team-grid > div {
+  transition: transform 0.2s ease;
+}
+
+.team-grid > div:hover {
+  transform: translateY(-5px);
+}
+
+
+@media (min-width: 821px) {
+  .topbar {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    z-index: 9999 !important;
+    background: #4da6ff !important;
+  }
+
+  body {
+    padding-top: 0;
+  }
+
+  .hero-badges {
+    margin-top: 20px;
+  }
+
+    .hero .btn-wa {
+    margin-top: 30px;   /* 🔥 adjust this */
+  }
+
+.hero-content {
+  padding-top: 120px;   /* 🔥 increase this */
+}
+
+  .hero.map-open {
+    margin-bottom: 430px;
+  }
+}
+  </style>
+
+  <link rel="stylesheet" href="/shared-layout.css?v=14" />
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 </head>
-<body style="font-family: Arial; max-width: 800px; margin: auto; padding: 40px;">
+<body class="page-home">
+  <div id="site-header"></div>
 
-<h1>Industrial Property Blog</h1>
+  <section class="hero" id="home">
+    <div class="container hero-content">
+      <div class="hero-badges">
+        <span class="badge">Condo</span>
+        <span class="badge">Landed</span>
+        <span class="badge">Soho</span>
+        <span class="badge">New Project</span>
+      </div>
+      <h1>Your residential property expert in KL & Selangor</h1>
+      <p>
+        Trusted by 300+ property buyers & sellers in KL & Selangor
+      </p>
+      <a class="btn-wa" href="https://wa.me/60166287357?text=Hi%20I%20am%20interested%20in%20residential%20property" target="_blank" rel="noopener noreferrer">WhatsApp Our Team Now</a>
+    </div>
 
-<h2>Can You Afford a Factory in KL?</h2>
-<p>Learn how to calculate loan, cash flow, and investment return for industrial property.</p>
+    <div class="search-panel">
+      <div class="search-grid">
+        <div class="search-input-wrapper">
+          <input type="text" id="keywordFilter" placeholder="Search PJ, KL, Cheras..." />
+          <button id="searchBtn" type="button">🔍</button>
+        </div>
 
-<hr>
+        <select id="stateFilter">
+          <option value="">All States</option>
+          <option value="Kuala Lumpur">Kuala Lumpur</option>
+          <option value="Selangor">Selangor</option>
+        </select>
 
-<h2>Factory vs Warehouse – Which is Better?</h2>
-<p>Understand the difference between factory and warehouse before you invest.</p>
+        <select id="cityFilter">
+          <option value="">All Cities</option>
+          <option value="Klang">Klang</option>
+          <option value="Shah Alam">Shah Alam</option>
+          <option value="Setia Alam">Setia Alam</option>
+          <option value="Bukit Raja">Bukit Raja</option>
+          <option value="Subang">Subang</option>
+          <option value="Sungai Buloh">Sungai Buloh</option>
+          <option value="Kuala Lumpur">Kuala Lumpur</option>
+        </select>
 
-<hr>
+        <button id="mapViewBtn" type="button">Map View</button>
 
-<h2>Top Industrial Areas in Selangor</h2>
-<p>Klang, Shah Alam, Bukit Raja – which one suits your business?</p>
+   
+      </div>
+    </div>
+
+    <div class="map-panel hidden" id="mapPanel">
+      <button id="closeMapBtn">✕</button>
+      <div id="propertyMap"></div>
+
+      <div id="mapInfoCard" class="map-info-card hidden"></div>
+    </div>
+  </section>
+
+  <main>
+
+    <section class="section" id="listings">
+      <div class="container">
+        <div class="listings-top">
+          <div>
+            <h2 class="section-title">Latest Property for Sale & Rent</h2>
+          </div>
+
+          <div class="listings-controls">
+            <div class="status-toggle">
+              <button type="button" class="status-btn active" data-status="">All</button>
+              <button type="button" class="status-btn" data-status="For Sale">For Sale</button>
+              <button type="button" class="status-btn" data-status="For Rent">For Rent</button>
+            </div>
+
+            <div class="results-count" id="resultsCount">Showing 0 listings</div>
+
+            <button id="mobileMapViewBtn" type="button">Map View</button>
+          </div>
+
+          
+        </div>
+
+        
+
+
+
+        <div class="listings" id="listingGrid"></div>
+        <div class="empty-state" id="emptyState">No matching listings found. Try another keyword, city or status.</div>
+
+<div style="text-align:center; margin-top:28px;">
+  <button id="loadMoreBtn" type="button" class="btn-primary" style="display:none; padding:12px 24px; cursor:pointer;">
+    Load More
+  </button>
+</div>
+        
+      </div>
+    </section>
+
+    <section class="section about-section" id="about">
+      <div class="about-full">
+        <div class="about-showcase">
+          <button class="about-arrow" type="button" aria-label="Previous">‹</button>
+    
+            <div class="about-showcase-card">
+              <div class="about-inner">
+                <div class="about-showcase-photo">
+                  <img src="images/kenneth.png" alt="Kenneth Lai">
+                  <div class="about-showcase-name">Kenneth Lai</div>
+                  <div class="about-showcase-role">Residential Property Specialist</div>
+                </div>
+            
+                <div class="about-showcase-content">
+                  <div class="about-showcase-title">Kenneth Lai - Your Residential Property Specialist</div>
+            
+                  <p>
+                   Residential property decisions are important for home ownership, lifestyle upgrades and long-term investment. 
+                  I focus on helping buyers, sellers and investors find suitable condos, apartments and landed homes across Kuala Lumpur, Petaling Jaya and Selangor.
+                  </p>
+            
+                  <p>
+                  Whether you are looking for your first home, upgrading to a better lifestyle or investing for rental returns, I provide practical guidance based on location, budget, property type and long-term goals.
+                  </p>
+            
+                  <div class="about-showcase-contact">
+                    <div><strong>Phone:</strong> +60 16-628 7357</div>
+                    <div><strong>Email:</strong> kennethrealtyconsultancy@gmail.com</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+              <button class="about-arrow" type="button" aria-label="Next">›</button>
+          </div>
+    
+        <div class="about-dots">
+          <span class="active"></span>
+          <span></span>
+        </div>
+      
+      </div>
+    </section>
+
+    <section class="section team-section">
+      <div class="container">
+        <h2 class="section-title" style="text-align:center;">Our Team</h2>
+    
+        <div class="team-grid">
+          
+          <a href="/agent.html?id=kenneth-lai" class="team-card">
+            <img src="images/kenneth.png">
+            <div class="team-name">Kenneth Lai</div>
+            <div class="team-role">Residential Property Specialist</div>
+          </a>
+    
+          <a href="/agent.html?id=agnes-chee" class="team-card">
+            <img src="images/agnes.png">
+            <div class="team-name">Agnes Chee</div>
+            <div class="team-role">Senior Negotiator</div>
+          </a>
+
+          <a href="/agent.html?id=andrew-yap" class="team-card">
+            <img src="images/andrew.png">
+            <div class="team-name">Andrew Yap</div>
+            <div class="team-role">Residential Analyst</div>
+          </a>
+
+          <a href="/agent.html?id=magdalene" class="team-card">
+            <img src="images/magdalene.png">
+            <div class="team-name">Magdalene</div>
+            <div class="team-role">Residential Consultant</div>
+          </a>
+    
+        </div>
+      </div>
+    </section>
+
+    <section class="section reviews-section">
+      <div class="container">
+        <h2 class="section-title" style="text-align:center;">Customer Reviews</h2>
+    
+        <div class="reviews-grid">
+    
+          <div class="contact-card">
+            <p>"Residential Property KL helped me find a suitable condo in Petaling Jaya within my budget. The process was smooth and efficient."</p>
+            <strong>Ms. Cheng</strong><br>
+            <span style="color:#666;">Comment on 04 Feb 2023</span>
+          </div>
+    
+          <div class="contact-card">
+            <p>"The team is very professional when it comes to viewings and negotiations. I felt safe and well guided throughout my home purchase."</p>
+            <strong>Mr. Wong</strong><br>
+            <span style="color:#666;">Comment on 27 Dec 2025</span>
+          </div>
+    
+          <div class="contact-card">
+            <p>"Very knowledgeable about residential areas and pricing. Helped me choose the right property based on my lifestyle and long-term plans."</p>
+            <strong>Ms. Liew</strong><br>
+            <span style="color:#666;">Comment on 21 March 2026</span>
+          </div>
+    
+        </div>
+      </div>
+    </section>
+
+
+  <div class="saved-bucket hidden" id="savedBucket">
+    <div class="saved-bucket-header">
+      <span>Saved Properties</span>
+      <button class="mini-btn" id="closeBucket" type="button">Close</button>
+    </div>
+    <div class="saved-bucket-body" id="savedBucketBody">
+      <div class="saved-empty">No saved properties yet.</div>
+    </div>
+  </div>
+
+  <div id="site-footer"></div>
+  <script type="module" src="/shared-layout.js?v=12"></script>
+  <script type="module">
+    let listings = [];
+let filteredListings = [];
+let visibleCount = 6;
+const LOAD_STEP = 6;
+
+    function generateLink(title) {
+      return (title || "")
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9\s-]/g, "")
+        .replace(/\s+/g, "-")
+        .replace(/-+/g, "-");
+    }
+
+    const listingGrid = document.getElementById('listingGrid');
+    const emptyState = document.getElementById('emptyState');
+    const resultsCount = document.getElementById('resultsCount');
+    const keywordFilter = document.getElementById('keywordFilter');
+    const stateFilter = document.getElementById('stateFilter');
+    const cityFilter = document.getElementById('cityFilter');
+    let selectedStatus = "";
+    const statusButtons = document.querySelectorAll(".status-btn");
+    const searchBtn = document.getElementById('searchBtn');
+
+function renderListings(items) {
+  const loadMoreBtn = document.getElementById('loadMoreBtn');
+  listingGrid.innerHTML = '';
+
+  if (!items.length) {
+    emptyState.style.display = 'block';
+    listingGrid.style.display = 'none';
+    resultsCount.textContent = 'Showing 0 listings';
+    loadMoreBtn.style.display = 'none';
+    return;
+  }
+
+  emptyState.style.display = 'none';
+  listingGrid.style.display = 'grid';
+
+  const visibleItems = items.slice(0, visibleCount);
+  resultsCount.textContent = `Showing ${visibleItems.length} / ${items.length} listings`;
+
+  visibleItems.forEach((item) => {
+    const realIndex = listings.findIndex(listing => listing.id === item.id);
+
+    const card = document.createElement('article');
+    card.className = 'listing-card';
+    card.dataset.link = `/listing/${item.slug || generateLink(item.title)}`;
+    card.innerHTML = `
+
+    <div class="listing-image"
+      style="background-image:url('${item.image}')">
+
+      <!-- 🔥 WATERMARK ADD HERE -->
+      <div class="watermark-box">
+        <span class="watermark-text">RESIDENTIAL PROPERTY KL</span>
+      </div>
+
+      <span class="listing-tag">
+        ${item.listingType === "sale" ? "For Sale" : "For Rent"}
+      </span>
+
+      <div class="image-actions">
+        <button class="image-btn" onclick="addToCompare(${realIndex})" style="width:auto;padding:0 10px;font-size:12px;">Compare</button>
+        <button class="image-btn" onclick="saveProperty(${realIndex})">♡</button>
+      </div>
+    </div>
+    
+      <div class="listing-body">
+        <div class="listing-price">${item.price}</div>
+        <h3 class="listing-title">${item.title}</h3>
+        <p class="listing-location">${item.location}, ${item.state}</p>
+        <p class="listing-meta"><strong>Built-up:</strong> ${item.bua || "-"}</p>
+        <p class="listing-meta"><strong>Type:</strong> ${item.type || "-"}</p>
+        <div class="agent-row">
+          <img
+            class="agent-avatar"
+            src="/images/listingphoto.png"
+            alt="Industrial Property KL Group"
+            onerror="this.src='/images/listingphoto.png'"
+          />
+          <span class="agent-name">Residential Property KL Group</span>
+          <span class="agent-dot">•</span>
+          <span>${formatPostedDate(item.postedAt)}</span>
+        </div>
+        <div class="listing-actions">
+          <a class="btn-wa"
+            href="https://wa.me/${item.agentPhone ? String(item.agentPhone).replace(/\D/g, "") : "60166287357"}?text=${encodeURIComponent('Hi, I am interested in ' + item.title + ' at ' + item.location + '.')}"
+            target="_blank">
+            WhatsApp
+          </a>
+          <a class="btn-primary" href="/listing/${item.slug || generateLink(item.title)}">Details</a>
+        </div>
+      </div>
+    `;
+    listingGrid.appendChild(card);
+
+    card.addEventListener('click', function (e) {
+      if (e.target.closest('a, button')) return;
+      window.location.href = card.dataset.link;
+    });
+  });
+
+  if (visibleCount < items.length) {
+    loadMoreBtn.style.display = 'inline-block';
+  } else {
+    loadMoreBtn.style.display = 'none';
+  }
+}
+
+function applyFilters() {
+  const keyword = keywordFilter.value.trim().toLowerCase();
+  const state = stateFilter.value;
+  const city = cityFilter.value;
+  const status = selectedStatus;
+
+  filteredListings = listings.filter(item => {
+    const haystack = [item.title, item.location, item.state, item.city, item.type, item.description]
+      .join(' ')
+      .toLowerCase();
+
+    const matchKeyword = !keyword || haystack.includes(keyword);
+    const matchState = !state || item.state === state;
+    const matchCity = !city || item.city === city;
+    const matchStatus =
+      !status ||
+      (status === "For Sale" && item.listingType === "sale") ||
+      (status === "For Rent" && item.listingType === "rent");
+
+    return matchKeyword && matchState && matchCity && matchStatus;
+  });
+
+  visibleCount = LOAD_STEP;
+  renderListings(filteredListings);
+  document.getElementById('listings').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+    searchBtn.addEventListener('click', applyFilters);
+
+    statusButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        statusButtons.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        selectedStatus = btn.dataset.status;
+        applyFilters();
+      });
+});
+    keywordFilter.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') applyFilters();
+    });
+
+    document.addEventListener('click', function (e) {
+      const typeLink = e.target.closest('[data-type-link]');
+if (typeLink) {
+  selectedStatus = "";
+  statusButtons.forEach(b => b.classList.remove("active"));
+  statusButtons[0].classList.add("active"); // reset to "All"
+  document.getElementById('stateFilter').value = '';
+  document.getElementById('cityFilter').value = '';
+  document.getElementById('keywordFilter').value = '';
+
+  const targetType = typeLink.getAttribute('data-type-link');
+
+  filteredListings = listings.filter(item => item.type === targetType);
+  visibleCount = LOAD_STEP;
+  renderListings(filteredListings);
+  return;
+}
+    
+      const keywordLink = e.target.closest('[data-keyword-link]');
+      if (keywordLink) {
+        const kw = keywordLink.getAttribute('data-keyword-link');
+        keywordFilter.value = kw;
+        applyFilters();
+      }
+    });
+
+document.getElementById('loadMoreBtn').addEventListener('click', function () {
+  visibleCount += LOAD_STEP;
+  renderListings(filteredListings);
+});
+
+    let compareList = [];
+let savedProperties = [];
+
+function addToCompare(index) {
+  const item = listings[index];
+
+  if (compareList.length >= 2) {
+    alert('You can only compare 2 properties');
+    return;
+  }
+
+  if (!compareList.includes(item)) {
+    compareList.push(item);
+  }
+
+  if (compareList.length === 2) {
+    showCompare();
+  }
+}
+
+function showCompare() {
+  const c1 = compareList[0];
+  const c2 = compareList[1];
+
+  alert(`COMPARE:
+
+${c1.title} (${c1.price})
+VS
+${c2.title} (${c2.price})`);
+
+  compareList = [];
+}
+
+function saveProperty(index) {
+  const item = listings[index];
+  const exists = savedProperties.find(saved => saved.title === item.title);
+
+  if (exists) {
+    alert('This property is already saved');
+    return;
+  }
+
+  savedProperties.push(item);
+  renderSavedBucket();
+  document.getElementById('savedBucket').classList.remove('hidden');
+}
+
+function removeSavedProperty(title) {
+  savedProperties = savedProperties.filter(item => item.title !== title);
+  renderSavedBucket();
+}
+
+function renderSavedBucket() {
+  const bucketBody = document.getElementById('savedBucketBody');
+  const bucketToggle = document.getElementById('bucketToggle');
+  if (bucketToggle) {
+    bucketToggle.textContent = `Saved Properties (${savedProperties.length})`;
+  }
+
+  if (!savedProperties.length) {
+    bucketBody.innerHTML = '<div class="saved-empty">No saved properties yet.</div>';
+    return;
+  }
+
+  bucketBody.innerHTML = savedProperties.map(item => `
+    <div class="saved-item">
+      <div class="saved-item-title">${item.title}</div>
+      <div class="saved-item-meta">${item.location}, ${item.state} • ${item.price}</div>
+      <div class="saved-actions">
+        <a class="mini-btn" href="https://wa.me/60166287357?text=${encodeURIComponent('Hi Kenneth, I am interested in ' + item.title + ' at ' + item.location + '.')}" target="_blank">WhatsApp</a>
+        <button class="mini-btn" type="button" onclick="removeSavedProperty('${item.title.replace(/'/g, "\'")}')">Remove</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function formatPostedDate(timestamp) {
+  if (!timestamp) return "Recently";
+
+  const now = Date.now();
+  const diffDays = Math.floor((now - timestamp) / (1000 * 60 * 60 * 24));
+
+  if (diffDays <= 0) return "Today";
+  if (diffDays === 1) return "1 day ago";
+  if (diffDays < 30) return diffDays + " days ago";
+
+  const date = new Date(timestamp);
+  return date.toLocaleDateString();
+}
+
+  // 🔥 FIREBASE CONFIG (CONNECTED)
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBKO4RNc5r8GoPHQyRHdUllLVwtXFNJyVo",
+  authDomain: "residentialpropertykl.firebaseapp.com",
+  projectId: "residentialpropertykl",
+  storageBucket: "residentialpropertykl.firebasestorage.app",
+  messagingSenderId: "952845303526",
+  appId: "1:952845303526:web:7b604dca11ad50a93bc527",
+  measurementId: "G-DV21X2EGJ0"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// 🔥 LOAD DATA FROM FIRESTORE
+async function loadListingsFromFirebase() {
+  const querySnapshot = await getDocs(collection(db, "listings"));
+
+  const firebaseListings = [];
+
+  querySnapshot.forEach((doc) => {
+    firebaseListings.push({
+      id: doc.id,
+      ...doc.data()
+    });
+  });
+listings = firebaseListings; //agent
+//listings = firebaseListings.filter(item => item.listingOwner !== "agent");
+filteredListings = listings;
+visibleCount = LOAD_STEP;
+renderListings(filteredListings);
+}
+
+const agents = [
+  {
+    name: "Kenneth Lai",
+    role: "Residential Property Specialist",
+    image: "images/kenneth.png",
+    title: "Kenneth Lai - Your Residential Property Specialist",
+    desc1: `Residential property decisions are important for home ownership, lifestyle upgrades and long-term investment. I focus on helping buyers, sellers and investors find suitable condos, apartments and landed homes across Kuala Lumpur, Petaling Jaya and Selangor.`,
+    desc2: `Whether you are looking for your first home, upgrading to a better lifestyle or investing for rental returns, I provide practical guidance based on location, budget, property type and long-term goals.`,
+    phone: "+60 16-628 7357",
+    email: "kennethrealtyconsultancy@gmail.com"
+  },
+  {
+    name: "Agnes Chee",
+    role: "Senior Residential Consultant",
+    image: "images/agnes.png",
+    title: "Agnes Chee - Residential Property Consultant",
+    desc1: `With over a decade of experience in the property market, I focus on helping homebuyers, sellers and investors identify and secure suitable condos, apartments and landed homes across Kuala Lumpur, Petaling Jaya and Selangor.`,
+    desc2: `I provide practical guidance based on your lifestyle needs, preferred location, budget and long-term property goals, ensuring each decision supports both comfort and value.`,
+    phone: "+60 12-289 5038",
+    email: "agnescheesy@yahoo.com"
+  }
+];
+
+let currentAgentIndex = 0;
+
+function renderAgent(index) {
+  const agent = agents[index];
+  const photoBox = document.querySelector(".about-showcase-photo");
+  const contentBox = document.querySelector(".about-showcase-content");
+  const dots = document.querySelectorAll(".about-dots span");
+
+  if (!photoBox || !contentBox) return;
+
+  photoBox.innerHTML = `
+    <img src="${agent.image}" alt="${agent.name}">
+    <div class="about-showcase-name">${agent.name}</div>
+    <div class="about-showcase-role">${agent.role}</div>
+  `;
+
+  contentBox.innerHTML = `
+    <div class="about-showcase-title">${agent.title}</div>
+    <p>${agent.desc1}</p>
+    <p>${agent.desc2}</p>
+    <div class="about-showcase-contact">
+      <div><strong>Phone:</strong> ${agent.phone}</div>
+      <div><strong>Email:</strong> ${agent.email}</div>
+    </div>
+  `;
+
+  dots.forEach((dot, i) => {
+    dot.classList.toggle("active", i === index);
+  });
+}
+
+function setupAgentSlider() {
+  const prevBtn = document.querySelector('.about-arrow[aria-label="Previous"]');
+  const nextBtn = document.querySelector('.about-arrow[aria-label="Next"]');
+  
+  if (!prevBtn || !nextBtn) return;
+
+  prevBtn.addEventListener("click", () => {
+    currentAgentIndex = (currentAgentIndex - 1 + agents.length) % agents.length;
+    renderAgent(currentAgentIndex);
+  });
+
+  nextBtn.addEventListener("click", () => {
+    currentAgentIndex = (currentAgentIndex + 1) % agents.length;
+    renderAgent(currentAgentIndex);
+  });
+
+  renderAgent(currentAgentIndex);
+}
+
+    
+setupAgentSlider();
+
+const mapViewBtn = document.getElementById("mapViewBtn");
+const mobileMapViewBtn = document.getElementById("mobileMapViewBtn");
+const mapPanel = document.getElementById("mapPanel");
+
+
+/* 🔥 ADD HERE */
+const closeMapBtn = document.getElementById("closeMapBtn");
+
+if (closeMapBtn) {
+  closeMapBtn.addEventListener("click", () => {
+    mapPanel.classList.add("hidden");
+
+    mapViewBtn.textContent = "Map View";
+    if (mobileMapViewBtn) mobileMapViewBtn.textContent = "Map View";
+  });
+}
+
+let propertyMap = null;
+let mapMarkers = [];
+
+function renderMapPins(items) {
+  if (!propertyMap) {
+    propertyMap = L.map("propertyMap").setView([3.139, 101.6869], 11);
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution: "&copy; OpenStreetMap"
+    }).addTo(propertyMap);
+  }
+
+  mapMarkers.forEach(marker => marker.remove());
+  mapMarkers = [];
+
+const validItems = items.filter(item => {
+  const lat = Number(item.latitude);
+  const lng = Number(item.longitude);
+
+  return (
+    Number.isFinite(lat) &&
+    Number.isFinite(lng) &&
+    lat > 2 && lat < 4 &&      // Malaysia latitude range
+    lng > 100 && lng < 102     // Malaysia longitude range
+  );
+});
+
+  validItems.forEach(item => {
+    const lat = Number(item.latitude);
+    const lng = Number(item.longitude);
+
+    const marker = L.marker([lat, lng]).addTo(propertyMap);
+
+  marker.on("click", () => {
+    propertyMap.setView([lat, lng], Math.max(propertyMap.getZoom(), 14));
+
+    const card = document.getElementById("mapInfoCard");
+    card.classList.remove("hidden");
+
+    card.innerHTML = `
+      <div class="map-info-card-title">${item.title || ""}</div>
+      <div class="map-info-card-price">${item.price || ""}</div>
+      <div class="map-info-card-location">${item.location || ""}</div>
+      <a href="/listing/${item.slug || generateLink(item.title)}">
+        View Details
+      </a>
+    `;
+  });
+  });
+
+  if (validItems.length) {
+    const group = L.featureGroup(mapMarkers);
+    propertyMap.fitBounds(group.getBounds(), { padding: [30, 30] });
+  }
+
+  setTimeout(() => {
+    propertyMap.invalidateSize();
+  }, 200);
+}
+
+function toggleMapView() {
+  mapPanel.classList.toggle("hidden");
+
+  document.querySelector(".hero").classList.toggle("map-open");
+
+  if (!mapPanel.classList.contains("hidden")) {
+    renderMapPins(filteredListings.length ? filteredListings : listings);
+
+    mapViewBtn.textContent = "List View";
+    if (mobileMapViewBtn) mobileMapViewBtn.textContent = "List View";
+
+  } else {
+    mapViewBtn.textContent = "Map View";
+    if (mobileMapViewBtn) mobileMapViewBtn.textContent = "Map View";
+  }
+}
+
+// desktop button
+mapViewBtn.addEventListener("click", toggleMapView);
+
+// mobile button
+if (mobileMapViewBtn) {
+  mobileMapViewBtn.addEventListener("click", toggleMapView);
+}
+// 🚀 USE FIREBASE INSTEAD OF STATIC DATA
+loadListingsFromFirebase();
+
+</script>
+
+<div id="floating-nav-placeholder"></div>
+
+<script>
+  fetch("/floating-nav.html")
+    .then(res => res.text())
+    .then(html => {
+      document.getElementById("floating-nav-placeholder").innerHTML = html;
+
+      const btn = document.getElementById("navFloatBtn");
+      const menu = document.getElementById("floatNavMenu");
+      const waMenu = document.getElementById("waSlideMenu");
+
+      btn.addEventListener("click", () => {
+        menu.classList.toggle("hidden");
+
+        // 🔥 THIS is what you are missing
+        waMenu.classList.toggle("show");
+      });
+    });
+</script>
+
+
 
 </body>
 </html>
