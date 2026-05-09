@@ -235,13 +235,49 @@
       border-color: rgba(27,67,50,.16);
     }
 
-    .listing-thumb {
-      position: relative;
-      height: 260px;
-      background-size: cover;
-      background-position: center;
-      overflow: hidden;
-    }
+
+
+.listing-thumb{
+  position:relative;
+  width:100%;
+  height:230px;
+  background-size:cover;
+  background-position:center;
+  overflow:hidden;
+  border-radius:22px;
+}
+
+
+
+.price-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+}
+
+.mobile-detail-btn{
+  width:120px;
+  min-width:120px;
+  height:52px;
+  border-radius:18px !important;
+
+  display:flex !important;
+  align-items:center;
+  justify-content:center;
+
+  font-size:15px;
+  font-weight:900;
+}
+
+.listing-bottom .btn-wa{
+  width:100%;
+  height:58px;
+  border-radius:18px;
+  font-size:16px;
+}
+
+
 
     .listing-thumb::after {
       content: "";
@@ -679,45 +715,62 @@ const detailUrl = `/listing/${slug}-${item.id}`;
       const label1 = item.listingType === "rent" ? "FOR RENT" : "FOR SALE";
       const hotLabel = item.hotOffer ? `<span class="label hot">HOT OFFER</span>` : "";
 
-      card.innerHTML = `
-        <div class="listing-thumb" style="background-image:url('${item.image || "/images/hero-residential-green.jpg"}')">
-          <div class="watermark-box">
-            <span class="watermark-text">RESIDENTIAL PROPERTY KL</span>
-          </div>
+card.innerHTML = `
+<div class="listing-thumb"
+  style="background-image:url('${item.image || "/images/hero-residential-green.jpg"}')">
 
-          <div class="listing-labels">
-            <span class="label">${label1}</span>
-            ${hotLabel}
-          </div>
-        </div>
+  <div class="watermark-box">
+    <span class="watermark-text">RESIDENTIAL PROPERTY KL</span>
+  </div>
 
-        <div class="listing-body">
-          <div class="listing-price">${formatPrice(item.price)}</div>
+  <div class="listing-labels">
+    <span class="label">${label1}</span>
+    ${hotLabel}
+  </div>
+</div>
 
-          <h2 class="listing-title">${item.title || "-"}</h2>
+  <div class="listing-body">
 
-          <div class="listing-meta">${item.location || "-"}${item.city ? `, ${item.city}` : ""}</div>
-          <div class="listing-info"><strong>Built-up:</strong> ${item.bua || "-"}</div>
-          <div class="listing-type">${item.type || "-"}</div>
+<div class="price-row">
 
-          <div class="listing-agent">
-            Residential Property KL Group • ${formatPostedDate(item.postedAt || item.createdAt)}
-          </div>
+  <div class="listing-price">
+    ${formatPrice(item.price)}
+  </div>
 
-          <div class="listing-bottom">
-            <a class="btn-wa"
-              href="https://wa.me/${item.agentPhone ? String(item.agentPhone).replace(/\D/g, "") : "60166287357"}?text=${encodeURIComponent(`Hi, I am interested in ${item.title || "this listing"}.`)}"
-              target="_blank"
-              rel="noopener noreferrer">
-              WhatsApp
-            </a>
+  <a class="btn-gold mobile-detail-btn" href="${detailUrl}">
+    Details
+  </a>
 
-            <a class="btn-gold" href="${detailUrl}">
-              Details
-            </a>
-          </div>
-        </div>
-      `;
+</div>
+
+    <h2 class="listing-title">${item.title || "-"}</h2>
+
+    <div class="listing-meta">
+      ${item.location || "-"}${item.city ? `, ${item.city}` : ""}
+    </div>
+
+    <div class="listing-info">
+      <strong>Built-up:</strong> ${item.bua || "-"}
+    </div>
+
+    <div class="listing-type">${item.type || "-"}</div>
+
+    <div class="listing-agent">
+      Residential Property KL Group •
+      ${formatPostedDate(item.postedAt || item.createdAt)}
+    </div>
+
+    <div class="listing-bottom">
+      <a class="btn-wa"
+        href="https://wa.me/${item.agentPhone ? String(item.agentPhone).replace(/\D/g, "") : "60166287357"}?text=${encodeURIComponent(`Hi, I am interested in ${item.title || "this listing"}.`)}"
+        target="_blank"
+        rel="noopener noreferrer">
+        WhatsApp
+      </a>
+    </div>
+
+  </div>
+`;
 
       listingList.appendChild(card);
 
