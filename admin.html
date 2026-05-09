@@ -423,10 +423,22 @@
       <input id="address" placeholder="Full Address" />
     </div>
     
-    <div class="grid-2">
-      <input id="state" placeholder="State" />
-      <input id="city" placeholder="City" />
-    </div>
+<div class="grid-3">
+  <input id="state" placeholder="State" />
+  <input id="city" placeholder="City" />
+
+  <select id="area">
+    <option value="">Select Area</option>
+    <option value="KLCC">KLCC</option>
+    <option value="Mont Kiara">Mont Kiara</option>
+    <option value="Bangsar">Bangsar</option>
+    <option value="Petaling Jaya">Petaling Jaya</option>
+    <option value="Cheras">Cheras</option>
+    <option value="Subang">Subang</option>
+    <option value="Damansara">Damansara</option>
+    <option value="Bukit Jalil">Bukit Jalil</option>
+  </select>
+</div>
     
     <input id="status" placeholder="Status (active / sold / rented / available)" value="active" />
 
@@ -1282,9 +1294,10 @@ function fillListingForm(data) {
         price: getField("price"),
         location: getField("location"),
         address: getField("address"),
-        state: getField("state"),
-        city: getField("city"),
-        type: getField("type"),
+state: getField("state"),
+city: getField("city"),
+area: getField("area"),
+type: getField("type"),
         bua: getField("bua"),
         landArea: getField("landArea"),
         tenure: getField("tenure"),
@@ -1352,6 +1365,7 @@ function fillListingForm(data) {
       document.getElementById("address").value = "";
       document.getElementById("state").value = "";
       document.getElementById("city").value = "";
+      document.getElementById("area").value = "";
       document.getElementById("status").value = "active";
       document.getElementById("bua").value = "";
       document.getElementById("landArea").value = "";
@@ -1421,6 +1435,7 @@ document.getElementById("sourceAgentRow").style.display = "none";
       document.getElementById("address").value = item.address || "";
       document.getElementById("state").value = item.state || "";
       document.getElementById("city").value = item.city || "";
+      document.getElementById("area").value = item.area || "";
       document.getElementById("status").value = item.status || "active";
       document.getElementById("bua").value = item.bua || "";
       document.getElementById("landArea").value = item.landArea || "";

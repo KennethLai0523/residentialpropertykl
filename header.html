@@ -1,11 +1,10 @@
 <div class="topbar">
   <div class="container nav">
 
-    <a href="/index.html" class="brand">
-      <div class="brand-mark">
-        <img src="/images/logo.png" alt="Residential Property KL">
-      </div>
-    </a>
+<a href="/index.html" class="brand luxury-brand">
+  <span class="brand-line-1">Residential</span>
+  <span class="brand-line-2">Property KL</span>
+</a>
 
     <button class="mobile-toggle" id="mobileToggle" type="button">Menu</button>
 
@@ -16,28 +15,49 @@
 
         <li><a class="nav-link" href="/about.html">About</a></li>
 
-        <li class="dropdown">
-          <button class="drop-btn" type="button">Properties</button>
-          <div class="dropdown-menu">
-              <a href="/categories/all-listings">All Listings</a>
-              <a href="/categories/condominium">Condo</a>
-              <a href="/categories/apartment">Apartment</a>
-              <a href="/categories/terrace-house">Terrace House</a>
-              <a href="/categories/semi-detached-house">Semi-Detached House</a>
-              <a href="/categories/bungalow">Bungalow</a>
-              <a href="/categories/townhouse">Townhouse</a>
-              <a href="/categories/soho">SOHO</a>
-          </div>
-        </li>
+<li class="dropdown">
+  <button class="drop-btn" type="button">Properties</button>
+
+  <div class="dropdown-menu property-mega-menu">
+    <div class="mega-col">
+      <div class="mega-title">Sort by Type</div>
+      <a href="/categories/all-listings">All Listings</a>
+      <a href="/categories/condominium">Condo</a>
+      <a href="/categories/apartment">Apartment</a>
+      <a href="/categories/terrace-house">Terrace House</a>
+      <a href="/categories/semi-detached-house">Semi-D House</a>
+      <a href="/categories/bungalow">Bungalow</a>
+      <a href="/categories/townhouse">Townhouse</a>
+      <a href="/categories/soho">SOHO</a>
+    </div>
+
+    <div class="mega-col">
+      <div class="mega-title">Sort by Area</div>
+      <a href="/categories/all-listings?area=KLCC">KLCC</a>
+      <a href="/categories/all-listings?area=Mont%20Kiara">Mont Kiara</a>
+      <a href="/categories/all-listings?area=Bangsar">Bangsar</a>
+      <a href="/categories/all-listings?area=Petaling%20Jaya">Petaling Jaya</a>
+      <a href="/categories/all-listings?area=Cheras">Cheras</a>
+      <a href="/categories/all-listings?area=Subang">Subang</a>
+      <a href="/categories/all-listings?area=Damansara">Damansara</a>
+      <a href="/categories/all-listings?area=Bukit%20Jalil">Bukit Jalil</a>
+    </div>
+  </div>
+</li>
+
+
 
         <li class="dropdown">
-          <button class="drop-btn" type="button">New Projects</button>
-<div class="dropdown-menu" id="projectsDropdown">
+<button class="drop-btn" type="button">New Projects</button>
+
+<div class="dropdown-menu project-dropdown-menu" id="projectsDropdown">
+  <div class="mega-title project-menu-title">Sort by Developer</div>
   <a href="/projects.html">All Projects</a>
   <div id="projectsDropdownItems">
     <div style="padding:10px;">Loading...</div>
   </div>
 </div>
+
         </li>
 
         <li><a class="nav-link" href="/blog.html">Blog</a></li>
@@ -48,9 +68,9 @@
     </div>
 
     <div class="nav-actions">
-      <a class="btn-primary" href="/login.html">
-        Login
-      </a>
+<a class="header-cta" href="https://wa.me/60166287357">
+  Contact Us
+</a>
     </div>
 
   </div>

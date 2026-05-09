@@ -323,12 +323,11 @@
       padding: 20px;
     }
 
-    .search-grid {
-      display: grid;
-      grid-template-columns: 2fr 0.8fr 0.8fr auto;
-      gap: 12px;
-      align-items: center;
-    }
+.search-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+}
 
     .search-grid input,
     .search-grid select {
@@ -1441,6 +1440,30 @@ border: 1px solid #D7E4DA;
   z-index: 2;
 }
 
+.search-panel {
+  background: rgba(255,255,255,0.78);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(255,255,255,0.55);
+  border-radius: 999px;
+  padding: 10px;
+}
+
+.search-input-wrapper input {
+  height: 58px;
+  border-radius: 999px;
+  border: none;
+  padding: 0 70px 0 24px;
+  background: rgba(255,255,255,0.95);
+  box-shadow: inset 0 0 0 1px rgba(27,67,50,0.08);
+}
+
+.search-input-wrapper button {
+  right: 8px;
+  height: 46px;
+  width: 46px;
+  border-radius: 999px;
+}
+
 @keyframes heroZoom {
   from { transform: scale(1); }
   to { transform: scale(1.06); }
@@ -1486,7 +1509,7 @@ border: 1px solid #D7E4DA;
   .search-panel {
     position: absolute !important;
     left: 50%;
-    bottom: 20px;
+    bottom: 140px;
     transform: translateX(-50%);
     width: calc(100% - 24px);
     padding: 16px;
@@ -1974,10 +1997,149 @@ border: 1px solid #D7E4DA;
   }
 }
 
+.latest-projects-section,
+.area-section {
+  background: #F7F5F0;
+}
+
+.section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.section-link {
+  color: #1B4332;
+  font-weight: 700;
+}
+
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.project-card {
+  min-height: 260px;
+  border-radius: 22px;
+  padding: 24px;
+  color: #fff;
+
+  display: flex;
+  align-items: end;
+
+  background-size: cover;
+  background-position: center;
+
+  box-shadow: 0 18px 45px rgba(0,0,0,0.12);
+
+  transition:
+    transform 0.28s ease,
+    box-shadow 0.28s ease;
+}
+
+.project-card-1 {
+  background:
+    linear-gradient(rgba(27,67,50,0.72), rgba(27,67,50,0.82)),
+    url('/images/astor.jpg') center/cover no-repeat;
+}
+
+.project-card-2 {
+  background:
+    linear-gradient(rgba(27,67,50,0.72), rgba(27,67,50,0.82)),
+    url('/images/heston.jpg') center/cover no-repeat;
+}
+
+.project-card-3 {
+  background:
+    linear-gradient(rgba(27,67,50,0.72), rgba(27,67,50,0.82)),
+    url('/images/monarc.jpg') center/cover no-repeat;
+}
+
+.project-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 26px 60px rgba(0,0,0,0.18);
+}
+
+.project-card span {
+  display: inline-block;
+  margin-bottom: 12px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #EADFCB;
+}
+
+.project-card h3 {
+  margin: 0 0 10px;
+  font-size: 26px;
+  line-height: 1.15;
+}
+
+.project-card p {
+  margin: 0;
+  color: rgba(255,255,255,0.86);
+}
+
+.area-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.area-card {
+  min-height: 120px;
+  border-radius: 18px;
+  background: #fff;
+  border: 1px solid rgba(27,67,50,0.08);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1B4332;
+  font-size: 20px;
+  font-weight: 800;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+.area-card:hover {
+  transform: translateY(-5px);
+  background: #EADFCB;
+  box-shadow: 0 18px 42px rgba(0,0,0,0.1);
+}
+
+@media (max-width: 820px) {
+  .section-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .project-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .area-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .project-card {
+    min-height: 220px;
+  }
+.area-card {
+  min-height: 90px;
+  font-size: 16px;
+  border-radius: 14px;
+}
+}
+
 
   </style>
 
-  <link rel="stylesheet" href="/shared-layout.css?v=14" />
+  <link rel="stylesheet" href="/shared-layout.css?v=16" />
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -2015,26 +2177,6 @@ border: 1px solid #D7E4DA;
           <input type="text" id="keywordFilter" placeholder="Search PJ, KL, Cheras..." />
           <button id="searchBtn" type="button">🔍</button>
         </div>
-
-        <select id="stateFilter">
-          <option value="">All States</option>
-          <option value="Kuala Lumpur">Kuala Lumpur</option>
-          <option value="Selangor">Selangor</option>
-        </select>
-
-        <select id="cityFilter">
-          <option value="">All Cities</option>
-          <option value="Klang">Klang</option>
-          <option value="Shah Alam">Shah Alam</option>
-          <option value="Setia Alam">Setia Alam</option>
-          <option value="Bukit Raja">Bukit Raja</option>
-          <option value="Subang">Subang</option>
-          <option value="Sungai Buloh">Sungai Buloh</option>
-          <option value="Kuala Lumpur">Kuala Lumpur</option>
-        </select>
-
-
-
    
       </div>
     </div>
@@ -2044,7 +2186,7 @@ border: 1px solid #D7E4DA;
 
   <main>
 
-    <section class="section" id="listings">
+    <section class="section" id="listings" style="display:none;">
       <div class="container">
         <div class="listings-top">
           <div>
@@ -2080,6 +2222,61 @@ border: 1px solid #D7E4DA;
         
       </div>
     </section>
+
+<section class="section latest-projects-section">
+  <div class="container">
+    <div class="section-head">
+      <h2 class="section-title">Latest Projects</h2>
+      <a href="/projects.html" class="section-link">View All Projects →</a>
+    </div>
+
+    <div class="project-grid">
+      <a href="/project/astor-gardens-park-0KNyDY5GLLlj3hwYmQwy" class="project-card project-card-1">
+        <div class="project-card-inner">
+          <span>Parkside Living</span>
+          <h3>Astor – Modern Family Living</h3>
+          <p>Contemporary landed homes within a mature township featuring parks, education hubs, greenery and lifestyle convenience in Gamuda Gardens.</p>
+        </div>
+      </a>
+
+      <a href="/project/heston-hills-gardens-esteem-cjxNDh6q5ed6h5QK1SL6" class="project-card project-card-2">
+        <div class="project-card-inner">
+          <span>Hillside Collection</span>
+          <h3>Heston Hills – Elevated Hillside Homes</h3>
+          <p>Exclusive residential enclave with spacious layouts, serene surroundings and connected living designed for multi-generational families.</p>
+        </div>
+      </a>
+
+      <a href="/project/monarc-gamuda-gardens-esteem-geOGZ3cuNt9xKsZHRaUk" class="project-card project-card-3">
+        <div class="project-card-inner">
+          <span>Luxury Living</span>
+          <h3>Monarc – Premium Modern Residences</h3>
+          <p>Stylish modern homes with elegant architecture, functional layouts and strong long-term investment potential within a growing township.</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section area-section">
+  <div class="container">
+    <div class="section-head">
+      <h2 class="section-title">Explore by Area</h2>
+      <a href="/categories/all-listings" class="section-link">All Areas →</a>
+    </div>
+
+<div class="area-grid">
+  <a href="/categories/all-listings?area=KLCC" class="area-card">KLCC</a>
+  <a href="/categories/all-listings?area=Mont%20Kiara" class="area-card">Mont Kiara</a>
+  <a href="/categories/all-listings?area=Bangsar" class="area-card">Bangsar</a>
+  <a href="/categories/all-listings?area=Petaling%20Jaya" class="area-card">Petaling Jaya</a>
+  <a href="/categories/all-listings?area=Cheras" class="area-card">Cheras</a>
+  <a href="/categories/all-listings?area=Subang" class="area-card">Subang</a>
+  <a href="/categories/all-listings?area=Damansara" class="area-card">Damansara</a>
+  <a href="/categories/all-listings?area=Bukit%20Jalil" class="area-card">Bukit Jalil</a>
+</div>
+  </div>
+</section>
 
 <section class="map-section">
   <div class="container">
@@ -2227,8 +2424,7 @@ const LOAD_STEP = 6;
     const emptyState = document.getElementById('emptyState');
     const resultsCount = document.getElementById('resultsCount');
     const keywordFilter = document.getElementById('keywordFilter');
-    const stateFilter = document.getElementById('stateFilter');
-    const cityFilter = document.getElementById('cityFilter');
+
     let selectedStatus = "";
     const statusButtons = document.querySelectorAll(".status-btn");
     const searchBtn = document.getElementById('searchBtn');
@@ -2321,8 +2517,6 @@ function renderListings(items) {
 
 function applyFilters() {
   const keyword = keywordFilter.value.trim().toLowerCase();
-  const state = stateFilter.value;
-  const city = cityFilter.value;
   const status = selectedStatus;
 
   filteredListings = listings.filter(item => {
@@ -2331,14 +2525,13 @@ function applyFilters() {
       .toLowerCase();
 
     const matchKeyword = !keyword || haystack.includes(keyword);
-    const matchState = !state || item.state === state;
-    const matchCity = !city || item.city === city;
+
     const matchStatus =
       !status ||
       (status === "For Sale" && item.listingType === "sale") ||
       (status === "For Rent" && item.listingType === "rent");
 
-    return matchKeyword && matchState && matchCity && matchStatus;
+    return matchKeyword && matchStatus;
   });
 
   visibleCount = LOAD_STEP;
@@ -2367,8 +2560,7 @@ if (typeLink) {
   selectedStatus = "";
   statusButtons.forEach(b => b.classList.remove("active"));
   statusButtons[0].classList.add("active"); // reset to "All"
-  document.getElementById('stateFilter').value = '';
-  document.getElementById('cityFilter').value = '';
+
   document.getElementById('keywordFilter').value = '';
 
   const targetType = typeLink.getAttribute('data-type-link');

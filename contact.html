@@ -1,16 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="icon" href="/favicon.ico?v=2">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>Contact Us | Residential Property KL</title>
-  <meta name="description" content="Contact Residential Property KL for condominium, apartment and landed home enquiries in Kuala Lumpur and Selangor." />
-  <meta name="theme-color" content="#4da6ff" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <link rel="icon" href="/favicon.ico?v=2">
-  <link rel="stylesheet" href="shared-layout.css" />
+  <meta name="description" content="Contact Residential Property KL for condominium, apartment, landed home and new project enquiries across Kuala Lumpur and Selangor." />
+  <meta name="theme-color" content="#1B4332" />
+
+  <link rel="stylesheet" href="/shared-layout.css?v=60" />
 
   <style>
+    :root {
+      --bg: #F7F5F0;
+      --dark: #111;
+      --muted: #666;
+      --green: #1B4332;
+      --green2: #2D6A4F;
+      --gold: #EADFCB;
+      --line: rgba(0,0,0,0.08);
+    }
 
     * { box-sizing: border-box; }
 
@@ -18,7 +28,8 @@
       margin: 0;
       font-family: Arial, Helvetica, sans-serif;
       background: var(--bg);
-      color: var(--text);
+      color: var(--dark);
+      overflow-x: hidden;
     }
 
     a {
@@ -27,334 +38,545 @@
     }
 
     .container {
-      width: min(1180px, calc(100% - 32px));
+      width: min(1240px, calc(100% - 40px));
       margin: 0 auto;
+    }
+
+    @keyframes heroZoom {
+      from { transform: scale(1.03); }
+      to { transform: scale(1.1); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes cardReveal {
+      from { opacity: 0; transform: translateY(35px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .topbar {
+      animation: slideDown 0.55s ease both;
     }
 
     .contact-hero {
-      min-height: 280px;
+      position: relative;
+      min-height: 620px;
       display: flex;
       align-items: center;
+      overflow: hidden;
+      background: #0f1713;
       color: #fff;
-      background:
-        linear-gradient(rgba(12, 20, 34, 0.55), rgba(12, 20, 34, 0.65)),
-        url('images/Industrialcontactbanner.jpeg') center/cover no-repeat;
     }
 
-    .contact-hero-content {
-      padding: 70px 0;
-      text-align: center;
+    .contact-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(
+          90deg,
+          rgba(15,23,19,0.96) 0%,
+          rgba(15,23,19,0.82) 42%,
+          rgba(15,23,19,0.20) 78%
+        ),
+        url("/images/hero-residential-green.jpg") center/cover no-repeat;
+      animation: heroZoom 18s ease-in-out infinite alternate;
+    }
+
+    .contact-hero::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 130px;
+      background: linear-gradient(to top, var(--bg), transparent);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      width: min(820px, 100%);
+      padding: 160px 0 130px;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.14);
+      backdrop-filter: blur(14px);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .5px;
+      animation: fadeUp .8s ease .1s both;
+    }
+
+    .hero-tag::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--gold);
     }
 
     .contact-hero h1 {
-      margin: 0 0 12px;
-      font-size: clamp(34px, 5vw, 54px);
-      line-height: 1.08;
+      margin: 26px 0 22px;
+      font-size: clamp(52px, 7vw, 92px);
+      line-height: .96;
+      letter-spacing: -3px;
+      animation: fadeUp .8s ease .22s both;
     }
 
     .contact-hero p {
-      max-width: 760px;
-      margin: 0 auto;
-      font-size: 18px;
-      line-height: 1.7;
-      color: rgba(255,255,255,0.92);
+      margin: 0;
+      max-width: 700px;
+      color: rgba(255,255,255,.82);
+      font-size: 19px;
+      line-height: 1.9;
+      animation: fadeUp .8s ease .34s both;
     }
 
-    .contact-section {
-      padding: 48px 0 60px;
+    .contact-main {
+      position: relative;
+      z-index: 4;
+      margin-top: -90px;
+      padding-bottom: 110px;
     }
 
-    .contact-grid {
+    .contact-layout {
       display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 24px;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 28px;
       align-items: start;
     }
 
-    .contact-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.05);
-      padding: 28px;
+    .glass-card {
+      background: rgba(255,255,255,.86);
+      backdrop-filter: blur(22px);
+      border: 1px solid rgba(255,255,255,.62);
+      border-radius: 32px;
+      box-shadow: 0 24px 80px rgba(0,0,0,.12);
+      animation: cardReveal .75s ease .42s both;
     }
 
-    .contact-card h2,
-    .contact-card h3 {
-      margin-top: 0;
-      color: var(--dark);
+    .form-card {
+      padding: 34px;
     }
 
-    .contact-card p {
+    .form-card h2 {
+      margin: 0 0 12px;
+      font-size: clamp(34px, 4vw, 54px);
+      line-height: 1.05;
+      letter-spacing: -1.8px;
+    }
+
+    .form-card p {
+      margin: 0 0 28px;
       color: var(--muted);
-      line-height: 1.8;
-      margin: 0 0 14px;
-    }
-
-    .contact-intro {
-      margin-bottom: 16px;
+      line-height: 1.85;
+      max-width: 720px;
     }
 
     .contact-form-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
+      gap: 14px;
     }
 
-    .contact-form-grid .full {
+    .full {
       grid-column: 1 / -1;
     }
 
-    .contact-form input,
-    .contact-form textarea,
-    .contact-form select {
+    .field {
       width: 100%;
-      border: 1px solid #d9d9d9;
-      border-radius: 10px;
-      padding: 13px 14px;
+      height: 56px;
+      border: none;
+      border-radius: 16px;
+      padding: 0 18px;
       font-size: 15px;
       font-family: inherit;
       background: #fff;
-      margin: 0;
+      box-shadow: inset 0 0 0 1px rgba(27,67,50,.10);
     }
 
-    .contact-form textarea {
-      min-height: 150px;
+    textarea.field {
+      height: 160px;
+      padding-top: 16px;
       resize: vertical;
+    }
+
+    .field:focus {
+      outline: none;
+      box-shadow:
+        inset 0 0 0 1px rgba(27,67,50,.42),
+        0 0 0 4px rgba(27,67,50,.10);
     }
 
     .contact-actions {
       display: flex;
       gap: 12px;
       flex-wrap: wrap;
-      margin-top: 16px;
+      margin-top: 20px;
     }
 
-    .btn-primary,
-    .btn-outline,
-    .btn-wa {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 10px;
-      padding: 12px 18px;
-      font-weight: 700;
+    .action-btn {
+      height: 54px;
+      padding: 0 24px;
+      border-radius: 999px;
       border: none;
       cursor: pointer;
       font-size: 15px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform .22s ease, box-shadow .22s ease, background .22s ease;
     }
 
-    .btn-primary {
-      background: #4f5967;
-      color: #fff;
-    }
-
-    .btn-outline {
-      background: transparent;
-      border: 1px solid rgba(17,17,17,0.18);
-      color: var(--dark);
+    .action-btn:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 28px rgba(0,0,0,.16);
     }
 
     .btn-wa {
-      background: var(--wa);
+      background: #25D366;
       color: #fff;
     }
 
-    .info-list {
+    .btn-email {
+      background: #111;
+      color: #fff;
+    }
+
+    .side-stack {
       display: grid;
-      gap: 16px;
+      gap: 18px;
     }
 
-    .info-box {
+    .info-card {
+      padding: 28px;
+      border-radius: 28px;
       background: #fff;
-      border: 1px solid var(--border);
+      border: 1px solid var(--line);
+      box-shadow: 0 16px 46px rgba(0,0,0,.06);
+      animation: cardReveal .7s ease both;
+      transition: transform .28s ease, box-shadow .28s ease;
+    }
+
+    .info-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 28px 70px rgba(0,0,0,.12);
+    }
+
+    .info-icon {
+      width: 48px;
+      height: 48px;
       border-radius: 16px;
-      padding: 22px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+      background: var(--gold);
+      color: var(--green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      margin-bottom: 16px;
     }
 
-    .info-box h3 {
+    .info-card h3 {
       margin: 0 0 10px;
-      font-size: 20px;
+      font-size: 22px;
+      letter-spacing: -.4px;
     }
 
-    .info-box p,
-    .info-box li {
+    .info-card p,
+    .info-card li {
+      margin: 0;
       color: var(--muted);
       line-height: 1.8;
       font-size: 15px;
     }
 
-    .info-box ul {
+    .info-card ul {
       margin: 0;
       padding-left: 18px;
     }
 
-    .map-wrap {
-      margin-top: 24px;
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      overflow: hidden;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+    .map-section {
+      padding: 0 0 110px;
     }
 
-    .map-wrap iframe {
+    .map-card {
+      overflow: hidden;
+      border-radius: 34px;
+      box-shadow: 0 24px 80px rgba(0,0,0,.12);
+      border: 1px solid rgba(255,255,255,.62);
+      background: #fff;
+      animation: cardReveal .7s ease both;
+    }
+
+    .map-card iframe {
       width: 100%;
-      min-height: 360px;
+      height: 430px;
       border: 0;
       display: block;
     }
 
-    .small-note {
-      font-size: 13px;
-      color: var(--muted);
-      margin-top: 10px;
+    .cta-strip {
+      padding-bottom: 110px;
     }
 
-    @media (max-width: 900px) {
-      .contact-grid {
+    .cta-card {
+      background:
+        linear-gradient(rgba(27,67,50,.92), rgba(27,67,50,.96)),
+        url("/images/hero-residential-green.jpg") center/cover no-repeat;
+      color: #fff;
+      border-radius: 34px;
+      padding: 64px 44px;
+      text-align: center;
+      box-shadow: 0 28px 90px rgba(0,0,0,.16);
+      animation: cardReveal .7s ease both;
+    }
+
+    .cta-card h2 {
+      margin: 0 0 14px;
+      font-size: clamp(36px, 5vw, 60px);
+      line-height: 1.04;
+      letter-spacing: -2px;
+    }
+
+    .cta-card p {
+      margin: 0 auto;
+      max-width: 760px;
+      color: rgba(255,255,255,.82);
+      line-height: 1.9;
+      font-size: 16px;
+    }
+
+    @media (max-width: 1000px) {
+      .contact-layout {
         grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        width: calc(100% - 24px);
+      }
+
+      .contact-hero {
+        min-height: 560px;
+      }
+
+      .hero-content {
+        padding: 140px 0 110px;
+      }
+
+      .contact-hero h1 {
+        letter-spacing: -1.7px;
+      }
+
+      .form-card {
+        padding: 24px;
+        border-radius: 26px;
       }
 
       .contact-form-grid {
         grid-template-columns: 1fr;
       }
 
-      .contact-form-grid .full {
+      .full {
         grid-column: auto;
       }
 
-      .contact-hero-content {
-        padding: 56px 0;
+      .action-btn {
+        width: 100%;
+      }
+
+      .map-card iframe {
+        height: 360px;
+      }
+
+      .cta-card {
+        padding: 42px 24px;
+        border-radius: 26px;
       }
     }
 
-@media (min-width: 821px) {
-  .topbar {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100% !important;
-    z-index: 9999 !important;
-    background: #4da6ff !important;
-  }
-
-  body {
-    padding-top: 100px;
-  }
-}
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
   </style>
 </head>
-<body>
-  <div id="site-header"></div>
 
-  <section class="contact-hero">
-    <div class="container contact-hero-content">
-      <h1>Contact Residential Property KL</h1>
+<body>
+
+<div id="site-header"></div>
+
+<section class="contact-hero">
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-tag">Speak With Residential Property KL</div>
+
+      <h1>Let’s Find the Right Property Together.</h1>
+
       <p>
-        Looking for a condominium, apartment or landed home in Kuala Lumpur and Selangor?
-        Reach out directly for suitable options, viewings and faster recommendations.
+        Share your preferred location, budget, property type and timeline.
+        We will help recommend suitable residential options across Kuala Lumpur
+        and Selangor.
       </p>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section class="contact-section">
-    <div class="container">
-      <div class="contact-grid">
+<main class="contact-main">
+  <div class="container">
+    <div class="contact-layout">
 
-        <div class="contact-card">
-          <h2>Let’s Discuss Your Property Needs</h2>
-          <p class="contact-intro">
-            Whether you are buying, renting, upgrading or investing, share your requirements with us and we will recommend suitable residential property options tailored to your needs.
+      <div class="glass-card form-card">
+        <h2>Tell Us What You Need</h2>
+
+        <p>
+          Whether you are buying, renting, upgrading, relocating or investing,
+          send us your requirements and we will respond with suitable property options.
+        </p>
+
+        <form onsubmit="sendWhatsAppEnquiry(event)">
+          <div class="contact-form-grid">
+            <input class="field" type="text" id="name" placeholder="Your Name" required>
+            <input class="field" type="text" id="phone" placeholder="Phone / WhatsApp" required>
+
+            <input class="field" type="email" id="email" placeholder="Email Address">
+
+            <select class="field" id="propertyNeed">
+              <option value="">Property Type Needed</option>
+              <option>Condominium</option>
+              <option>Apartment</option>
+              <option>Terrace House</option>
+              <option>Semi-Detached House</option>
+              <option>Bungalow</option>
+              <option>Townhouse</option>
+              <option>New Project</option>
+            </select>
+
+            <input class="field full" type="text" id="preferredArea" placeholder="Preferred Area, e.g. KLCC, Mont Kiara, PJ, Cheras">
+
+            <textarea class="field full" id="message" placeholder="Tell us your budget, preferred size, bedrooms, timeline, purpose and any special requirements."></textarea>
+          </div>
+
+          <div class="contact-actions">
+            <button type="submit" class="action-btn btn-wa">
+              Send via WhatsApp
+            </button>
+
+            <a href="mailto:kennethrealtyconsultancy@gmail.com" class="action-btn btn-email">
+              Send Email
+            </a>
+          </div>
+        </form>
+      </div>
+
+      <div class="side-stack">
+        <div class="info-card">
+          <div class="info-icon">01</div>
+          <h3>WhatsApp</h3>
+          <p>
+            <a href="https://wa.me/60166287357" target="_blank">
+              +60 16-628 7357
+            </a>
           </p>
-
-          <form class="contact-form" onsubmit="sendWhatsAppEnquiry(event)">
-            <div class="contact-form-grid">
-              <input type="text" id="name" placeholder="Your Name" required />
-              <input type="text" id="phone" placeholder="Phone / WhatsApp" required />
-
-              <input type="email" id="email" placeholder="Email Address" />
-              <select id="propertyNeed">
-                <option value="">Property Type Needed</option>
-                <option>Condominium</option>
-                <option>Apartment</option>
-                <option>Terrace House</option>
-                <option>Semi-Detached House</option>
-                <option>Bungalow</option>
-                <option>Townhouse</option>
-              </select>
-
-              <input class="full" type="text" id="preferredArea" placeholder="Preferred Area (e.g. KL City centre, Damansara, Puchong, Mont Kiara)" />
-              <textarea class="full" id="message" placeholder="Share your requirements, including budget, preferred location, property type, size, and timeline, and we will help you find suitable options."></textarea>
-            </div>
-
-            <div class="contact-actions">
-              <button type="submit" class="btn-wa">Send via WhatsApp</button>
-              <a class="btn-outline" href="mailto:kennethrealtyconsultancy@gmail.com">Send Email</a>
-            </div>
-
-            <div class="small-note">
-              WhatsApp is the fastest way to get a response.
-            </div>
-          </form>
         </div>
 
-        <div class="info-list">
-          <div class="info-box">
-            <h3>Contact Details</h3>
-            <p><strong>Residential Property KL</strong><br>Residential Property Specialist</p>
-            <p><strong>WhatsApp:</strong> <a href="https://wa.me/60166287357" target="_blank" rel="noopener noreferrer">+60 16-628 7357</a></p>
-            <p><strong>Email:</strong> <a href="mailto:kennethrealtyconsultancy@gmail.com">ResidentialPropertyKL@gmail.com</a></p>
-          </div>
-
-          <div class="info-box">
-            <h3>Office Coverage</h3>
-            <p>
-              Kuala Lumpur, Petaling Jaya, Mont Kiara, Subang, Shah Alam and surrounding residential areas across Selangor.
-            </p>
-          </div>
-
-          <div class="info-box">
-            <h3>Business Hours</h3>
-            <ul>
-              <li>Monday to Sunday</li>
-              <li>9:00 AM – 8:00 PM</li>
-              <li>Viewings by appointment</li>
-            </ul>
-          </div>
+        <div class="info-card">
+          <div class="info-icon">02</div>
+          <h3>Email</h3>
+          <p>
+            <a href="mailto:kennethrealtyconsultancy@gmail.com">
+              kennethrealtyconsultancy@gmail.com
+            </a>
+          </p>
         </div>
 
+        <div class="info-card">
+          <div class="info-icon">03</div>
+          <h3>Coverage Area</h3>
+          <p>
+            Kuala Lumpur, Petaling Jaya, Mont Kiara, Bangsar, Cheras,
+            Subang, Damansara, Bukit Jalil and surrounding Selangor areas.
+          </p>
+        </div>
+
+        <div class="info-card">
+          <div class="info-icon">04</div>
+          <h3>Viewing Hours</h3>
+          <ul>
+            <li>Monday to Sunday</li>
+            <li>9:00 AM – 8:00 PM</li>
+            <li>Viewings by appointment</li>
+          </ul>
+        </div>
       </div>
 
-      <div class="map-wrap">
-        <iframe
-          src="https://www.google.com/maps?q=Kuala%20Lumpur%20Malaysia&z=11&output=embed"
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-          title="Industrial Property KL Coverage Map">
-        </iframe>
-      </div>
     </div>
-  </section>
+  </div>
+</main>
 
-  <div id="site-footer"></div>
+<section class="map-section">
+  <div class="container">
+    <div class="map-card">
+      <iframe
+        src="https://www.google.com/maps?q=Kuala%20Lumpur%20Malaysia&z=11&output=embed"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="Residential Property KL Coverage Map">
+      </iframe>
+    </div>
+  </div>
+</section>
 
-  <script type="module" src="shared-layout.js"></script>
+<section class="cta-strip">
+  <div class="container">
+    <div class="cta-card">
+      <h2>Ready to Start Your Search?</h2>
+      <p>
+        Send your property requirements today and let Residential Property KL
+        help you shortlist suitable residential options with a cleaner,
+        faster and more professional experience.
+      </p>
+    </div>
+  </div>
+</section>
 
-  <script>
-    function sendWhatsAppEnquiry(event) {
-      event.preventDefault();
+<div id="site-footer"></div>
 
-      const name = document.getElementById("name").value.trim();
-      const phone = document.getElementById("phone").value.trim();
-      const email = document.getElementById("email").value.trim();
-      const propertyNeed = document.getElementById("propertyNeed").value.trim();
-      const preferredArea = document.getElementById("preferredArea").value.trim();
-      const message = document.getElementById("message").value.trim();
+<script type="module" src="/shared-layout.js?v=60"></script>
 
-      const text =
-`Hi Kenneth, I would like to enquire about residential property.
+<script>
+  function sendWhatsAppEnquiry(event) {
+    event.preventDefault();
+
+    const name = document.getElementById("name").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const propertyNeed = document.getElementById("propertyNeed").value.trim();
+    const preferredArea = document.getElementById("preferredArea").value.trim();
+    const message = document.getElementById("message").value.trim();
+
+    const text =
+`Hi Residential Property KL, I would like to enquire about residential property.
 
 Name: ${name}
 Phone: ${phone}
@@ -363,10 +585,12 @@ Property Type: ${propertyNeed || "-"}
 Preferred Area: ${preferredArea || "-"}
 Message: ${message || "-"}`;
 
-      const whatsappUrl = `https://wa.me/60166287357?text=${encodeURIComponent(text)}`;
-      window.open(whatsappUrl, "_blank");
-    }
-  </script>
+    window.open(
+      `https://wa.me/60166287357?text=${encodeURIComponent(text)}`,
+      "_blank"
+    );
+  }
+</script>
 
 <div id="floating-nav-placeholder"></div>
 
@@ -380,13 +604,14 @@ Message: ${message || "-"}`;
       const menu = document.getElementById("floatNavMenu");
       const waMenu = document.getElementById("waSlideMenu");
 
-      btn.addEventListener("click", () => {
-        menu.classList.toggle("hidden");
-
-        // 🔥 THIS is what you are missing
-        waMenu.classList.toggle("show");
-      });
+      if (btn && menu && waMenu) {
+        btn.addEventListener("click", () => {
+          menu.classList.toggle("hidden");
+          waMenu.classList.toggle("show");
+        });
+      }
     });
 </script>
+
 </body>
 </html>

@@ -4,15 +4,24 @@
   <link rel="icon" href="/favicon.ico?v=2">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>All Listings | Residential Property KL</title>
   <meta name="description" content="Browse residential property listings including condominiums, apartments, terrace houses, bungalows and more in Kuala Lumpur and Selangor." />
   <link rel="canonical" id="canonicalLink" href="https://residentialpropertykl.com/listings.html" />
-  <meta name="theme-color" content="#4da6ff" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <link rel="icon" href="/favicon.ico">
-  <link rel="stylesheet" href="/shared-layout.css" />
+  <meta name="theme-color" content="#1B4332" />
+
+  <link rel="stylesheet" href="/shared-layout.css?v=70" />
 
   <style>
+    :root {
+      --bg: #F7F5F0;
+      --dark: #111;
+      --muted: #666;
+      --green: #1B4332;
+      --green2: #2D6A4F;
+      --gold: #EADFCB;
+      --line: rgba(0,0,0,0.08);
+    }
 
     * { box-sizing: border-box; }
 
@@ -20,321 +29,448 @@
       margin: 0;
       font-family: Arial, Helvetica, sans-serif;
       background: var(--bg);
-      color: var(--text);
+      color: var(--dark);
+      overflow-x: hidden;
     }
 
     a {
-      text-decoration: none;
       color: inherit;
+      text-decoration: none;
     }
 
-    .page-header {
-      padding: 36px 0 20px;
+    .container {
+      width: min(1240px, calc(100% - 40px));
+      margin: 0 auto;
     }
 
-    .breadcrumb {
-      font-size: 14px;
-      color: var(--muted);
-      margin-bottom: 10px;
+    @keyframes heroZoom {
+      from { transform: scale(1.03); }
+      to { transform: scale(1.1); }
     }
 
-    .breadcrumb a {
-      color: #b07c10;
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    .page-title {
-      margin: 0;
-      font-size: 40px;
-      line-height: 1.1;
-      color: var(--dark);
+    @keyframes cardReveal {
+      from { opacity: 0; transform: translateY(35px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
     }
 
-    .listing-layout {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 20px;
-      padding-bottom: 50px;
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-18px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    .listing-topbar {
+    .topbar {
+      animation: slideDown 0.55s ease both;
+    }
+
+    .listings-hero {
+      position: relative;
+      min-height: 520px;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      gap: 12px;
+      overflow: hidden;
+      background: #0f1713;
+      color: #fff;
+    }
+
+    .listings-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(
+          90deg,
+          rgba(15,23,19,0.96) 0%,
+          rgba(15,23,19,0.82) 42%,
+          rgba(15,23,19,0.20) 78%
+        ),
+        url("/images/hero-residential-green.jpg") center/cover no-repeat;
+      animation: heroZoom 18s ease-in-out infinite alternate;
+    }
+
+    .listings-hero::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 130px;
+      background: linear-gradient(to top, var(--bg), transparent);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      width: min(860px, 100%);
+      padding: 150px 0 120px;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.14);
+      backdrop-filter: blur(14px);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .5px;
+      animation: fadeUp .8s ease .1s both;
+    }
+
+    .hero-tag::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--gold);
+    }
+
+    .listings-hero h1 {
+      margin: 26px 0 22px;
+      font-size: clamp(52px, 7vw, 88px);
+      line-height: .96;
+      letter-spacing: -3px;
+      animation: fadeUp .8s ease .22s both;
+    }
+
+    .listings-hero p {
+      margin: 0;
+      max-width: 700px;
+      color: rgba(255,255,255,.82);
+      font-size: 18px;
+      line-height: 1.9;
+      animation: fadeUp .8s ease .34s both;
+    }
+
+    .listing-panel {
+      position: relative;
+      z-index: 5;
+      margin-top: -80px;
+      padding-bottom: 110px;
+    }
+
+    .filter-card {
+      background: rgba(255,255,255,.84);
+      backdrop-filter: blur(22px);
+      border: 1px solid rgba(255,255,255,.62);
+      border-radius: 30px;
+      box-shadow: 0 24px 80px rgba(0,0,0,.12);
+      padding: 22px;
+      margin-bottom: 34px;
+      animation: cardReveal .75s ease .42s both;
+    }
+
+    .filter-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
       flex-wrap: wrap;
     }
 
     .results-text {
-      font-size: 15px;
-      color: var(--muted);
-      font-weight: 700;
+      color: #555;
+      font-weight: 800;
+    }
+
+    .listing-toggle {
+      display: flex;
+      gap: 8px;
+      background: #EEF3EF;
+      border: 1px solid #D7E4DA;
+      border-radius: 999px;
+      padding: 5px;
+    }
+
+    .listing-toggle button {
+      height: 42px;
+      padding: 0 18px;
+      border: none;
+      border-radius: 999px;
+      background: transparent;
+      color: #111;
+      font-weight: 800;
+      cursor: pointer;
+      transition: background .22s ease, color .22s ease, transform .22s ease;
+    }
+
+    .listing-toggle button:hover {
+      transform: translateY(-2px);
+      background: rgba(27,67,50,.10);
+    }
+
+    .listing-toggle button.active {
+      background: var(--green);
+      color: #fff;
+      box-shadow: 0 8px 20px rgba(27,67,50,.22);
     }
 
     .listing-list {
       display: grid;
-      gap: 16px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 26px;
     }
 
     .listing-card {
-      display: grid;
-      grid-template-columns: 260px 1fr;
-      gap: 16px;
       background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 12px;
+      border: 1px solid rgba(0,0,0,.06);
+      border-radius: 28px;
       overflow: hidden;
+      box-shadow: 0 16px 46px rgba(0,0,0,.06);
+      cursor: pointer;
+      animation: cardReveal .65s ease both;
+      transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease;
+    }
+
+    .listing-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 30px 80px rgba(0,0,0,.13);
+      border-color: rgba(27,67,50,.16);
     }
 
     .listing-thumb {
-      height: 100%;
-      min-height: 220px;
+      position: relative;
+      height: 260px;
       background-size: cover;
       background-position: center;
-      position: relative;
+      overflow: hidden;
+    }
+
+    .listing-thumb::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,.32), transparent 58%);
+      z-index: 1;
+    }
+
+    .listing-card:hover .listing-thumb {
+      transform: none;
     }
 
     .listing-labels {
       position: absolute;
-      top: 12px;
-      left: 12px;
+      top: 16px;
+      left: 16px;
+      z-index: 3;
       display: flex;
-      gap: 6px;
+      gap: 8px;
       flex-wrap: wrap;
     }
 
     .label {
-      display: inline-block;
-      padding: 5px 8px;
-      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 0 11px;
+      border-radius: 999px;
       font-size: 11px;
-      font-weight: 700;
-      color: #fff;
-      background: #333;
+      font-weight: 900;
+      letter-spacing: .7px;
+      color: #1B4332;
+      background: rgba(234,223,203,.94);
+      text-transform: uppercase;
     }
 
     .label.hot {
       background: #e53935;
+      color: #fff;
     }
 
     .listing-body {
-      padding: 16px 18px 16px 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 14px;
-    }
-
-    .listing-main {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 14px;
-      align-items: start;
+      padding: 24px;
     }
 
     .listing-price {
+      margin-bottom: 12px;
+      color: var(--green);
       font-size: 28px;
-      font-weight: 800;
-      color: var(--dark);
-      white-space: nowrap;
+      font-weight: 900;
+      letter-spacing: -0.8px;
     }
 
     .listing-title {
-      margin: 0 0 10px;
-      font-size: 24px;
-      line-height: 1.25;
-      color: var(--dark);
+      margin: 0 0 12px;
+      font-size: 22px;
+      line-height: 1.34;
+      letter-spacing: -.4px;
+      color: #111;
     }
 
     .listing-meta,
     .listing-info,
     .listing-agent {
-      font-size: 14px;
       color: var(--muted);
+      font-size: 14px;
       line-height: 1.8;
     }
 
     .listing-type {
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--dark);
-      margin-top: 4px;
+      margin-top: 10px;
+      display: inline-flex;
+      width: fit-content;
+      min-height: 32px;
+      align-items: center;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: #F1EEE7;
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 900;
       text-transform: uppercase;
+      letter-spacing: .6px;
+    }
+
+    .listing-agent {
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(0,0,0,.08);
     }
 
     .listing-bottom {
       display: flex;
-      flex-direction: column;   /* 🔥 stack vertically */
       gap: 10px;
+      margin-top: 20px;
     }
 
     .listing-bottom a {
-      width: 100%;              /* 🔥 full width */
-      text-align: center;
-      padding: 14px 16px;       /* 🔥 bigger */
-      font-size: 15px;
-      border-radius: 8px;
+      flex: 1;
+      height: 46px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 900;
+      transition: transform .22s ease, box-shadow .22s ease, background .22s ease;
     }
 
-    .btn-gold,
-    .btn-outline {
-      display: inline-block;
-      padding: 10px 16px;
-      border-radius: 8px;
-      font-weight: 700;
-      font-size: 14px;
+    .listing-bottom a:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(0,0,0,.14);
+    }
+
+    .btn-wa {
+      background: #25D366;
+      color: #fff;
     }
 
     .btn-gold {
-      background: var(--gold);
-      color: #111;
-    }
-
-    .btn-outline {
-      border: 1px solid #ccc;
-      color: #111;
-      background: #fff;
+      background: var(--green);
+      color: #fff;
     }
 
     .empty-state {
+      display: none;
       background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 28px;
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      padding: 34px;
       text-align: center;
       color: var(--muted);
-      display: none;
+      box-shadow: 0 16px 46px rgba(0,0,0,.06);
     }
 
-.listing-card {
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
+    @media (max-width: 1100px) {
+      .listing-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
 
-.listing-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-}
+    @media (max-width: 700px) {
+      .container {
+        width: calc(100% - 24px);
+      }
 
-.listing-thumb {
-  transition: transform 0.3s ease;
-}
+      .listings-hero {
+        min-height: 540px;
+      }
 
-.listing-card:hover .listing-thumb {
-  transform: scale(1.05);
-}
+      .hero-content {
+        padding: 140px 0 110px;
+      }
 
-.btn-outline {
-  transition: all 0.2s ease;
-}
+      .listings-hero h1 {
+        letter-spacing: -1.7px;
+      }
 
-.btn-outline:hover {
-  background: #eaeaea;   /* clearer dim */
-  border-color: #bbb;
-}
+      .filter-row {
+        align-items: stretch;
+      }
 
-.btn-wa {
-  background: #25D366;   /* WhatsApp green */
-  color: #fff;
-  border: none;
-  display: inline-block;
-}
+      .listing-toggle {
+        width: 100%;
+      }
 
-.btn-wa:hover {
-  background: #1ebe5d;   /* darker on hover */
-  opacity: 0.95;
-}
+      .listing-toggle button {
+        flex: 1;
+        padding: 0 10px;
+        font-size: 13px;
+      }
 
-.listing-toggle {
-  display: flex;
-  gap: 8px;
-}
-
-.listing-toggle button {
-  border: 1px solid #ddd;
-  background: #fff;
-
-  padding: 12px 20px;     /* 🔥 bigger */
-  font-size: 16px;        /* 🔥 bigger text */
-  border-radius: 24px;    /* smoother pill */
-
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.listing-toggle button:hover {
-  background: #f5f5f5;
-}
-
-.listing-toggle button.active {
-  background: #4da6ff;
-  color: #fff;
-  border-color: #4da6ff;
-}
-
-.listing-toggle button.active {
-  background: linear-gradient(135deg, #4da6ff, #2f7de1);
-}
-
-    @media (max-width: 860px) {
-      .listing-card {
+      .listing-list {
         grid-template-columns: 1fr;
       }
 
       .listing-thumb {
-        min-height: 220px;
+        height: 240px;
       }
 
-      .listing-body {
-        padding: 0 16px 16px;
+      .listing-bottom {
+        flex-direction: column;
       }
 
-      .listing-main {
-        grid-template-columns: 1fr;
-      }
-
-      .listing-price {
-        font-size: 24px;
-      }
-
-      .listing-title {
-        font-size: 21px;
+      .listing-bottom a {
+        width: 100%;
       }
     }
 
-@media (min-width: 821px) {
-  .topbar {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100% !important;
-    z-index: 9999 !important;
-    background: #4da6ff !important;
-  }
-
-  body {
-    padding-top: 100px;
-  }
-}
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
   </style>
 </head>
-<body class="page-listing">
-  <div id="site-header"></div>
 
-  <main class="container">
-    <div class="page-header">
-      <div class="breadcrumb">
-        <a href="/">Home</a> &nbsp;›&nbsp; <span id="crumbLabel">All Listings</span>
-      </div>
-      <h1 class="page-title" id="pageTitle">All Listings</h1>
-      <p id="seoText" style="margin:10px 0 0; color:#555; line-height:1.7;">
-        Browse residential property listings including condominiums, apartments, terrace houses, bungalows and more in Kuala Lumpur and Selangor.
+<body class="page-listing">
+
+<div id="site-header"></div>
+
+<section class="listings-hero">
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-tag">Residential Listings</div>
+
+      <h1 id="pageTitle">All Listings</h1>
+
+      <p id="seoText">
+        Browse residential property listings including condominiums, apartments,
+        terrace houses, bungalows and more across Kuala Lumpur and Selangor.
       </p>
     </div>
+  </div>
+</section>
 
-    <div class="listing-layout">
-      <div class="listing-topbar">
-        <div class="results-text" id="resultsText">Loading listings...</div>
+<main class="listing-panel">
+  <div class="container">
+
+    <div class="filter-card">
+      <div class="filter-row">
+        <div>
+          <div style="font-size:13px;color:#666;margin-bottom:4px;">
+            Home › <span id="crumbLabel">All Listings</span>
+          </div>
+          <div class="results-text" id="resultsText">Loading listings...</div>
+        </div>
 
         <div class="listing-toggle" id="listingTypeFilter">
           <button data-value="" class="active">All</button>
@@ -342,15 +478,17 @@
           <button data-value="rent">For Rent</button>
         </div>
       </div>
-
-      <div class="listing-list" id="listingList"></div>
-      <div class="empty-state" id="emptyState">No listings found.</div>
     </div>
-  </main>
 
-  <div id="site-footer"></div>
+    <div class="listing-list" id="listingList"></div>
+    <div class="empty-state" id="emptyState">No listings found.</div>
 
-  <script type="module" src="/shared-layout.js"></script>
+  </div>
+</main>
+
+<div id="site-footer"></div>
+
+<script type="module" src="/shared-layout.js?v=70"></script>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
@@ -376,7 +514,6 @@
   const listingList = document.getElementById("listingList");
   const emptyState = document.getElementById("emptyState");
   const resultsText = document.getElementById("resultsText");
-  
   const listingTypeFilter = document.getElementById("listingTypeFilter");
 
   const pageTitle = document.getElementById("pageTitle");
@@ -384,6 +521,9 @@
   const seoText = document.getElementById("seoText");
   const canonicalLink = document.getElementById("canonicalLink");
   const metaDesc = document.querySelector('meta[name="description"]');
+
+  let allItems = [];
+  let baseFilteredItems = [];
 
   function slugToType(slug) {
     const map = {
@@ -408,8 +548,11 @@
     }
 
     if (!path || path === "listings.html") {
-      return { type: null, listingType: null, location: null };
+      return { type: null, listingType: null, location: null, area: null };
     }
+
+    const params = new URLSearchParams(window.location.search);
+    const area = params.get("area") || params.get("city");
 
     const simpleTypes = [
       "all-listings",
@@ -426,7 +569,8 @@
       return {
         type: path === "all-listings" ? null : path,
         listingType: null,
-        location: null
+        location: null,
+        area
       };
     }
 
@@ -435,22 +579,15 @@
 
     if (path.includes(saleMarker)) {
       const [type, location] = path.split(saleMarker);
-      return { type, listingType: "sale", location };
+      return { type, listingType: "sale", location, area };
     }
 
     if (path.includes(rentMarker)) {
       const [type, location] = path.split(rentMarker);
-      return { type, listingType: "rent", location };
+      return { type, listingType: "rent", location, area };
     }
 
-    return { type: null, listingType: null, location: null };
-  }
-
-  function makeListingSlug(title) {
-    return (title || "listing")
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/(^-|-$)/g, "");
+    return { type: null, listingType: null, location: null, area };
   }
 
   function normalizeType(value) {
@@ -460,41 +597,62 @@
       .replace(/(^-|-$)/g, "");
   }
 
-  function formatPrice(price, listingType) {
+  function normalizeText(value) {
+    return (value || "").toLowerCase().trim();
+  }
+
+  function formatPrice(price) {
     if (!price) return "Price on request";
 
-    const num = Number(price);
+    const num = Number(String(price).replace(/[^\d.]/g, ""));
+
     if (!Number.isNaN(num) && num > 0) {
-      if (num >= 1000000) return `RM${(num / 1000000).toFixed(num % 1000000 === 0 ? 0 : 1)}M`;
-      if (num >= 1000) return `RM${(num / 1000).toFixed(num % 1000 === 0 ? 0 : 1)}K`;
-      return `RM${num.toLocaleString()}`;
+      if (num >= 1000000) return `RM ${(num / 1000000).toFixed(num % 1000000 === 0 ? 0 : 1)}M`;
+      if (num >= 1000) return `RM ${num.toLocaleString()}`;
+      return `RM ${num.toLocaleString()}`;
     }
 
-    return String(price).startsWith("RM") ? String(price) : `RM${price}`;
+    return String(price);
   }
 
   function formatPostedDate(timestamp) {
     if (!timestamp) return "Recently";
 
-    const raw = typeof timestamp?.toDate === "function" ? timestamp.toDate().getTime() : Number(timestamp);
+    let raw = 0;
+
+    if (typeof timestamp?.toDate === "function") {
+      raw = timestamp.toDate().getTime();
+    } else if (timestamp?.seconds) {
+      raw = timestamp.seconds * 1000;
+    } else {
+      raw = Number(timestamp);
+    }
+
     if (!raw) return "Recently";
 
-    const now = Date.now();
-    const diffDays = Math.floor((now - raw) / (1000 * 60 * 60 * 24));
+    const diffDays = Math.floor((Date.now() - raw) / (1000 * 60 * 60 * 24));
 
     if (diffDays <= 0) return "Today";
     if (diffDays === 1) return "1 day ago";
     if (diffDays < 30) return `${diffDays} days ago`;
 
-    return new Date(raw).toLocaleDateString();
+    return new Date(raw).toLocaleDateString("en-MY");
   }
 
   function getSortTime(value) {
     if (!value) return 0;
     if (typeof value?.toDate === "function") return value.toDate().getTime();
+    if (value?.seconds) return value.seconds * 1000;
     if (typeof value === "number") return value;
     const parsed = new Date(value).getTime();
     return Number.isNaN(parsed) ? 0 : parsed;
+  }
+
+  function generateSlug(title) {
+    return (title || "listing")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)/g, "");
   }
 
   function renderListings(items) {
@@ -509,20 +667,20 @@
     emptyState.style.display = "none";
     resultsText.textContent = `Showing ${items.length} listing${items.length > 1 ? "s" : ""}`;
 
-    items.forEach((item) => {
+    items.forEach((item, index) => {
       const card = document.createElement("article");
       card.className = "listing-card";
+      card.style.animationDelay = `${Math.min(index * 0.06, 0.42)}s`;
 
-      const detailUrl = `/listing/${item.slug}`;   // ✅ define FIRST
-      card.dataset.link = detailUrl;               // ✅ use AFTER
+const slug = item.slug || generateSlug(item.title);
+const detailUrl = `/listing/${slug}-${item.id}`;
+      card.dataset.link = detailUrl;
 
       const label1 = item.listingType === "rent" ? "FOR RENT" : "FOR SALE";
       const hotLabel = item.hotOffer ? `<span class="label hot">HOT OFFER</span>` : "";
 
       card.innerHTML = `
-        <div class="listing-thumb" style="background-image:url('${item.image || ""}')">
-
-          <!-- 🔥 WATERMARK -->
+        <div class="listing-thumb" style="background-image:url('${item.image || "/images/hero-residential-green.jpg"}')">
           <div class="watermark-box">
             <span class="watermark-text">RESIDENTIAL PROPERTY KL</span>
           </div>
@@ -534,16 +692,16 @@
         </div>
 
         <div class="listing-body">
-          <div class="listing-main">
-            <div>
-              <h2 class="listing-title">${item.title || "-"}</h2>
-              <div class="listing-meta">${item.location || "-"}${item.city ? `, ${item.city}` : ""}</div>
-              <div class="listing-info"><strong>Built-up:</strong> ${item.bua || "-"}</div>
-              <div class="listing-type">${item.type || "-"}</div>
-              <div class="listing-agent">
-                Residential Property KL Group • ${formatPostedDate(item.postedAt || item.createdAt)}
-              </div>
-            <div class="listing-price">${formatPrice(item.price, item.listingType)}</div>
+          <div class="listing-price">${formatPrice(item.price)}</div>
+
+          <h2 class="listing-title">${item.title || "-"}</h2>
+
+          <div class="listing-meta">${item.location || "-"}${item.city ? `, ${item.city}` : ""}</div>
+          <div class="listing-info"><strong>Built-up:</strong> ${item.bua || "-"}</div>
+          <div class="listing-type">${item.type || "-"}</div>
+
+          <div class="listing-agent">
+            Residential Property KL Group • ${formatPostedDate(item.postedAt || item.createdAt)}
           </div>
 
           <div class="listing-bottom">
@@ -553,176 +711,159 @@
               rel="noopener noreferrer">
               WhatsApp
             </a>
-            <a class="btn-gold" href="${detailUrl}">Details</a>
+
+            <a class="btn-gold" href="${detailUrl}">
+              Details
+            </a>
           </div>
         </div>
       `;
 
       listingList.appendChild(card);
 
-      card.addEventListener('click', function (e) {
-        if (e.target.closest('a, button')) return;
+      card.addEventListener("click", function (e) {
+        if (e.target.closest("a, button")) return;
         window.location.href = card.dataset.link;
       });
     });
   }
 
-async function loadListings() {
-  const { type, listingType, location } = getFiltersFromURL();
+  function updatePageText(type, listingType, location, area) {
+    if (type && listingType && location) {
+      const niceType = slugToType(type);
+      const niceIntent = listingType === "rent" ? "Rent" : "Sale";
+      const niceLocation = location
+        .split("-")
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ");
 
-  if (type && listingType && location) {
-    const niceType = slugToType(type);
-    const niceIntent = listingType === "rent" ? "Rent" : "Sale";
-    const niceLocation = location
-      .split("-")
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ");
+      const titleText = `${niceType} for ${niceIntent} in ${niceLocation}`;
 
-    const titleText = `${niceType} for ${niceIntent} in ${niceLocation}`;
+      pageTitle.textContent = titleText;
+      crumbLabel.textContent = titleText;
+      document.title = `${titleText} | Residential Property KL`;
+      seoText.textContent = `Explore ${niceType.toLowerCase()} for ${niceIntent.toLowerCase()} in ${niceLocation}. Browse the latest residential property listings in ${niceLocation}.`;
 
-    pageTitle.textContent = titleText;
-    crumbLabel.textContent = titleText;
-    document.title = `${titleText} | Residential Property KL`;
+      if (metaDesc) {
+        metaDesc.setAttribute("content", `Browse ${niceType.toLowerCase()} for ${niceIntent.toLowerCase()} in ${niceLocation}. View the latest residential property listings in ${niceLocation}.`);
+      }
 
-    seoText.textContent = `Explore ${niceType.toLowerCase()} for ${niceIntent.toLowerCase()} in ${niceLocation}. Browse the latest residential property listings in ${niceLocation}.`;
-
-    if (metaDesc) {
-      metaDesc.setAttribute(
-        "content",
-        `Browse ${niceType.toLowerCase()} for ${niceIntent.toLowerCase()} in ${niceLocation}. View the latest residential property listings in ${niceLocation}.`
-      );
+      return;
     }
 
-    if (canonicalLink) {
-      canonicalLink.setAttribute(
-        "href",
-        `https://residentialpropertykl.com/${window.location.pathname.replace(/^\/+/, "")}`
-      );
+    if (area) {
+      const titleText = `Properties in ${area}`;
+      pageTitle.textContent = titleText;
+      crumbLabel.textContent = titleText;
+      document.title = `${titleText} | Residential Property KL`;
+      seoText.textContent = `Browse residential property listings in ${area}, including condominiums, apartments, landed homes and new project options.`;
+      return;
     }
 
-  } else if (type) {
-    const niceType = slugToType(type);
-
-    pageTitle.textContent = niceType;
-    crumbLabel.textContent = niceType;
-    document.title = `${niceType} | Residential Property KL`;
-
-    seoText.textContent = `Browse ${niceType.toLowerCase()} listings in Kuala Lumpur and Selangor.`;
-
-    if (metaDesc) {
-      metaDesc.setAttribute(
-        "content",
-        `Browse ${niceType.toLowerCase()} listings in Kuala Lumpur and Selangor.`
-      );
+    if (type) {
+      const niceType = slugToType(type);
+      pageTitle.textContent = niceType;
+      crumbLabel.textContent = niceType;
+      document.title = `${niceType} | Residential Property KL`;
+      seoText.textContent = `Browse ${niceType.toLowerCase()} listings in Kuala Lumpur and Selangor.`;
+      return;
     }
 
-    if (canonicalLink) {
-      canonicalLink.setAttribute(
-        "href",
-        `https://residentialpropertykl.com/categories/${type}`
-      );
-    }
-
-  } else {
     pageTitle.textContent = "All Listings";
     crumbLabel.textContent = "All Listings";
     document.title = "All Listings | Residential Property KL";
-
     seoText.textContent = "Browse residential property listings including condominiums, apartments, terrace houses, bungalows and more in Kuala Lumpur and Selangor.";
-
-    if (metaDesc) {
-      metaDesc.setAttribute(
-        "content",
-        "Browse residential property listings including condominiums, apartments, terrace houses, bungalows and more in Kuala Lumpur and Selangor."
-      );
-    }
-
-    if (canonicalLink) {
-      canonicalLink.setAttribute(
-        "href",
-        "https://residentialpropertykl.com/listings.html"
-      );
-    }
   }
 
-  try {
-    const snapshot = await getDocs(collection(db, "listings"));
-    const items = [];
-
-    snapshot.forEach((docSnap) => {
-      const data = docSnap.data();
-      items.push({
-        id: docSnap.id,
-        ...data
-      });
-    });
-    let filtered = items;
-    //let filtered = items.filter(item => item.listingOwner !== "agent"); //agent
-
-    if (type) {
-      filtered = filtered.filter(item =>
-        normalizeType(item.type) === type
-      );
-    }
-
-    if (listingType) {
-      filtered = filtered.filter(item =>
-        (item.listingType || "").toLowerCase() === listingType
-      );
-    }
-
-    if (location) {
-      filtered = filtered.filter(item =>
-        (item.city || "").toLowerCase().includes(location) ||
-        (item.location || "").toLowerCase().includes(location)
-      );
-    }
-
-    filtered.sort((a, b) => getSortTime(b.createdAt) - getSortTime(a.createdAt));
-    renderListings(filtered);
-
-const toggleButtons = document.querySelectorAll("#listingTypeFilter button");
-
-toggleButtons.forEach(btn => {
-  btn.addEventListener("click", () => {
-    // UI active state
-    toggleButtons.forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-
-    const selected = btn.dataset.value;
-
-    let filteredByToggle = items.filter(item => item.listingOwner !== "agent");
-
-    if (type) {
-      filteredByToggle = filteredByToggle.filter(item =>
-        normalizeType(item.type) === type
-      );
-    }
-
-    if (location) {
-      filteredByToggle = filteredByToggle.filter(item =>
-        (item.city || "").toLowerCase().includes(location) ||
-        (item.location || "").toLowerCase().includes(location)
-      );
-    }
+  function applyToggleFilter(selected) {
+    let filtered = [...baseFilteredItems];
 
     if (selected) {
-      filteredByToggle = filteredByToggle.filter(item =>
-        (item.listingType || "").toLowerCase() === selected
+      filtered = filtered.filter(item =>
+        normalizeText(item.listingType) === selected
       );
     }
 
-    renderListings(filteredByToggle);
-  });
-});
-
-  } catch (error) {
-    console.error(error);
-    resultsText.textContent = "Failed to load listings";
-    emptyState.style.display = "block";
-    emptyState.textContent = "Unable to load listings.";
+    renderListings(filtered);
   }
-}
+
+  async function loadListings() {
+    const { type, listingType, location, area } = getFiltersFromURL();
+
+    updatePageText(type, listingType, location, area);
+
+    try {
+      const snapshot = await getDocs(collection(db, "listings"));
+      const items = [];
+
+      snapshot.forEach((docSnap) => {
+        const data = docSnap.data();
+
+        items.push({
+          id: docSnap.id,
+          ...data
+        });
+      });
+
+      let filtered = [...items];
+
+      if (type) {
+        filtered = filtered.filter(item =>
+          normalizeType(item.type) === type
+        );
+      }
+
+      if (listingType) {
+        filtered = filtered.filter(item =>
+          normalizeText(item.listingType) === listingType
+        );
+      }
+
+      if (location) {
+        filtered = filtered.filter(item =>
+          normalizeText(item.city).includes(location) ||
+          normalizeText(item.location).includes(location)
+        );
+      }
+
+      if (area) {
+        filtered = filtered.filter(item => {
+          const haystack = [
+            item.area,
+            item.city,
+            item.location,
+            item.address,
+            item.state
+          ].join(" ").toLowerCase();
+
+          return haystack.includes(area.toLowerCase());
+        });
+      }
+
+      filtered.sort((a, b) => getSortTime(b.createdAt || b.postedAt) - getSortTime(a.createdAt || a.postedAt));
+
+      allItems = items;
+      baseFilteredItems = filtered;
+
+      renderListings(baseFilteredItems);
+
+      const toggleButtons = document.querySelectorAll("#listingTypeFilter button");
+
+      toggleButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+          toggleButtons.forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+          applyToggleFilter(btn.dataset.value);
+        });
+      });
+
+    } catch (error) {
+      console.error(error);
+      resultsText.textContent = "Failed to load listings";
+      emptyState.style.display = "block";
+      emptyState.textContent = "Unable to load listings.";
+    }
+  }
 
   loadListings();
 </script>
@@ -739,13 +880,14 @@ toggleButtons.forEach(btn => {
       const menu = document.getElementById("floatNavMenu");
       const waMenu = document.getElementById("waSlideMenu");
 
-      btn.addEventListener("click", () => {
-        menu.classList.toggle("hidden");
-
-        // 🔥 THIS is what you are missing
-        waMenu.classList.toggle("show");
-      });
+      if (btn && menu && waMenu) {
+        btn.addEventListener("click", () => {
+          menu.classList.toggle("hidden");
+          waMenu.classList.toggle("show");
+        });
+      }
     });
 </script>
+
 </body>
 </html>

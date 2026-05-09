@@ -1,333 +1,207 @@
-const functions = require("firebase-functions");
-const admin = require("firebase-admin");
-
-admin.initializeApp();
-
-const db = admin.firestore();
-
-
+const { setGlobalOptions } = require("firebase-functions");
 const { onRequest } = require("firebase-functions/v2/https");
+const { onSchedule } = require("firebase-functions/v2/scheduler");
 const { defineSecret } = require("firebase-functions/params");
+const admin = require("firebase-admin");
 const OpenAI = require("openai");
 
-const chromium = require("@sparticuz/chromium");
-const playwright = require("playwright-core");
+admin.initializeApp();
+setGlobalOptions({ maxInstances: 10 });
 
+const db = admin.firestore();
 const openaiKey = defineSecret("OPENAI_API_KEY");
 
 function slugify(text) {
-  return (text || "item")
+  return text
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "");
+    .replace(/^-+|-+$/g, "");
 }
 
-function toIsoDate(value) {
-  if (!value) return new Date().toISOString();
-
-  if (typeof value.toDate === "function") {
-    return value.toDate().toISOString();
-  }
-
-  const parsed = new Date(value);
-  if (Number.isNaN(parsed.getTime())) {
-    return new Date().toISOString();
-  }
-
-  return parsed.toISOString();
+function cleanJson(raw) {
+  return raw.replace(/```json/g, "").replace(/```/g, "").trim();
 }
 
-function slugPart(text) {
-  return (text || "")
-    .toString()
-    .trim()
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "");
+function getDefaultImage(category) {
+  const imagesByCategory = {
+    "Market Insights": [
+      "/images/blog-market-1.jpg",
+      "/images/blog-residential-1.jpg",
+    ],
+    "Rental Guide": [
+      "/images/blog-rental-1.jpg",
+      "/images/blog-residential-1.jpg",
+    ],
+    "Buying Guide": [
+      "/images/blog-buying-1.jpg",
+      "/images/blog-residential-1.jpg",
+    ],
+    "Investment Guide": [
+      "/images/blog-buying-1.jpg",
+      "/images/blog-market-1.jpg",
+    ],
+    "Project Preview / Property Insight": [
+      "/images/blog-project-1.jpg",
+      "/images/blog-residential-1.jpg",
+    ],
+    "Educational": [
+      "/images/blog-educational-1.jpg",
+      "/images/blog-residential-1.jpg",
+    ],
+    "Residential Property Guide": [
+      "/images/blog-residential-1.jpg",
+      "/images/blog-market-1.jpg",
+      "/images/blog-buying-1.jpg",
+      "/images/blog-rental-1.jpg",
+      "/images/blog-project-1.jpg",
+      "/images/blog-educational-1.jpg",
+    ],
+  };
+
+  const images =
+    imagesByCategory[category] || imagesByCategory["Residential Property Guide"];
+
+  const randomIndex = Math.floor(Math.random() * images.length);
+
+  return images[randomIndex];
 }
 
-function mapTypeToSeo(type) {
-  const value = (type || "").toLowerCase();
-
-  if (value.includes("condo")) return "condominium";
-  if (value.includes("apartment")) return "apartment";
-  if (value.includes("terrace")) return "terrace-house";
-  if (value.includes("semi")) return "semi-detached-house";
-  if (value.includes("bungalow")) return "bungalow";
-  if (value.includes("townhouse")) return "townhouse";
-  if (value.includes("soho")) return "soho";
-
-  return null;
-}
-
-function mapListingTypeToSeo(listingType) {
-  const value = (listingType || "").toLowerCase();
-
-  if (value === "rent") return "rent";
-  if (value === "sale") return "sale";
-
-  return null;
-}
-
-exports.sitemap = functions.https.onRequest(async (req, res) => {
-  try {
-    const [listingSnapshot, projectSnapshot, blogSnapshot] = await Promise.all([
-      db.collection("listings").get(),
-      db.collection("projects").get(),
-      db.collection("blogs").get()
-    ]);
-
-    const baseUrl = "https://residentialpropertykl.com";
-
-    let urls = `
-<url>
-  <loc>${baseUrl}/</loc>
-  <lastmod>${new Date().toISOString()}</lastmod>
-</url>
-<url>
-  <loc>${baseUrl}/about.html</loc>
-  <lastmod>${new Date().toISOString()}</lastmod>
-</url>
-<url>
-  <loc>${baseUrl}/blog.html</loc>
-  <lastmod>${new Date().toISOString()}</lastmod>
-</url>
-<url>
-  <loc>${baseUrl}/contact.html</loc>
-  <lastmod>${new Date().toISOString()}</lastmod>
-</url>
-`;
-
-    const categories = [
-      "all-listings",
-      "condominium",
-      "apartment",
-      "terrace-house",
-      "semi-detached-house",
-      "bungalow",
-      "townhouse",
-      "soho"
-    ];
-
-    categories.forEach((cat) => {
-      urls += `
-<url>
-  <loc>${baseUrl}/categories/${cat}</loc>
-  <lastmod>${new Date().toISOString()}</lastmod>
-</url>
-`;
-    });
-
-    const seoPages = new Map();
-
-    listingSnapshot.forEach((doc) => {
-      const data = doc.data();
-
-      const seoType = mapTypeToSeo(data.type);
-      const seoIntent = mapListingTypeToSeo(data.listingType);
-      const seoLocation = slugPart(data.city || data.location);
-
-      if (!seoType || !seoIntent || !seoLocation) return;
-
-      const seoUrl = `${baseUrl}/${seoType}-for-${seoIntent}-${seoLocation}`;
-      const lastmod = data.updatedAt
-        ? toIsoDate(data.updatedAt)
-        : data.createdAt
-          ? toIsoDate(data.createdAt)
-          : new Date().toISOString();
-
-      const existing = seoPages.get(seoUrl);
-      if (!existing || new Date(lastmod) > new Date(existing)) {
-        seoPages.set(seoUrl, lastmod);
-      }
-    });
-
-    seoPages.forEach((lastmod, seoUrl) => {
-      urls += `
-<url>
-  <loc>${seoUrl}</loc>
-  <lastmod>${lastmod}</lastmod>
-</url>
-`;
-    });
-
-    listingSnapshot.forEach((doc) => {
-      const data = doc.data();
-
-      const listingUrl = `${baseUrl}/listing/${slugify(data.title)}-${doc.id}`;
-      const lastmod = data.updatedAt
-        ? toIsoDate(data.updatedAt)
-        : data.createdAt
-          ? toIsoDate(data.createdAt)
-          : new Date().toISOString();
-
-      urls += `
-<url>
-  <loc>${listingUrl}</loc>
-  <lastmod>${lastmod}</lastmod>
-</url>
-`;
-    });
-
-    projectSnapshot.forEach((doc) => {
-      const data = doc.data();
-
-      if (data.status && data.status !== "published") return;
-
-      const projectUrl = `${baseUrl}/project/${slugify(data.title)}-${doc.id}`;
-      const lastmod = data.updatedAt
-        ? toIsoDate(data.updatedAt)
-        : data.createdAt
-          ? toIsoDate(data.createdAt)
-          : new Date().toISOString();
-
-      urls += `
-<url>
-  <loc>${projectUrl}</loc>
-  <lastmod>${lastmod}</lastmod>
-</url>
-`;
-    });
-
-    blogSnapshot.forEach((doc) => {
-      const data = doc.data();
-
-      if (data.status && data.status !== "published") return;
-
-      const blogUrl = `${baseUrl}/blog-detail.html?id=${doc.id}`;
-      const lastmod = data.updatedAt
-        ? toIsoDate(data.updatedAt)
-        : data.createdAt
-          ? toIsoDate(data.createdAt)
-          : new Date().toISOString();
-
-      urls += `
-<url>
-  <loc>${blogUrl}</loc>
-  <lastmod>${lastmod}</lastmod>
-</url>
-`;
-    });
-
-    const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls}
-</urlset>`;
-
-    res.set("Content-Type", "application/xml");
-    res.status(200).send(xml);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Error generating sitemap");
-  }
-});
-
-exports.importListing = onRequest(
-  {
-    secrets: [openaiKey],
-    cors: true,
-    memory: "1GiB",
-    timeoutSeconds: 120
-  },
-  async (req, res) => {
-    try {
-      if (req.method !== "POST") {
-        return res.status(405).json({ error: "Method not allowed" });
-      }
-
-      const { url, text, imageUrls = [] } = req.body || {};
-
-      let finalText = text || "";
-
-if (url) {
-  const scrapeRes = await fetch("https://property-scraper-952845303526.asia-southeast1.run.app/scrape", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ url })
+async function createOneBlog() {
+  const openai = new OpenAI({
+    apiKey: openaiKey.value(),
   });
 
-  const scraped = await scrapeRes.json();
+  const topicResponse = await openai.chat.completions.create({
+    model: "gpt-4.1-mini",
+    messages: [
+      {
+        role: "user",
+        content: `
+Generate ONE unique SEO blog topic for Residential Property KL Group.
 
-  if (!scrapeRes.ok) {
-    throw new Error(scraped.error || "Cloud Run scraper failed");
-  }
-
-  finalText = scraped.text || "";
-
-  console.log("SCRAPER TEXT LENGTH:", finalText.length);
-  console.log("SCRAPER PREVIEW:", finalText.slice(0, 500));
-}
-
-      if (!finalText) {
-        return res.status(400).json({ error: "Missing listing text or URL content" });
-      }
-
-      const client = new OpenAI({
-        apiKey: openaiKey.value(),
-      });
-
-      const response = await client.responses.create({
-        model: "gpt-4.1-mini",
-        input: `
-Extract this property listing into clean JSON only.
+Focus:
+- Kuala Lumpur and Selangor residential property
+- condos, apartments, landed homes, rental, buying, investment, family living, MRT areas, new projects
 
 Rules:
-- Malaysia residential listing
-- listingType: "sale" or "rent"
-- price format: RM 1,200,000 or RM 2,500/month
-- size format: 2,874 sqft
-- do NOT guess missing info
+- No emoji
+- No markdown
+- Return ONLY the topic title
+        `,
+      },
+    ],
+  });
 
-Return JSON only:
+  const topic = topicResponse.choices[0].message.content.trim();
+  const slug = slugify(topic);
 
+  const existingDoc = await db.collection("blogs").doc(slug).get();
+
+  if (existingDoc.exists) {
+    return {
+      skipped: true,
+      topic,
+    };
+  }
+
+  const textResponse = await openai.chat.completions.create({
+    model: "gpt-4.1-mini",
+    messages: [
+      {
+        role: "user",
+        content: `
+Create one SEO-optimized residential property blog for Residential Property KL Group.
+
+Topic: ${topic}
+
+Choose category ONLY from:
+Educational, Market Insights, Project Preview / Property Insight, Rental Guide, Residential Property Guide, Investment Guide, Buying Guide.
+
+Rules:
+- No emoji
+- No markdown
+- No ** symbols
+- Use clean HTML only: <h2>, <h3>, <p>, <ul>, <li>
+- Mention real KL / Selangor areas
+- Include keyword naturally: "property near MRT Kuala Lumpur"
+- Include keyword naturally: "condo near MRT KL"
+- Include one internal link: <a href="/listing.html">view latest listings</a>
+- End with CTA mentioning Residential Property KL Group
+
+Return ONLY valid JSON:
 {
-  "listingType": "",
-  "type": "",
   "title": "",
-  "price": "",
-  "location": "",
-  "address": "",
-  "state": "",
-  "city": "",
-  "status": "active",
-  "bua": "",
-  "landArea": "",
-  "bedrooms": "",
-  "bathrooms": "",
-  "carPark": "",
-  "tenure": "",
-  "maintenanceFee": "",
-  "features": "",
-  "googleMapsLink": "",
-  "latitude": "",
-  "longitude": "",
-  "description": "",
-  "hotOffer": false,
-  "imageUrls": []
+  "category": "",
+  "excerpt": "",
+  "content": ""
+}
+        `,
+      },
+    ],
+  });
+
+  const aiData = JSON.parse(cleanJson(textResponse.choices[0].message.content));
+
+  const title = aiData.title || topic;
+  const category = aiData.category || "Residential Property Guide";
+  const excerpt = aiData.excerpt || "";
+  const content = aiData.content || "";
+  const imageUrl = getDefaultImage(category);
+
+  await db.collection("blogs").doc(slug).set({
+    title,
+    slug,
+    topic,
+    content,
+    excerpt,
+    coverImage: imageUrl,
+    authorName: "Residential Property KL Group",
+    category,
+    status: "published",
+    source: "AI",
+    createdAt: admin.firestore.FieldValue.serverTimestamp(),
+  });
+
+  return {
+    skipped: false,
+    title,
+    category,
+  };
 }
 
-TEXT:
-${finalText}
+// Manual test URL
+exports.generateBlog = onRequest(
+  { secrets: [openaiKey], timeoutSeconds: 120, memory: "512MiB" },
+  async (req, res) => {
+    try {
+      const result = await createOneBlog();
 
-IMAGES:
-${imageUrls.join("\n")}
-`
-      });
+      if (result.skipped) {
+        res.send(`Skipped duplicate blog ✅<br>Topic: ${result.topic}`);
+        return;
+      }
 
-      const raw = response.output_text
-        .replace(/```json/g, "")
-        .replace(/```/g, "")
-        .trim();
-
-      const listing = JSON.parse(raw);
-
-      return res.json({ listing });
-
-    } catch (err) {
-      console.error(err);
-      return res.status(500).json({ error: err.message });
+      res.send(`Blog created ✅<br>Title: ${result.title}<br>Category: ${result.category}`);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send(error.message);
     }
   }
+);
+
+// Automatic daily blog
+exports.generateDailyBlog = onSchedule(
+  {
+    schedule: "0 9 * * *",
+    timeZone: "Asia/Kuala_Lumpur",
+    secrets: [openaiKey],
+    timeoutSeconds: 540,
+    memory: "1GiB",
+  },
+    async () => {
+    for (let i = 0; i < 20; i++) {
+        const result = await createOneBlog();
+        console.log(`Blog ${i + 1}:`, result);
+    }
+    }
 );

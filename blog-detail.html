@@ -4,30 +4,37 @@
   <link rel="icon" href="/favicon.ico?v=2">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Blog Detail | Industrial Property KL</title>
-  <meta name="description" content="Read the full blog article from Industrial Property KL." />
-  <meta name="theme-color" content="#4da6ff" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <link rel="icon" href="/favicon.ico"> <!-- this controls bar icon-->
-  <link rel="stylesheet" href="/shared-layout.css" />
+
+  <title>Blog Detail | Residential Property KL</title>
+  <meta name="description" id="metaDesc" content="Read residential property guides and market insights from Residential Property KL." />
+  <meta name="theme-color" content="#1B4332" />
+
+  <link rel="stylesheet" href="/shared-layout.css?v=90" />
 
   <style>
-
-    * {
-      box-sizing: border-box;
+    :root {
+      --bg: #F7F5F0;
+      --dark: #111;
+      --muted: #666;
+      --green: #1B4332;
+      --green2: #2D6A4F;
+      --gold: #EADFCB;
+      --line: rgba(0,0,0,0.08);
     }
+
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
       font-family: Arial, Helvetica, sans-serif;
-      color: var(--text);
       background: var(--bg);
-      line-height: 1.7;
+      color: var(--dark);
+      overflow-x: hidden;
     }
 
     a {
-      text-decoration: none;
       color: inherit;
+      text-decoration: none;
     }
 
     img {
@@ -35,13 +42,92 @@
       display: block;
     }
 
-    .article-wrap {
-      padding: 28px 20px 72px;
+    .container {
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
     }
 
-    .article-container {
-      max-width: 900px;   /* 👈 was too big before */
-      margin: 0 auto;
+    @keyframes heroZoom {
+      from { transform: scale(1.03); }
+      to { transform: scale(1.1); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes cardReveal {
+      from { opacity: 0; transform: translateY(35px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .topbar {
+      animation: slideDown 0.55s ease both;
+    }
+
+    .loading-state,
+    .error-state {
+      min-height: 60vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .blog-hero {
+      position: relative;
+      min-height: 700px;
+      display: flex;
+      align-items: end;
+      overflow: hidden;
+      background: #0f1713;
+      color: #fff;
+    }
+
+    .blog-hero-bg {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      animation: heroZoom 18s ease-in-out infinite alternate;
+    }
+
+    .blog-hero-overlay {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(
+          180deg,
+          rgba(0,0,0,0.08) 0%,
+          rgba(0,0,0,0.35) 42%,
+          rgba(0,0,0,0.86) 100%
+        );
+    }
+
+    .blog-hero::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 140px;
+      background: linear-gradient(to top, var(--bg), transparent);
+      z-index: 1;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      padding: 170px 0 120px;
     }
 
     .breadcrumb {
@@ -49,340 +135,553 @@
       flex-wrap: wrap;
       gap: 8px;
       align-items: center;
-      font-size: 0.92rem;
-      color: var(--muted);
-      margin-bottom: 22px;
+      color: rgba(255,255,255,0.72);
+      font-size: 13px;
+      margin-bottom: 24px;
+      animation: fadeUp .8s ease .05s both;
     }
 
     .breadcrumb a {
-      color: var(--primary);
-      font-weight: 600;
+      color: rgba(255,255,255,0.9);
+      font-weight: 800;
+    }
+
+    .article-category {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 0 13px;
+      border-radius: 999px;
+      background: rgba(234,223,203,0.92);
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+      animation: fadeUp .8s ease .12s both;
+    }
+
+    .article-title {
+      margin: 0;
+      max-width: 980px;
+      font-size: clamp(46px, 7vw, 90px);
+      line-height: .96;
+      letter-spacing: -3px;
+      animation: fadeUp .8s ease .22s both;
+    }
+
+    .article-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 20px;
+      margin-top: 24px;
+      color: rgba(255,255,255,.82);
+      font-size: 15px;
+      animation: fadeUp .8s ease .34s both;
+    }
+
+    .article-main {
+      position: relative;
+      z-index: 5;
+      margin-top: -80px;
+      padding-bottom: 110px;
+    }
+
+    .article-shell {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 320px;
+      gap: 28px;
+      align-items: start;
     }
 
     .article-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 24px;
+      background: #fff;
+      border-radius: 34px;
+      border: 1px solid rgba(0,0,0,.06);
+      box-shadow: 0 24px 80px rgba(0,0,0,.10);
       overflow: hidden;
-      box-shadow: var(--shadow);
+      animation: cardReveal .75s ease .42s both;
     }
 
     .article-cover {
-      width: 100%;
-      aspect-ratio: 16 / 10;
+      height: 520px;
+      background: #ddd;
+      overflow: hidden;
     }
 
     .article-cover img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      transition: transform .5s ease;
+    }
+
+    .article-card:hover .article-cover img {
+      transform: scale(1.03);
     }
 
     .article-body {
-      padding: 28px;
-    }
-
-    .article-category {
-      display: inline-block;
-      margin-bottom: 14px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: rgba(212, 160, 23, 0.12);
-      color: #946200;
-      font-size: 0.78rem;
-      font-weight: 700;
-      letter-spacing: 0.3px;
-      text-transform: uppercase;
-    }
-
-    .article-title {
-      margin: 0 0 14px;
-      color: var(--primary);
-      font-size: clamp(1.8rem, 4vw, 2.6rem);
-      line-height: 1.2;
-    }
-
-    .article-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px 18px;
-      color: var(--muted);
-      font-size: 0.95rem;
-      margin-bottom: 24px;
-      padding-bottom: 18px;
-      border-bottom: 1px solid var(--border);
+      padding: 44px;
     }
 
     .article-content {
-      color: var(--text);
-      font-size: 1rem;
+      color: #333;
+      font-size: 17px;
+      line-height: 2;
     }
 
     .article-content p {
-      margin: 0 0 1.15em;
+      margin: 0 0 1.25em;
     }
 
     .article-content h2,
     .article-content h3,
     .article-content h4 {
-      color: var(--primary);
-      line-height: 1.3;
+      color: var(--green);
+      line-height: 1.15;
+      letter-spacing: -0.8px;
       margin: 1.6em 0 0.7em;
+    }
+
+    .article-content h2 {
+      font-size: 34px;
+    }
+
+    .article-content h3 {
+      font-size: 26px;
     }
 
     .article-content ul,
     .article-content ol {
       padding-left: 1.4rem;
-      margin: 0 0 1.2em;
+      margin: 0 0 1.3em;
     }
 
     .article-content li {
-      margin-bottom: 0.5em;
+      margin-bottom: 0.55em;
     }
 
     .article-content strong {
-      color: var(--primary);
+      color: var(--green);
     }
 
-    .loading-state,
-    .error-state {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 20px;
+    .side-card {
+      position: sticky;
+      top: 110px;
+      background:
+        linear-gradient(rgba(27,67,50,.94), rgba(27,67,50,.96)),
+        url("/images/hero-residential-green.jpg") center/cover no-repeat;
+      color: #fff;
+      border-radius: 34px;
       padding: 28px;
-      text-align: center;
-      color: var(--muted);
-      box-shadow: var(--shadow);
+      box-shadow: 0 24px 80px rgba(0,0,0,.18);
+      animation: cardReveal .7s ease .5s both;
+    }
+
+    .side-card h3 {
+      margin: 0 0 12px;
+      font-size: 26px;
+      line-height: 1.1;
+      letter-spacing: -0.8px;
+    }
+
+    .side-card p {
+      margin: 0;
+      color: rgba(255,255,255,.78);
+      line-height: 1.8;
+      font-size: 14px;
+    }
+
+    .side-actions {
+      display: grid;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .side-btn {
+      height: 52px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 14px;
+      transition: transform .22s ease, box-shadow .22s ease;
+    }
+
+    .side-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(0,0,0,.18);
+    }
+
+    .side-btn-wa {
+      background: #25D366;
+      color: #fff;
+    }
+
+    .side-btn-light {
+      background: #fff;
+      color: var(--green);
+    }
+
+    .side-btn-outline {
+      background: transparent;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,.2);
     }
 
     .back-row {
-      margin-top: 24px;
+      margin-top: 28px;
     }
 
-.back-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
+    .back-button {
+      height: 54px;
+      padding: 0 22px;
+      border-radius: 999px;
+      background: var(--green);
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      transition: transform .22s ease, box-shadow .22s ease;
+    }
 
-  padding: 10px 16px;
-  border-radius: 12px;
+    .back-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(0,0,0,.16);
+    }
 
-  background: white;
-  color: #111827;
+    .more-card {
+      margin-top: 28px;
+      background: rgba(255,255,255,.86);
+      backdrop-filter: blur(22px);
+      border: 1px solid rgba(255,255,255,.62);
+      border-radius: 30px;
+      padding: 26px;
+      box-shadow: 0 18px 58px rgba(0,0,0,.08);
+      animation: cardReveal .75s ease .55s both;
+    }
 
-  font-weight: 600;
-  font-size: 0.9rem;
+    .more-card h3 {
+      margin: 0 0 10px;
+      color: var(--green);
+      font-size: 24px;
+    }
 
-  border: 1px solid #e5e7eb;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-}
+    .more-card p {
+      margin: 0 0 18px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
 
-.back-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 18px rgba(0,0,0,0.1);
-}
+    @media (max-width: 1000px) {
+      .article-shell {
+        grid-template-columns: 1fr;
+      }
 
-    @media (max-width: 640px) {
-      .article-wrap {
-        padding: 20px 16px 56px;
+      .side-card {
+        position: relative;
+        top: auto;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .container {
+        width: calc(100% - 24px);
+      }
+
+      .blog-hero {
+        min-height: 620px;
+      }
+
+      .hero-inner {
+        padding: 150px 0 100px;
+      }
+
+      .article-title {
+        letter-spacing: -1.7px;
+      }
+
+      .article-cover {
+        height: 330px;
       }
 
       .article-body {
-        padding: 20px;
+        padding: 26px;
+      }
+
+      .article-card,
+      .side-card,
+      .more-card {
+        border-radius: 26px;
+      }
+
+      .article-content {
+        font-size: 16px;
+      }
+
+      .article-content h2 {
+        font-size: 28px;
       }
     }
   </style>
 </head>
+
 <body>
-  <div id="site-header"></div>
 
-  <main class="article-wrap">
-    <div class="article-container">
-      <div class="breadcrumb">
-        <a href="/index.html">Home</a>
-        <span>/</span>
-        <a href="/blog.html">Blog</a>
-        <span>/</span>
-        <span id="breadcrumbTitle">Loading...</span>
-      </div>
+<div id="site-header"></div>
 
-      <div id="loadingState" class="loading-state">Loading article...</div>
-      <div id="errorState" class="error-state" style="display:none;">Blog post not found.</div>
+<div id="app">
+  <div id="loadingState" class="loading-state">Loading article...</div>
+  <div id="errorState" class="error-state" style="display:none;">Blog post not found.</div>
+</div>
 
-      <article id="articleCard" class="article-card" style="display:none;">
-        <div class="article-cover">
-          <img id="articleCover" src="" alt="Blog Cover" />
-        </div>
+<div id="site-footer"></div>
 
-        <div class="article-body">
-          <div id="articleCategory" class="article-category">General</div>
-          <h1 id="articleTitle" class="article-title">Blog Title</h1>
+<script type="module" src="/shared-layout.js?v=90"></script>
 
-          <div class="article-meta">
-            <span id="articleAuthor">By Admin</span>
-            <span id="articleDate">No date</span>
-          </div>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+  import {
+    getFirestore,
+    doc,
+    getDoc,
+    collection,
+    query,
+    where,
+    getDocs
+  } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
-          <div id="articleContent" class="article-content"></div>
-        </div>
-      </article>
+  const firebaseConfig = {
+    apiKey: "AIzaSyBKO4RNc5r8GoPHQyRHdUllLVwtXFNJyVo",
+    authDomain: "residentialpropertykl.firebaseapp.com",
+    projectId: "residentialpropertykl",
+    storageBucket: "residentialpropertykl.firebasestorage.app",
+    messagingSenderId: "952845303526",
+    appId: "1:952845303526:web:7b604dca11ad50a93bc527",
+    measurementId: "G-DV21X2EGJ0"
+  };
 
-      <div class="back-row">
-        <a class="back-button" href="/blog.html">← Back to Blog</a>
-      </div>
-    </div>
-  </main>
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
 
-  <div id="site-footer"></div>
+  const appWrap = document.getElementById("app");
+  const loadingState = document.getElementById("loadingState");
+  const errorState = document.getElementById("errorState");
 
-  <script type="module" src="/shared-layout.js"></script>
+  function getBlogKey() {
+    const path = window.location.pathname;
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
-    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+    if (path.startsWith("/blog/")) {
+      return path.replace("/blog/", "").replace(/\/$/, "") || null;
+    }
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBKO4RNc5r8GoPHQyRHdUllLVwtXFNJyVo",
-  authDomain: "residentialpropertykl.firebaseapp.com",
-  projectId: "residentialpropertykl",
-  storageBucket: "residentialpropertykl.firebasestorage.app",
-  messagingSenderId: "952845303526",
-  appId: "1:952845303526:web:7b604dca11ad50a93bc527",
-  measurementId: "G-DV21X2EGJ0"
-};
+    const params = new URLSearchParams(window.location.search);
+    return params.get("id");
+  }
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+  function formatDate(value) {
+    if (!value) return "No date";
 
-    const loadingState = document.getElementById("loadingState");
-    const errorState = document.getElementById("errorState");
-    const articleCard = document.getElementById("articleCard");
+    try {
+      let date;
 
-    const breadcrumbTitle = document.getElementById("breadcrumbTitle");
-    const articleCover = document.getElementById("articleCover");
-    const articleCategory = document.getElementById("articleCategory");
-    const articleTitle = document.getElementById("articleTitle");
-    const articleAuthor = document.getElementById("articleAuthor");
-    const articleDate = document.getElementById("articleDate");
-    const articleContent = document.getElementById("articleContent");
-
-    function getBlogId() {
-      const path = window.location.pathname;
-
-      if (path.startsWith("/blog/")) {
-        const slug = path.replace("/blog/", "").replace(/\/$/, "");
-        return slug || null;
+      if (typeof value?.toDate === "function") {
+        date = value.toDate();
+      } else if (value?.seconds) {
+        date = new Date(value.seconds * 1000);
+      } else {
+        date = new Date(value);
       }
 
-      const params = new URLSearchParams(window.location.search);
-      return params.get("id");
+      if (isNaN(date.getTime())) return "No date";
+
+      return date.toLocaleDateString("en-MY", {
+        day: "numeric",
+        month: "short",
+        year: "numeric"
+      });
+    } catch {
+      return "No date";
     }
+  }
 
-    function formatDate(value) {
-      if (!value) return "No date";
+  function escapeHtml(str = "") {
+    return String(str)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
 
-      try {
-        let date;
-
-        if (typeof value?.toDate === "function") {
-          date = value.toDate();
-        } else if (value?.seconds) {
-          date = new Date(value.seconds * 1000);
-        } else {
-          date = new Date(value);
-        }
-
-        if (isNaN(date.getTime())) return "No date";
-
-        return date.toLocaleDateString("en-MY", {
-          day: "numeric",
-          month: "short",
-          year: "numeric"
-        });
-      } catch {
-        return "No date";
-      }
-    }
-
-    function escapeHtml(str = "") {
-      return str
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-    }
-
-
-    function renderContent(content = "") {
+  function renderContent(content = "") {
+    if (/<[a-z][\s\S]*>/i.test(content)) {
       return content;
     }
-/*
-    function renderContent(content = "") {
-      const safe = escapeHtml(content);
 
-      const paragraphs = safe
-        .split(/\n\s*\n/)
-        .map(block => block.trim())
-        .filter(Boolean)
-        .map(block => `<p>${block.replace(/\n/g, "<br>")}</p>`);
+    return escapeHtml(content)
+      .split(/\n\s*\n/)
+      .map(block => block.trim())
+      .filter(Boolean)
+      .map(block => `<p>${block.replace(/\n/g, "<br>")}</p>`)
+      .join("");
+  }
 
-      return paragraphs.join("");
+  async function getBlogDoc(blogKey) {
+    const directRef = doc(db, "blogs", blogKey);
+    const directSnap = await getDoc(directRef);
+
+    if (directSnap.exists()) {
+      return directSnap;
     }
-      */
 
-    async function loadBlogDetail() {
-      const blogId = getBlogId();
+    const slugQuery = query(
+      collection(db, "blogs"),
+      where("slug", "==", blogKey)
+    );
 
-      if (!blogId) {
+    const slugSnap = await getDocs(slugQuery);
+
+    if (!slugSnap.empty) {
+      return slugSnap.docs[0];
+    }
+
+    return null;
+  }
+
+  async function loadBlogDetail() {
+    const blogKey = getBlogKey();
+
+    if (!blogKey) {
+      loadingState.style.display = "none";
+      errorState.style.display = "flex";
+      errorState.textContent = "Missing blog ID in URL.";
+      return;
+    }
+
+    try {
+      const blogSnap = await getBlogDoc(blogKey);
+
+      if (!blogSnap) {
         loadingState.style.display = "none";
-        errorState.style.display = "block";
-        errorState.textContent = "Missing blog ID in URL.";
+        errorState.style.display = "flex";
         return;
       }
 
-      try {
-        const blogRef = doc(db, "blogs", blogId);
-        const blogSnap = await getDoc(blogRef);
+      const data = blogSnap.data();
 
-        if (!blogSnap.exists()) {
-          loadingState.style.display = "none";
-          errorState.style.display = "block";
-          return;
-        }
+      const title = data.title || "Untitled Post";
+      const coverImage = data.coverImage || "/images/blog-residential-1.jpg";
+      const author = data.authorName || data.author || "Residential Property KL Group";
+      const category = data.category || "Property Insight";
+      const date = formatDate(data.createdAt || data.publishedAt);
+      const content = data.content || "No content available.";
+      const description = data.excerpt || data.metaDescription || `Read ${title} from Residential Property KL.`;
 
-        const data = blogSnap.data();
+      document.title = `${title} | Residential Property KL`;
 
-        const title = data.title || "Untitled Post";
-        const coverImage = data.coverImage || "https://via.placeholder.com/1200x600?text=Blog+Cover";
-        const author = data.authorName || "Admin";
-        const category = data.category || "General";
-        const date = formatDate(data.createdAt);
-        const content = data.content || "No content available.";
-
-        document.title = `${title} | Industrial Property KL`;
-        breadcrumbTitle.textContent = title;
-        articleCover.src = coverImage;
-        articleCover.alt = title;
-        articleCategory.textContent = category;
-        articleTitle.textContent = title;
-        articleAuthor.textContent = `By ${author}`;
-        articleDate.textContent = date;
-        //articleContent.innerHTML = renderContent(content);
-        articleContent.innerHTML = content;
-
-        loadingState.style.display = "none";
-        articleCard.style.display = "block";
-      } catch (error) {
-        console.error("Error loading blog detail:", error);
-        loadingState.style.display = "none";
-        errorState.style.display = "block";
-        errorState.textContent = "Failed to load blog post.";
+      const metaDesc = document.getElementById("metaDesc");
+      if (metaDesc) {
+        metaDesc.setAttribute("content", description);
       }
-    }
 
-    loadBlogDetail();
-  </script>
+      appWrap.innerHTML = `
+        <section class="blog-hero">
+          <div class="blog-hero-bg" style="background-image:url('${coverImage}')"></div>
+          <div class="blog-hero-overlay"></div>
+
+          <div class="container hero-inner">
+            <div class="breadcrumb">
+              <a href="/index.html">Home</a>
+              <span>›</span>
+              <a href="/blog.html">Blog</a>
+              <span>›</span>
+              <span>${escapeHtml(title)}</span>
+            </div>
+
+            <div class="article-category">${escapeHtml(category)}</div>
+
+            <h1 class="article-title">${escapeHtml(title)}</h1>
+
+            <div class="article-meta">
+              <span>By ${escapeHtml(author)}</span>
+              <span>${escapeHtml(date)}</span>
+            </div>
+          </div>
+        </section>
+
+        <main class="article-main">
+          <div class="container">
+
+            <div class="article-shell">
+
+              <article class="article-card">
+                <div class="article-cover">
+                  <img src="${coverImage}" alt="${escapeHtml(title)}">
+                </div>
+
+                <div class="article-body">
+                  <div class="article-content">
+                    ${renderContent(content)}
+                  </div>
+                </div>
+              </article>
+
+              <aside>
+                <div class="side-card">
+                  <h3>Need Property Advice?</h3>
+                  <p>
+                    Speak with Residential Property KL for buying, renting,
+                    investment and new project guidance across KL & Selangor.
+                  </p>
+
+                  <div class="side-actions">
+                    <a href="https://wa.me/60166287357" target="_blank" class="side-btn side-btn-wa">
+                      WhatsApp Us
+                    </a>
+
+                    <a href="/categories/all-listings" class="side-btn side-btn-light">
+                      View Listings
+                    </a>
+
+                    <a href="/contact.html" class="side-btn side-btn-outline">
+                      Contact Us
+                    </a>
+                  </div>
+                </div>
+
+                <div class="more-card">
+                  <h3>Explore More</h3>
+                  <p>
+                    Browse more residential property articles, market updates
+                    and lifestyle guides.
+                  </p>
+
+                  <a class="back-button" href="/blog.html">
+                    ← Back to Blog
+                  </a>
+                </div>
+              </aside>
+
+            </div>
+
+          </div>
+        </main>
+      `;
+
+    } catch (error) {
+      console.error("Error loading blog detail:", error);
+      loadingState.style.display = "none";
+      errorState.style.display = "flex";
+      errorState.textContent = "Failed to load blog post.";
+    }
+  }
+
+  loadBlogDetail();
+</script>
 
 <div id="floating-nav-placeholder"></div>
 
@@ -396,13 +695,14 @@ const firebaseConfig = {
       const menu = document.getElementById("floatNavMenu");
       const waMenu = document.getElementById("waSlideMenu");
 
-      btn.addEventListener("click", () => {
-        menu.classList.toggle("hidden");
-
-        // 🔥 THIS is what you are missing
-        waMenu.classList.toggle("show");
-      });
+      if (btn && menu && waMenu) {
+        btn.addEventListener("click", () => {
+          menu.classList.toggle("hidden");
+          waMenu.classList.toggle("show");
+        });
+      }
     });
 </script>
+
 </body>
 </html>
